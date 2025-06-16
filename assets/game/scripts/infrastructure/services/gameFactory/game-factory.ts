@@ -1,14 +1,17 @@
-import { IService } from "../services/serviceLocator";
+import { IService } from "../serviceLocator";
 import { IAssetProvider } from "./asset-provider";
-import { PREFABS, TABLE, TILE_MODELS } from "../../configs/configs";
-import Tile, { TileType } from "../../game-logic/tiles/tile";
-import { TableCell } from "../../game-logic/table/table-cell";
-import Table from "../../game-logic/table/table";
-import { TableModel } from "../../game-logic/table/table-model";
+import { PREFABS, TABLE, TILE_MODELS } from "../../../configs/configs";
+import Tile, { TileType } from "../../../logic/tile";
+import { TableCell } from "../../../logic/table-cell";
+import TableView from "../../../logic/table/table-view";
+import { TableModel } from "../../../logic/table/table-model";
+import { TableController } from "../../../logic/table/table-controller";
+import UiPanelView from "../../../ui/ui-panel";
+import Curtain from "../../../curtain/curtain";
 
 export interface IGameFactory extends IService {
   loadAssets();
-  createTable(): Table;
+  createTableView(): TableView;
   createTiles(cells: TableCell[][], tableContent: cc.Node): Tile[][];
   createTile(
     tileType: TileType,
@@ -16,16 +19,22 @@ export interface IGameFactory extends IService {
     content: cc.Node,
     tileCell: TableCell
   );
+  getRandomTileModel(): { tileType: TileType; sprite: cc.SpriteFrame };
   createTableCells(content: cc.Node): TableCell[][];
   createTableModel(tableCell: TableCell[][], tiles: Tile[][]): TableModel;
+  createTableController(table: TableView, tableModel: TableModel);
+  createUiPanelView(): UiPanelView;
+  createCurtain(): Curtain;
 }
 
 export class GameFactory implements IGameFactory {
   constructor(private _assetProvider: IAssetProvider) {}
 
   async loadAssets() {
+    await this._assetProvider.loadAsset(PREFABS.curtainPrefab);
     await this._assetProvider.loadAsset(PREFABS.tablePrefab);
     await this._assetProvider.loadAsset(PREFABS.tilePrefab);
+    await this._assetProvider.loadAsset(PREFABS.UIPanelPrefab);
     await Promise.all(
       TILE_MODELS.map((tileModel) =>
         this._assetProvider.loadAsset(tileModel.path)
@@ -33,20 +42,36 @@ export class GameFactory implements IGameFactory {
     );
   }
 
-  createTable(): Table {
+  createTableView(): TableView {
     try {
-      const director = cc.director.getScene().getChildByName("Canvas");
-      const table: Table = this._assetProvider
-        .instantiateAsset(PREFABS.tablePrefab)
-        .getComponent(Table);
-
-      table.node.setParent(director);
-      table.node.setPosition(0, 0);
-
-      return table;
+      return this.instantiateOnCanvas(PREFABS.tablePrefab, TableView);
     } catch (error) {
       console.error("Failed to create table:", error);
     }
+  }
+  createUiPanelView(): UiPanelView {
+    try {
+      return this.instantiateOnCanvas(PREFABS.UIPanelPrefab, UiPanelView);
+    } catch (error) {
+      console.error("Failed to create UI panel:", error);
+    }
+  }
+  createCurtain() {
+    try {
+      const director = cc.director.getScene().getChildByName("Canvas");
+      const curtain: Curtain = this._assetProvider
+        .instantiateAsset(PREFABS.curtainPrefab)
+        .getComponent(Curtain);
+
+      curtain.node.setParent(director);
+      curtain.node.setPosition(0, 0);
+      return curtain;
+    } catch (error) {
+      console.error("Failed to create curtain:", error);
+    }
+  }
+  createTableController(table: TableView, tableModel: TableModel) {
+    return new TableController(this, table, tableModel);
   }
   createTableModel(tableCells: TableCell[][], tiles: Tile[][]): TableModel {
     const tableModel: TableModel = new TableModel(tableCells, tiles);
@@ -121,19 +146,33 @@ export class GameFactory implements IGameFactory {
     const cellHeight = TABLE.grid;
 
     const startX = -((columns - 1) * cellWidth) / 2;
-    const startY = -((lines - 1) * cellHeight) / 2;
+    const startY = ((lines - 1) * cellHeight) / 2;
 
     for (let col = 0; col < columns; col++) {
       grid[col] = [];
       for (let line = 0; line < lines; line++) {
         const pos = new cc.Vec2(
           startX + col * cellWidth,
-          startY + line * cellHeight
+          startY - line * cellHeight
         );
         const cell = new TableCell(col, line, pos, true);
         grid[col][line] = cell;
       }
     }
     return grid;
+  }
+  private instantiateOnCanvas<T extends cc.Component>(
+    prefabPath: string,
+    component: { new (): T }
+  ): T {
+    const director = cc.director.getScene().getChildByName("Canvas");
+    const instance: T = this._assetProvider
+      .instantiateAsset(prefabPath)
+      .getComponent(component);
+
+    instance.node.setParent(director);
+    instance.node.setPosition(0, 0);
+
+    return instance;
   }
 }

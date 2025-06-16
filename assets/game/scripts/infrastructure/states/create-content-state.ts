@@ -1,35 +1,59 @@
-import Table from "../../game-logic/table/table";
-import { TableCell } from "../../game-logic/table/table-cell";
-import { TableModel } from "../../game-logic/table/table-model";
-import Tile from "../../game-logic/tiles/tile";
-import { IAssetProvider } from "../gameFactory/asset-provider";
-import { IGameFactory } from "../gameFactory/game-factory";
-import { IState } from "../state-machine/state-interfaces";
+import TableView from "../../logic/table/table-view";
+import { TableCell } from "../../logic/table-cell";
+import { TableModel } from "../../logic/table/table-model";
+import Tile from "../../logic/tile";
+import { IGameFactory } from "../services/gameFactory/game-factory";
+import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { TableController } from "../../logic/table/table-controller";
+import { GameLoopState } from "./game-loop-state";
+import UiPanelView from "../../ui/ui-panel";
 
 export class CreateContentState implements IState {
   private _gameFactory: IGameFactory;
+  private _stateMachine: IStateMachine;
+  private _tableView: TableView = null;
+  private _tableCell: TableCell[][] = null;
+  private _uiPanelView: UiPanelView = null;
+  private _isLoadAssets: boolean = false;
 
-  constructor(gameFactory: IGameFactory) {
+  constructor(stateMachine: IStateMachine, gameFactory: IGameFactory) {
+    this._stateMachine = stateMachine;
     this._gameFactory = gameFactory;
   }
   async run(): Promise<void> {
     console.log("run create content state");
-    await this._gameFactory.loadAssets();
+    if (!this._isLoadAssets) {
+      await this._gameFactory.loadAssets();
+      this._isLoadAssets = true;
+    }
     this.createContent();
   }
-  private createContent() {
-    const table: Table = this._gameFactory.createTable();
-    const content = table.getContent();
 
-    const tableCells: TableCell[][] =
-      this._gameFactory.createTableCells(content);
-    const tiles: Tile[][] = this._gameFactory.createTiles(tableCells, content);
-    const tableModel: TableModel = this._gameFactory.createTableModel(
-      tableCells,
-      tiles
+  private createContent() {
+    if (this._tableView === null)
+      this._tableView = this._gameFactory.createTableView();
+    if (this._uiPanelView === null)
+      this._uiPanelView = this._gameFactory.createUiPanelView();
+    const content = this._tableView.getContent();
+    this._tableCell = this._gameFactory.createTableCells(content);
+
+    const tiles: Tile[][] = this._gameFactory.createTiles(
+      this._tableCell,
+      content
     );
 
-    table.Init(tableModel);
+    const tableModel: TableModel = this._gameFactory.createTableModel(
+      this._tableCell,
+      tiles
+    );
+    const tableController: TableController =
+      this._gameFactory.createTableController(this._tableView, tableModel);
+
+    const uiPanelView: UiPanelView = this._uiPanelView;
+    this._stateMachine.run(GameLoopState.name, {
+      tableController,
+      uiPanelView,
+    });
   }
   stop(): void {
     console.log("stop create content state");

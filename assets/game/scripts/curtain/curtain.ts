@@ -1,0 +1,126 @@
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class Curtain extends cc.Component {
+  @property(cc.Label)
+  resultLabel: cc.Label = null;
+  @property(cc.Button)
+  restartButton: cc.Button = null;
+  @property(cc.Button)
+  continueButton: cc.Button = null;
+  @property(cc.Sprite)
+  fadeSprite: cc.Sprite = null;
+  @property(cc.Sprite)
+  curtainSprite: cc.Sprite = null;
+
+  private _startPosCurtain: cc.Vec3 = null;
+
+  onContinue: () => void;
+  onRestart: () => void;
+
+  win() {
+    this.subscribeButtonEvents();
+    this._startPosCurtain = this.curtainSprite.node.position;
+    this.resultLabel.string = "";
+    this.showFade(true);
+    this.showCurtain(() => {
+      this.continueButton.node.active = true;
+      this.resultLabel.string = `Успех!`;
+    }).start();
+  }
+  lose() {
+    this.subscribeButtonEvents();
+    this._startPosCurtain = this.curtainSprite.node.position;
+    this.resultLabel.string = "";
+    this.showFade(true);
+    this.showCurtain(() => {
+      this.restartButton.node.active = true;
+      this.resultLabel.string = `Неудача!`;
+    }).start();
+  }
+
+  private clickRestart() {
+    this.discribeButtonEvents();
+
+    this.showCurtain(() => {
+      this.showFade(false);
+      this.resultLabel.node.active = false;
+      this.restartButton.node.active = false;
+      if (this.onRestart) {
+        this.onRestart();
+      }
+    })
+      .call(() => {
+        this.node.destroy();
+      })
+      .start();
+  }
+  private clickContinue() {
+    this.discribeButtonEvents();
+
+    this.showCurtain(() => {
+      this.showFade(false);
+      this.resultLabel.node.active = false;
+      this.continueButton.node.active = false;
+      if (this.onContinue) {
+        this.onContinue();
+      }
+    })
+      .call(() => {
+        this.node.destroy();
+      })
+      .start();
+  }
+
+  private showFade(fade: boolean) {
+    if (fade) {
+      cc.tween(this.fadeSprite.node).to(0.5, { opacity: 170 }).start();
+    } else {
+      cc.tween(this.fadeSprite.node).to(0.5, { opacity: 0 }).start();
+    }
+  }
+  private showCurtain(onComplete?: () => void): cc.Tween<cc.Node> {
+    cc.Tween.stopAllByTarget(this.curtainSprite.node);
+    return cc
+      .tween(this.curtainSprite.node)
+      .to(0.3, { x: 0 }, { easing: "quadOut" })
+      .call(() => {
+        if (onComplete) onComplete();
+      })
+      .delay(1)
+      .to(0.3, { x: this._startPosCurtain.x }, { easing: "quadOut" });
+  }
+  private subscribeButtonEvents() {
+    this.restartButton.node.on(
+      cc.Node.EventType.TOUCH_END,
+      this.clickRestart,
+      this
+    );
+    this.continueButton.node.on(
+      cc.Node.EventType.TOUCH_END,
+      this.clickContinue,
+      this
+    );
+  }
+  private discribeButtonEvents() {
+    this.restartButton.node.off(
+      cc.Node.EventType.TOUCH_END,
+      this.clickRestart,
+      this
+    );
+    this.continueButton.node.off(
+      cc.Node.EventType.TOUCH_END,
+      this.clickContinue,
+      this
+    );
+  }
+
+  protected onDestroy(): void {
+    if (this.curtainSprite && this.curtainSprite.node) {
+      cc.Tween.stopAllByTarget(this.curtainSprite.node);
+    }
+    if (this.fadeSprite && this.fadeSprite.node) {
+      cc.Tween.stopAllByTarget(this.fadeSprite.node);
+    }
+  }
+}

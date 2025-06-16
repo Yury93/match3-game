@@ -1,4 +1,4 @@
-import { IService } from "../services/serviceLocator";
+import { IService } from "../serviceLocator";
 
 export interface IAssetProvider extends IService {
   loadAsset(assetName: string): Promise<any>;
@@ -7,12 +7,12 @@ export interface IAssetProvider extends IService {
   getAsset(assetName: string);
 }
 export class AssetProvider implements IAssetProvider {
-  private assets: Record<string, any> = {};
+  private _assets: Record<string, any> = {};
 
   async loadAsset(path: string): Promise<any> {
     console.log(`Loading asset: ${path}`);
-    if (this.assets[path]) {
-      return this.assets[path];
+    if (this._assets[path]) {
+      return this._assets[path];
     }
 
     return new Promise((resolve, reject) => {
@@ -22,18 +22,18 @@ export class AssetProvider implements IAssetProvider {
           reject(err);
           return;
         }
-        this.assets[path] = prefab;
+        this._assets[path] = prefab;
         console.log(`Asset loaded: ${path}`);
         resolve(prefab);
       });
     });
   }
   getAsset(assetName: string): any {
-    return this.assets[assetName];
+    return this._assets[assetName];
   }
   instantiateAsset(assetName: string): any {
-    if (this.assets[assetName]) {
-      const asset = cc.instantiate(this.assets[assetName]);
+    if (this._assets[assetName]) {
+      const asset = cc.instantiate(this._assets[assetName]);
       return asset;
     } else {
       console.error(`Asset not found: ${assetName}`);
@@ -43,7 +43,7 @@ export class AssetProvider implements IAssetProvider {
 
   unloadAsset(assetName: string): void {
     console.log(`Unloading asset: ${assetName}`);
-    cc.resources.release(this.assets[assetName]);
-    delete this.assets[assetName];
+    cc.resources.release(this._assets[assetName]);
+    delete this._assets[assetName];
   }
 }

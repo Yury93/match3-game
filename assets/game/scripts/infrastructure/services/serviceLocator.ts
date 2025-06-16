@@ -1,8 +1,6 @@
 export class ServiceLocator {
   private static _instance: ServiceLocator = null;
-  private services: Map<Function, any> = new Map();
-
-  private constructor() {}
+  private _services: Map<Function, any> = new Map();
 
   public static Container(): ServiceLocator {
     if (this._instance == null) {
@@ -14,7 +12,7 @@ export class ServiceLocator {
   public registerSingle<TService extends IService>(service: TService): void {
     console.log("register service ", service);
     const serviceType = (service as any).constructor;
-    this.services.set(serviceType, service);
+    this._services.set(serviceType, service);
   }
 
   public single<TService extends IService>(
@@ -23,7 +21,7 @@ export class ServiceLocator {
     const serviceType = type || this.getType<TService>();
     console.log("get service ", serviceType);
 
-    const service = this.services.get(serviceType);
+    const service = this._services.get(serviceType);
 
     if (!service) {
       throw new Error(`Service ${serviceType.name} not registered`);

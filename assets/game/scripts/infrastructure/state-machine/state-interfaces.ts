@@ -1,11 +1,10 @@
-
 export interface IStateMachine {
   currentState: IState | null;
 
-  run(stateName: string): void;
+  run(stateName: string, payload?: any): void;
 }
 
 export interface IState {
-  run(): void;
+  run(payload?: any): void;
   stop(): void;
 }

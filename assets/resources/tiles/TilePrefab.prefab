@@ -156,9 +156,7 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "c525256c-cad9-45a8-ac44-4ca8f40a7c7d"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 0,
     "_fillType": 0,
@@ -185,7 +183,7 @@
     "sync": false
   },
   {
-    "__type__": "8bb58WplE5Jh6HqzQMUrV/C",
+    "__type__": "9b4fe3dd5ZMh5e6wycNirgR",
     "_name": "",
     "_objFlags": 0,
     "node": {
