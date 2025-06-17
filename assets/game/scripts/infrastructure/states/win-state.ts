@@ -1,5 +1,5 @@
 import { IGameFactory } from "../services/gameFactory/game-factory";
-import { IScoreService } from "../services/score-service";
+import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { CreateContentState } from "./create-content-state";
 

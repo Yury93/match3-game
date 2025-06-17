@@ -42,6 +42,7 @@ export class CreateContentState implements IState {
     if (this._uiPanelView === null)
       this._uiPanelView = this._gameFactory.createUiPanelView();
     const content = this._tableView.getContent();
+
     this._tableCell = this._gameFactory.createTableCells(content);
 
     const tiles: Tile[][] = this._gameFactory.createTiles(

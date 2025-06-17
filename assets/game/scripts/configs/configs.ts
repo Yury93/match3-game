@@ -1,11 +1,18 @@
 import { TileType } from "../logic/tile-type";
 
 // Геймдизайнерские конфиги
-export const TABLE = {
-  column: 9,
-  lines: 9,
-  grid: 95,
-};
+export const TABLE = [
+  {
+    column: 9,
+    lines: 9,
+    grid: 95,
+  },
+  {
+    column: 3,
+    lines: 3,
+    grid: 95,
+  },
+];
 const GAME_LEVELS: { maxSteps: number; winScoreThreshold: number }[] = [
   { maxSteps: 35, winScoreThreshold: 250 },
   { maxSteps: 40, winScoreThreshold: 300 },

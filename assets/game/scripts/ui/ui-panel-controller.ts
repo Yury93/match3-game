@@ -1,6 +1,6 @@
 import { IGameFactory } from "../infrastructure/services/gameFactory/game-factory";
 import { IMechanicService } from "../infrastructure/services/mechanic-service";
-import { IScoreService } from "../infrastructure/services/score-service";
+import { IProgressService } from "../infrastructure/services/progress-service";
 import { BasicMechanic } from "../logic/game-mechanic/basic-mechanic";
 import { BoosterBomb } from "../logic/game-mechanic/booster-bomb";
 import UiPanelView from "./ui-panel";
@@ -8,7 +8,7 @@ import UiPanelView from "./ui-panel";
 export class UIPanelController {
   private _bombTrial = 3;
   constructor(
-    private _scoreService: IScoreService,
+    private _progressService: IProgressService,
     private _uiPanelView: UiPanelView,
     private _mechanicService: IMechanicService,
     private _gameFactory: IGameFactory
@@ -17,8 +17,8 @@ export class UIPanelController {
   }
   private start() {
     this._uiPanelView.init(
-      this._scoreService.WinScoreThreshold,
-      this._scoreService.MaxStep
+      this._progressService.WinScoreThreshold,
+      this._progressService.MaxStep
     );
     this._uiPanelView.showBombCount(this._bombTrial);
     this._uiPanelView.onClickBomb = () => {
@@ -36,8 +36,8 @@ export class UIPanelController {
     };
   }
   updateScore() {
-    this._uiPanelView.updateScore(this._scoreService.currentScore);
-    this._uiPanelView.updateStep(this._scoreService.remainingSteps);
+    this._uiPanelView.updateScore(this._progressService.currentScore);
+    this._uiPanelView.updateStep(this._progressService.remainingSteps);
   }
   setActiveBomb() {
     this._mechanicService.setActiveMechanic(

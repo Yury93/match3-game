@@ -1,7 +1,7 @@
 import { GLOBAL_GAME_CONFIGS, ScoreFormula } from "../../configs/configs";
 import { IStateMachine } from "../state-machine/state-interfaces";
 
-export interface IScoreService {
+export interface IProgressService {
   currentScore: number;
   remainingSteps: number;
   isGameOver: boolean;
@@ -14,7 +14,7 @@ export interface IScoreService {
   resetResults();
   resetSteps();
 }
-export class ScoreService implements IScoreService {
+export class ProgressService implements IProgressService {
   currentScore = 0;
   remainingSteps: number;
   isGameOver = false;

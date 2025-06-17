@@ -3,7 +3,7 @@ import { IState, IStateMachine } from "./state-interfaces";
 import { CreateContentState } from "../states/create-content-state";
 import { GameFactory } from "../services/gameFactory/game-factory";
 import { GameLoopState } from "../states/game-loop-state";
-import { ScoreService } from "../services/score-service";
+import { ProgressService } from "../services/progress-service";
 import { WinState } from "../states/win-state";
 import { LoseState } from "../states/lose-state";
 import { MechanicService } from "../services/mechanic-service";
@@ -28,7 +28,7 @@ export class StateMachine implements IStateMachine {
       ),
       GameLoopState: new GameLoopState(
         this,
-        serviceLocator.single(ScoreService),
+        serviceLocator.single(ProgressService),
         serviceLocator.single(MechanicService),
         serviceLocator.single(GameFactory)
       ),

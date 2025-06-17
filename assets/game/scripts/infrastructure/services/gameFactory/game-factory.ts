@@ -61,6 +61,7 @@ export class GameFactory implements IGameFactory {
 
       bombEffect.setParent(director);
       bombEffect.setPosition(localPos);
+      return bombEffect;
     } catch (error) {
       console.error("Failed to create curtain:", error);
     }
@@ -166,11 +167,13 @@ export class GameFactory implements IGameFactory {
   }
   createTableCells(content: cc.Node): TableCell[][] {
     const grid: TableCell[][] = [];
-    const columns = TABLE.column;
-    const lines = TABLE.lines;
+    const id = Math.floor(Math.random() * TABLE.length);
+    const tableConfig = TABLE[id];
+    const columns = tableConfig.column;
+    const lines = tableConfig.lines;
 
-    const cellWidth = TABLE.grid;
-    const cellHeight = TABLE.grid;
+    const cellWidth = tableConfig.grid;
+    const cellHeight = tableConfig.grid;
 
     const startX = -((columns - 1) * cellWidth) / 2;
     const startY = ((lines - 1) * cellHeight) / 2;

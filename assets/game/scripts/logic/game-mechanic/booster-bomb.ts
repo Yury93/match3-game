@@ -11,7 +11,8 @@ export class BoosterBomb extends AbstractMechanic {
   onTurnEnd(): void {}
 
   onTileClick(tile: ITile, tableController: any): boolean {
-    this._gameFactory.createBombEffect(tile.sprite.node);
+    this.playEffectExplosion(tile);
+
     const { col, row } = tableController.getTilePosition(tile as ITile);
     if (col < 0 || row < 0) return false;
 
@@ -46,5 +47,28 @@ export class BoosterBomb extends AbstractMechanic {
     if (tableController.onBurn) tableController.onBurn(tilesToBurn.length);
 
     return true;
+  }
+  playEffectExplosion(tile: ITile) {
+    const explosion = this._gameFactory
+      .createBombEffect(tile.sprite.node)
+      .getComponent(cc.Sprite);
+    explosion.node.active = true;
+    explosion.node.opacity = 0;
+    cc.tween(explosion.node)
+      .to(0.3, { opacity: 255 }, { easing: "sine.out" })
+      .call(() => {
+        // const particle = explosion.node.children[0].getComponent(
+        //   cc.ParticleSystem
+        // );
+        // particle.active = true;
+        // particle;
+      })
+      .delay(1)
+      .to(0.3, { opacity: 0 }, { easing: "sine.in" })
+      .delay(0.3)
+      .call(() => {
+        explosion.destroy();
+      })
+      .start();
   }
 }
