@@ -8,6 +8,7 @@ export default class EntryPoint extends cc.Component {
   private _game: Game;
 
   protected onLoad(): void {
+    console.log("start create game");
     this._game = new Game(ServiceLocator.Container());
   }
 }

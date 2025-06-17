@@ -1,13 +1,7 @@
-const { ccclass, property } = cc._decorator;
-export const TILE_CLICK_EVENT = "TileClicked";
+import { TileType } from "./tile-type";
 
-export enum TileType {
-  BLUE = "blue",
-  RED = "red",
-  GREEN = "green",
-  PURPLE = "purple",
-  YELLOW = "yellow",
-}
+const { ccclass, property } = cc._decorator;
+
 @ccclass
 export default class Tile extends cc.Component implements ITile {
   @property
@@ -18,9 +12,6 @@ export default class Tile extends cc.Component implements ITile {
   Init(TileType: TileType, spriteFrame: cc.SpriteFrame) {
     this.tileType = TileType;
     this.sprite.spriteFrame = spriteFrame;
-  }
-  public onTileClick() {
-    this.sprite.node.emit(TILE_CLICK_EVENT, this);
   }
 }
 

@@ -10,7 +10,7 @@ export class AssetProvider implements IAssetProvider {
   private _assets: Record<string, any> = {};
 
   async loadAsset(path: string): Promise<any> {
-    console.log(`Loading asset: ${path}`);
+    // console.log(`Loading asset: ${path}`);
     if (this._assets[path]) {
       return this._assets[path];
     }
@@ -23,7 +23,7 @@ export class AssetProvider implements IAssetProvider {
           return;
         }
         this._assets[path] = prefab;
-        console.log(`Asset loaded: ${path}`);
+        // console.log(`Asset loaded: ${path}`);
         resolve(prefab);
       });
     });

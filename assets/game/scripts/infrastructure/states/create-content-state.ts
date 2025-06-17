@@ -4,21 +4,28 @@ import { TableModel } from "../../logic/table/table-model";
 import Tile from "../../logic/tile";
 import { IGameFactory } from "../services/gameFactory/game-factory";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { TableController } from "../../logic/table/table-controller";
 import { GameLoopState } from "./game-loop-state";
 import UiPanelView from "../../ui/ui-panel";
+import { TableController } from "../../logic/table/table-controller";
+import { IMechanicService } from "../services/mechanic-service";
 
 export class CreateContentState implements IState {
   private _gameFactory: IGameFactory;
   private _stateMachine: IStateMachine;
+  private _mechanicService: IMechanicService;
   private _tableView: TableView = null;
   private _tableCell: TableCell[][] = null;
   private _uiPanelView: UiPanelView = null;
   private _isLoadAssets: boolean = false;
 
-  constructor(stateMachine: IStateMachine, gameFactory: IGameFactory) {
+  constructor(
+    stateMachine: IStateMachine,
+    gameFactory: IGameFactory,
+    mechanicService: IMechanicService
+  ) {
     this._stateMachine = stateMachine;
     this._gameFactory = gameFactory;
+    this._mechanicService = mechanicService;
   }
   async run(): Promise<void> {
     console.log("run create content state");
@@ -47,10 +54,15 @@ export class CreateContentState implements IState {
       tiles
     );
     const tableController: TableController =
-      this._gameFactory.createTableController(this._tableView, tableModel);
+      this._gameFactory.createTableController(
+        this._tableView,
+        tableModel,
+        this._mechanicService
+      );
 
     const uiPanelView: UiPanelView = this._uiPanelView;
     this._stateMachine.run(GameLoopState.name, {
+      tableModel,
       tableController,
       uiPanelView,
     });

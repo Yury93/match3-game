@@ -7,6 +7,7 @@ export class Game {
   public stateMachine: IStateMachine;
 
   constructor(serviceLocator: ServiceLocator) {
+    console.log("start create state machine");
     this.stateMachine = new StateMachine(serviceLocator);
 
     this.stateMachine.run(InitializeState.name);

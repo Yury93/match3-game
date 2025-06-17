@@ -4,6 +4,7 @@ export class ServiceLocator {
 
   public static Container(): ServiceLocator {
     if (this._instance == null) {
+      console.log("start create sl instance");
       this._instance = new ServiceLocator();
     }
     return this._instance;

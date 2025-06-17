@@ -1,18 +1,21 @@
 import { ServiceLocator } from "../services/serviceLocator";
 import { IState, IStateMachine } from "./state-interfaces";
-import { InitializeState } from "../states/initialize-state";
 import { CreateContentState } from "../states/create-content-state";
 import { GameFactory } from "../services/gameFactory/game-factory";
 import { GameLoopState } from "../states/game-loop-state";
 import { ScoreService } from "../services/score-service";
 import { WinState } from "../states/win-state";
 import { LoseState } from "../states/lose-state";
+import { MechanicService } from "../services/mechanic-service";
+import { InitializeState } from "../states/initialize-state";
 
 export class StateMachine implements IStateMachine {
   private _states: Record<string, IState>;
   public currentState: IState | null = null;
   constructor(serviceLocator: ServiceLocator) {
+    console.log("start register process states in state machine");
     this.registerStates(serviceLocator);
+    console.log("end register process");
   }
 
   registerStates(serviceLocator: ServiceLocator) {
@@ -20,11 +23,14 @@ export class StateMachine implements IStateMachine {
       InitializeState: new InitializeState(this, serviceLocator),
       CreateContentState: new CreateContentState(
         this,
-        serviceLocator.single(GameFactory)
+        serviceLocator.single(GameFactory),
+        serviceLocator.single(MechanicService)
       ),
       GameLoopState: new GameLoopState(
         this,
-        serviceLocator.single(ScoreService)
+        serviceLocator.single(ScoreService),
+        serviceLocator.single(MechanicService),
+        serviceLocator.single(GameFactory)
       ),
       WinState: new WinState(this, serviceLocator.single(GameFactory)),
       LoseState: new LoseState(this, serviceLocator.single(GameFactory)),

@@ -1,14 +1,27 @@
-import { TileType } from "../logic/tile";
+import { TileType } from "../logic/tile-type";
 
 // Геймдизайнерские конфиги
 export const TABLE = {
   column: 9,
   lines: 9,
-  grid: 100,
+  grid: 95,
 };
 const GAME_LEVELS: { maxSteps: number; winScoreThreshold: number }[] = [
-  { maxSteps: 10, winScoreThreshold: 350 },
+  { maxSteps: 35, winScoreThreshold: 250 },
+  { maxSteps: 40, winScoreThreshold: 300 },
+  { maxSteps: 30, winScoreThreshold: 200 },
+  { maxSteps: 30, winScoreThreshold: 100 },
 ];
+// Для рандомного уровня
+function getRandomLevel() {
+  const id = Math.floor(Math.random() * GAME_LEVELS.length);
+  return GAME_LEVELS[id];
+}
+const _randomLevel = getRandomLevel();
+
+export const CONSTANTS = {
+  boosterBombR: 1,
+};
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [
   { formula: (groupSize: number) => groupSize * groupSize * 5 },
@@ -16,9 +29,11 @@ const SCORE_FORMULAS: { formula: ScoreFormula }[] = [
 ];
 
 export const GLOBAL_GAME_CONFIGS = {
-  MaxStep: GAME_LEVELS[0].maxSteps,
-  WinScoreThreshold: GAME_LEVELS[0].winScoreThreshold,
-  _scoreFormulaIndex: 0,
+  // MaxStep: GAME_LEVELS[0].maxSteps,
+  // WinScoreThreshold: GAME_LEVELS[0].winScoreThreshold,
+  MaxStep: _randomLevel.maxSteps,
+  WinScoreThreshold: _randomLevel.winScoreThreshold,
+  _scoreFormulaIndex: 1,
 
   get ScoreFormula() {
     return SCORE_FORMULAS[this._scoreFormulaIndex].formula;
@@ -29,6 +44,7 @@ export const GLOBAL_GAME_CONFIGS = {
 export const PREFABS = {
   tablePrefab: "table/Table",
   UIPanelPrefab: "table/UI",
+  BombEffectPrefab: "table/ExplosionEffect",
   tilePrefab: "tiles/TilePrefab",
   curtainPrefab: "curtain/Curtain",
 };

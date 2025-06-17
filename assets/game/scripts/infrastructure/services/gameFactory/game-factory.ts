@@ -1,13 +1,15 @@
 import { IService } from "../serviceLocator";
 import { IAssetProvider } from "./asset-provider";
 import { PREFABS, TABLE, TILE_MODELS } from "../../../configs/configs";
-import Tile, { TileType } from "../../../logic/tile";
+import Tile from "../../../logic/tile";
 import { TableCell } from "../../../logic/table-cell";
 import TableView from "../../../logic/table/table-view";
 import { TableModel } from "../../../logic/table/table-model";
-import { TableController } from "../../../logic/table/table-controller";
 import UiPanelView from "../../../ui/ui-panel";
 import Curtain from "../../../curtain/curtain";
+import { TableController } from "../../../logic/table/table-controller";
+import { IMechanicService, MechanicService } from "../mechanic-service";
+import { TileType } from "../../../logic/tile-type";
 
 export interface IGameFactory extends IService {
   loadAssets();
@@ -22,9 +24,14 @@ export interface IGameFactory extends IService {
   getRandomTileModel(): { tileType: TileType; sprite: cc.SpriteFrame };
   createTableCells(content: cc.Node): TableCell[][];
   createTableModel(tableCell: TableCell[][], tiles: Tile[][]): TableModel;
-  createTableController(table: TableView, tableModel: TableModel);
+  createTableController(
+    tableView: TableView,
+    tableModel: TableModel,
+    mechanicService: IMechanicService
+  );
   createUiPanelView(): UiPanelView;
   createCurtain(): Curtain;
+  createBombEffect(node: cc.Node);
 }
 
 export class GameFactory implements IGameFactory {
@@ -35,13 +42,29 @@ export class GameFactory implements IGameFactory {
     await this._assetProvider.loadAsset(PREFABS.tablePrefab);
     await this._assetProvider.loadAsset(PREFABS.tilePrefab);
     await this._assetProvider.loadAsset(PREFABS.UIPanelPrefab);
+    await this._assetProvider.loadAsset(PREFABS.BombEffectPrefab);
     await Promise.all(
       TILE_MODELS.map((tileModel) =>
         this._assetProvider.loadAsset(tileModel.path)
       )
     );
   }
+  createBombEffect(node: cc.Node) {
+    try {
+      const director = cc.director.getScene().getChildByName("Canvas");
+      const bombEffect = this._assetProvider.instantiateAsset(
+        PREFABS.BombEffectPrefab
+      );
 
+      const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
+      const localPos = director.convertToNodeSpaceAR(worldPos);
+
+      bombEffect.setParent(director);
+      bombEffect.setPosition(localPos);
+    } catch (error) {
+      console.error("Failed to create curtain:", error);
+    }
+  }
   createTableView(): TableView {
     try {
       return this.instantiateOnCanvas(PREFABS.tablePrefab, TableView);
@@ -70,8 +93,12 @@ export class GameFactory implements IGameFactory {
       console.error("Failed to create curtain:", error);
     }
   }
-  createTableController(table: TableView, tableModel: TableModel) {
-    return new TableController(this, table, tableModel);
+  createTableController(
+    tableView: TableView,
+    tableModel: TableModel,
+    mechanicService: IMechanicService
+  ) {
+    return new TableController(this, tableView, tableModel, mechanicService);
   }
   createTableModel(tableCells: TableCell[][], tiles: Tile[][]): TableModel {
     const tableModel: TableModel = new TableModel(tableCells, tiles);
@@ -109,7 +136,7 @@ export class GameFactory implements IGameFactory {
     const tileType = model.type;
 
     const texture = this._assetProvider.getAsset(spritePath);
-    console.log(" TEXTURE : " + texture);
+
     const spriteFrame = new cc.SpriteFrame();
     spriteFrame.setTexture(texture);
 

@@ -19,28 +19,24 @@ export default class Curtain extends cc.Component {
   onRestart: () => void;
 
   win() {
-    this.subscribeButtonEvents();
-    this._startPosCurtain = this.curtainSprite.node.position;
-    this.resultLabel.string = "";
-    this.showFade(true);
-    this.showCurtain(() => {
-      this.continueButton.node.active = true;
-      this.resultLabel.string = `Успех!`;
-    }).start();
-  }
-  lose() {
-    this.subscribeButtonEvents();
-    this._startPosCurtain = this.curtainSprite.node.position;
-    this.resultLabel.string = "";
-    this.showFade(true);
-    this.showCurtain(() => {
-      this.restartButton.node.active = true;
-      this.resultLabel.string = `Неудача!`;
-    }).start();
+    this.showResult(this.continueButton, `Успех!`);
   }
 
+  lose() {
+    this.showResult(this.restartButton, `Неудача!`);
+  }
+  private showResult(button: cc.Button, message: string) {
+    this.subscribeButtonEvents();
+    this._startPosCurtain = this.curtainSprite.node.position;
+    this.resultLabel.string = "";
+    this.showFade(true);
+    this.showCurtain(() => {
+      button.node.active = true;
+      this.resultLabel.string = message;
+    }).start();
+  }
   private clickRestart() {
-    this.discribeButtonEvents();
+    this.unsubscribeButtonEvents();
 
     this.showCurtain(() => {
       this.showFade(false);
@@ -56,7 +52,7 @@ export default class Curtain extends cc.Component {
       .start();
   }
   private clickContinue() {
-    this.discribeButtonEvents();
+    this.subscribeButtonEvents();
 
     this.showCurtain(() => {
       this.showFade(false);
@@ -102,7 +98,7 @@ export default class Curtain extends cc.Component {
       this
     );
   }
-  private discribeButtonEvents() {
+  private unsubscribeButtonEvents() {
     this.restartButton.node.off(
       cc.Node.EventType.TOUCH_END,
       this.clickRestart,

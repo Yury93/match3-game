@@ -1,5 +1,6 @@
 import { AssetProvider } from "../services/gameFactory/asset-provider";
 import { GameFactory } from "../services/gameFactory/game-factory";
+import { MechanicService } from "../services/mechanic-service";
 import { ScoreService } from "../services/score-service";
 import { ServiceLocator } from "../services/serviceLocator";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
@@ -14,9 +15,11 @@ export class InitializeState implements IState {
     const assetProvider = new AssetProvider();
     const gameFactory = new GameFactory(assetProvider);
     const scoreService = new ScoreService(_stateMachine);
+    const mechanicService = new MechanicService(gameFactory);
     this._serviceLocator.registerSingle(assetProvider);
     this._serviceLocator.registerSingle(gameFactory);
     this._serviceLocator.registerSingle(scoreService);
+    this._serviceLocator.registerSingle(mechanicService);
   }
   run(): void {
     this._stateMachine.run(CreateContentState.name);
