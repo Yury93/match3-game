@@ -92,7 +92,9 @@ export class TableController {
       }
     }
   }
-
+  onNoBurned(tile: Tile) {
+    this._tableView.showNoBurnMessage(tile);
+  }
   onTileClick(tile: Tile) {
     this._mechanicService.onTileClick(tile, this);
   }

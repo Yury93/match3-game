@@ -4,7 +4,10 @@ import { AbstractMechanic } from "./abstract-machanic";
 export class BasicMechanic extends AbstractMechanic {
   onTileClick(tile: ITile, tableController): boolean {
     const group = this.findConnectedTiles(tile as Tile, tableController);
-    if (group.length < 2) return false;
+    if (group.length < 2) {
+      tableController.onNoBurned(tile);
+      return false;
+    }
 
     this.burnTiles(group, tableController);
     this.dropTiles(tableController);

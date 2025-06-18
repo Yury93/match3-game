@@ -5,6 +5,18 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class TableView extends cc.Component {
+  showNoBurnMessage(tile: Tile) {
+    const node = tile.sprite.node;
+
+    const pulseAction = cc.sequence(
+      cc.scaleTo(0.1, 1.2),
+      cc.scaleTo(0.1, 0.9),
+      cc.scaleTo(0.1, 1.1),
+      cc.scaleTo(0.1, 1.0)
+    );
+
+    node.runAction(pulseAction);
+  }
   @property(cc.Node)
   content: cc.Node = null;
 
