@@ -4,6 +4,7 @@ import { MechanicService } from "../services/mechanic-service";
 import { ProgressService } from "../services/progress-service";
 import { ServiceLocator } from "../services/serviceLocator";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { StateNames } from "../state-machine/state-names";
 import { CreateContentState } from "./create-content-state";
 
 export class InitializeState implements IState {
@@ -22,7 +23,7 @@ export class InitializeState implements IState {
     this._serviceLocator.registerSingle(mechanicService);
   }
   run(): void {
-    this._stateMachine.run(CreateContentState.name);
+    this._stateMachine.run(StateNames.CreateContent);
   }
 
   stop(): void {

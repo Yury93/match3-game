@@ -1,6 +1,7 @@
 import { ServiceLocator } from "./services/serviceLocator";
 import { StateMachine } from "./state-machine/game-state-machine";
 import { IStateMachine } from "./state-machine/state-interfaces";
+import { StateNames } from "./state-machine/state-names";
 import { InitializeState } from "./states/initialize-state";
 
 export class Game {
@@ -9,7 +10,10 @@ export class Game {
   constructor(serviceLocator: ServiceLocator) {
     console.log("start create state machine");
     this.stateMachine = new StateMachine(serviceLocator);
-
-    this.stateMachine.run(InitializeState.name);
+    console.log(
+      "this.stateMachine.run(StateNames.Initialize);  / StateArgument:",
+      StateNames.Initialize
+    );
+    this.stateMachine.run(StateNames.Initialize);
   }
 }

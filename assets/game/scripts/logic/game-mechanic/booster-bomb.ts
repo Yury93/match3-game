@@ -52,22 +52,17 @@ export class BoosterBomb extends AbstractMechanic {
     const explosion = this._gameFactory
       .createBombEffect(tile.sprite.node)
       .getComponent(cc.Sprite);
+
     explosion.node.active = true;
     explosion.node.opacity = 0;
+
     cc.tween(explosion.node)
-      .to(0.3, { opacity: 255 }, { easing: "sine.out" })
-      .call(() => {
-        // const particle = explosion.node.children[0].getComponent(
-        //   cc.ParticleSystem
-        // );
-        // particle.active = true;
-        // particle;
-      })
+      .to(0.3, { opacity: 255 }, { easing: cc.easing.sineOut })
       .delay(1)
-      .to(0.3, { opacity: 0 }, { easing: "sine.in" })
+      .to(0.3, { opacity: 0 }, { easing: cc.easing.sineIn })
       .delay(0.3)
       .call(() => {
-        explosion.destroy();
+        explosion.node.destroy();
       })
       .start();
   }

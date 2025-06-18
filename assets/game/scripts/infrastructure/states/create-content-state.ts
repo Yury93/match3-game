@@ -8,6 +8,7 @@ import { GameLoopState } from "./game-loop-state";
 import UiPanelView from "../../ui/ui-panel";
 import { TableController } from "../../logic/table/table-controller";
 import { IMechanicService } from "../services/mechanic-service";
+import { StateNames } from "../state-machine/state-names";
 
 export class CreateContentState implements IState {
   private _gameFactory: IGameFactory;
@@ -62,7 +63,7 @@ export class CreateContentState implements IState {
       );
 
     const uiPanelView: UiPanelView = this._uiPanelView;
-    this._stateMachine.run(GameLoopState.name, {
+    this._stateMachine.run(StateNames.GameLoop, {
       tableModel,
       tableController,
       uiPanelView,

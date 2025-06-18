@@ -1,6 +1,7 @@
 import { IGameFactory } from "../services/gameFactory/game-factory";
 import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { StateNames } from "../state-machine/state-names";
 import { CreateContentState } from "./create-content-state";
 
 export class LoseState implements IState {
@@ -12,7 +13,7 @@ export class LoseState implements IState {
     const curtain = this._gameFactory.createCurtain();
     curtain.lose();
     curtain.onRestart = () => {
-      this._stateMachine.run(CreateContentState.name);
+      this._stateMachine.run(StateNames.CreateContent);
     };
   }
   stop(): void {}

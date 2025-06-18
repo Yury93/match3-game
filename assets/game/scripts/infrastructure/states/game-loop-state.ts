@@ -8,6 +8,7 @@ import { WinState } from "./win-state";
 import { IMechanicService } from "../services/mechanic-service";
 import { IGameFactory } from "../services/gameFactory/game-factory";
 import { TableModel } from "../../logic/table/table-model";
+import { StateNames } from "../state-machine/state-names";
 
 export class GameLoopState implements IState {
   private _stateMachine: IStateMachine;
@@ -54,10 +55,10 @@ export class GameLoopState implements IState {
     };
 
     this._progressService.onWin = () => {
-      this.handleGameEnd(WinState.name, payload.tableController);
+      this.handleGameEnd(StateNames.Win, payload.tableController);
     };
     this._progressService.onLose = () => {
-      this.handleGameEnd(LoseState.name, payload.tableController);
+      this.handleGameEnd(StateNames.Lose, payload.tableController);
     };
   }
   private resolveImpossibleMoves(
@@ -66,7 +67,7 @@ export class GameLoopState implements IState {
   ) {
     if (!this.hasPossibleMoves(tableModel)) {
       console.log("tails count after result ", tableModel.getTiles().length);
-      this.handleGameEnd(LoseState.name, tableController);
+      this.handleGameEnd(StateNames.Lose, tableController);
     }
   }
   private handleGameEnd(stateName: string, tableController: TableController) {
