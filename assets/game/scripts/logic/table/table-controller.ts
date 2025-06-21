@@ -8,7 +8,8 @@ import { ITableView } from "./table-view";
 
 export interface ITableController {
   onBombAction(tile: ITile);
-  onBurn?: (groupSize: number) => void;
+  onBurnAction: (groupSize: number) => void;
+  onFalseBurnedAction: () => void;
 
   init();
   setMechanicController(controller: IMechanicController);
@@ -21,7 +22,8 @@ export interface ITableController {
 }
 
 export class TableController implements ITableController {
-  public onBurn?: (groupSize: number) => void;
+  onBurnAction: (groupSize: number) => void;
+  onFalseBurnedAction: () => void;
   private _mechanicController: IMechanicController;
 
   constructor(
@@ -67,6 +69,7 @@ export class TableController implements ITableController {
 
   onFalseBurned(tile: ITile) {
     this._tableView.showFalseBurnMessage(tile);
+    if (this.onFalseBurnedAction) this.onFalseBurnedAction();
   }
   onTileClick(tile: ITile) {
     this._mechanicController.onTileClick(tile);

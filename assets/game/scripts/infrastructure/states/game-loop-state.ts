@@ -1,11 +1,12 @@
-import { TableController } from "../../logic/table/table-controller";
+import { ITableController } from "../../logic/table/table-controller";
 import { UIPanelController } from "../../ui/ui-panel-controller";
 import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { IMechanicController } from "../../logic/game-mechanic/mechanic-controller";
-import { TableModel } from "../../logic/table/table-model";
+import { ITableModel } from "../../logic/table/table-model";
 import { StateNames } from "../state-machine/state-names";
 import { IUIPanelView } from "../../ui/ui-panel";
+import { CONSTANTS } from "../../configs/configs";
 
 export class GameLoopState implements IState {
   private _stateMachine: IStateMachine;
@@ -17,29 +18,34 @@ export class GameLoopState implements IState {
     this._progressService = progressService;
   }
   run(payload: {
-    tableModel: TableModel;
-    tableController: TableController;
+    tableModel: ITableModel;
+    tableController: ITableController;
     uiPanelView: IUIPanelView;
     mechanicController: IMechanicController;
   }): void {
     this._isResultShown = false;
 
-    this.resolveImpossibleMoves(payload.tableModel, payload.tableController);
     const uiPanelController = new UIPanelController(
       this._progressService,
       payload.uiPanelView,
-      payload.mechanicController
+      payload.mechanicController,
+      CONSTANTS.bombTrials
     );
+    let bombTrials = uiPanelController.getBombTrials();
 
-    payload.tableController.onBurn = (groupSize: number) => {
+    if (bombTrials <= 0) this.resolveImpossibleMoves(payload.tableModel);
+
+    payload.tableController.onBurnAction = (groupSize: number) => {
       this._progressService.nextStep(groupSize);
       uiPanelController.updateScore();
-      if (!this._isResultShown) {
-        this.resolveImpossibleMoves(
-          payload.tableModel,
-          payload.tableController
-        );
+      bombTrials = uiPanelController.getBombTrials();
+      if (!this._isResultShown && bombTrials <= 0) {
+        this.resolveImpossibleMoves(payload.tableModel);
       }
+    };
+    payload.tableController.onFalseBurned = () => {
+      bombTrials = uiPanelController.getBombTrials();
+      if (bombTrials > 0) uiPanelController.summonClickBomb();
     };
 
     this._progressService.onWin = () => {
@@ -49,16 +55,13 @@ export class GameLoopState implements IState {
       this.handleGameEnd(StateNames.Lose, payload.tableModel);
     };
   }
-  private resolveImpossibleMoves(
-    tableModel: TableModel,
-    tableController: TableController
-  ) {
+  private resolveImpossibleMoves(tableModel: ITableModel) {
     if (!this.hasPossibleMoves(tableModel)) {
       console.log("tails count after result ", tableModel.getTiles().length);
       this.handleGameEnd(StateNames.Lose, tableModel);
     }
   }
-  private handleGameEnd(stateName: string, tableModel: TableModel) {
+  private handleGameEnd(stateName: string, tableModel: ITableModel) {
     this._isResultShown = true;
     this._progressService.resetResults();
 
@@ -66,8 +69,7 @@ export class GameLoopState implements IState {
     this._stateMachine.run(stateName);
     console.log("GAME END ", stateName);
   }
-  stop(): void {}
-  private hasPossibleMoves(model: TableModel): boolean {
+  private hasPossibleMoves(model: ITableModel): boolean {
     const tiles = model.getTiles();
     const columns = tiles.length;
     const rows = tiles[0].length;
@@ -77,7 +79,6 @@ export class GameLoopState implements IState {
         const tile = tiles[col][row];
         if (!tile) continue;
 
-        // Проверка соседей
         const neighbors = [
           { x: col + 1, y: row },
           { x: col, y: row + 1 },
@@ -106,4 +107,5 @@ export class GameLoopState implements IState {
   ): boolean {
     return col >= 0 && col < maxCol && row >= 0 && row < maxRow;
   }
+  stop(): void {}
 }

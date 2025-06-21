@@ -7,7 +7,8 @@ export interface IUIPanelView {
   updateScore(currentScore: number);
   updateStep(remainingSteps: number);
   showBombCount(count: number);
-  bombButtonActive(isActive);
+  activeBombButton(isActive);
+  startbombSummonAnimation();
 }
 
 @ccclass
@@ -33,7 +34,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.scoreLabel.string = `${0}/${winScoreThreshold}`;
 
     this.bombButton.node.on(cc.Node.EventType.TOUCH_END, this.clickBomb, this);
-    this.bombButtonActive(true);
+    this.activeBombButton(true);
   }
   updateScore(currentScore: number) {
     this.scoreLabel.string = `${currentScore}/${this._winScore}`;
@@ -47,7 +48,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.countBombLabel.string = count.toString();
     this.animateLabel(this.countBombLabel, 0.5);
   }
-  bombButtonActive(isActive) {
+  activeBombButton(isActive) {
     const node = this.bombButton.node;
     cc.Tween.stopAllByTarget(node);
     this.animateButton(node, isActive);
@@ -57,18 +58,19 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     if (this.onClickBomb) this.onClickBomb();
   }
   private animateButton(node: cc.Node, isActive) {
+    cc.Tween.stopAllByTarget(this.node);
     if (isActive) {
       node.active = true;
       node.opacity = 255;
       node.scale = 1;
       node.color = cc.Color.WHITE;
       cc.tween(node)
-        .to(0.15, { scale: 1.18 }, { easing: "backOut" })
-        .to(0.12, { scale: 1.0 }, { easing: "backIn" })
+        .to(0.3, { scale: 1.2 }, { easing: "sineOut" })
+        .to(0.3, { scale: 1 }, { easing: "sineIn" })
         .start();
     } else {
       cc.tween(node)
-        .to(0.25, { scale: 0.92 }, { easing: "quadIn" })
+        .to(0.25, { scale: 1 }, { easing: "sineIn" })
         .call(() => {
           node.color = new cc.Color(180, 180, 180);
         })
@@ -78,10 +80,35 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
   private animateLabel(label: cc.Label, duration: number) {
     if (label && label.node) {
       cc.tween(label.node)
-        .to(duration, { scale: 1.2 }, { easing: "quadOut" })
-        .to(0.1, { scale: 1.0 }, { easing: "quadIn" })
+        .to(duration, { scale: 1.2 }, { easing: "sineOut" })
+        .to(0.1, { scale: 1.0 }, { easing: "sineIn" })
         .start();
     }
+  }
+  startbombSummonAnimation() {
+    cc.Tween.stopAllByTarget(this.bombButton.node);
+    cc.tween(this.bombButton.node)
+      .to(
+        0.3,
+        {
+          scale: 1.25,
+          color: cc.Color.RED,
+        },
+        { easing: "sineOut" }
+      )
+      .to(
+        0.4,
+        {
+          scale: 1.0,
+          color: cc.Color.WHITE,
+        },
+        { easing: "sineIn" }
+      )
+      .to(0.1, { angle: -5 })
+      .to(0.1, { angle: 5 })
+      .to(0.1, { angle: 0 })
+      .repeat(10)
+      .start();
   }
   protected onDestroy() {
     this.bombButton?.node?.off(

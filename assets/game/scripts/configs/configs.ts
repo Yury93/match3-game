@@ -3,38 +3,45 @@ import { TileType } from "../logic/tile-type";
 // Геймдизайнерские конфиги
 export const TABLE = [
   {
-    column: 9,
-    lines: 9,
+    column: 2,
+    lines: 2,
     grid: 95,
   },
-  {
-    column: 6,
-    lines: 6,
-    grid: 95,
-  },
+  // {
+  //   column: 9,
+  //   lines: 9,
+  //   grid: 95,
+  // },
+  // {
+  //   column: 6,
+  //   lines: 6,
+  //   grid: 95,
+  // },
 ];
 const GAME_LEVELS: {
   id: number;
   maxSteps: number;
   winScoreThreshold: number;
 }[] = [
-  { id: 0, maxSteps: 35, winScoreThreshold: 90 },
-  { id: 1, maxSteps: 40, winScoreThreshold: 300 },
-  { id: 2, maxSteps: 30, winScoreThreshold: 200 },
-  { id: 3, maxSteps: 30, winScoreThreshold: 100 },
-  { id: 4, maxSteps: 35, winScoreThreshold: 250 },
-  { id: 5, maxSteps: 40, winScoreThreshold: 300 },
-  { id: 6, maxSteps: 30, winScoreThreshold: 200 },
-  { id: 7, maxSteps: 30, winScoreThreshold: 100 },
-  { id: 8, maxSteps: 35, winScoreThreshold: 250 },
-  { id: 9, maxSteps: 40, winScoreThreshold: 300 },
-  { id: 10, maxSteps: 30, winScoreThreshold: 200 },
-  { id: 11, maxSteps: 30, winScoreThreshold: 100 },
+  { id: 0, maxSteps: 30, winScoreThreshold: 100 },
+  // { id: 0, maxSteps: 35, winScoreThreshold: 90 },
+  // { id: 1, maxSteps: 40, winScoreThreshold: 300 },
+  // { id: 2, maxSteps: 30, winScoreThreshold: 200 },
+  // { id: 3, maxSteps: 30, winScoreThreshold: 100 },
+  // { id: 4, maxSteps: 35, winScoreThreshold: 250 },
+  // { id: 5, maxSteps: 40, winScoreThreshold: 300 },
+  // { id: 6, maxSteps: 30, winScoreThreshold: 200 },
+  // { id: 7, maxSteps: 30, winScoreThreshold: 100 },
+  // { id: 8, maxSteps: 35, winScoreThreshold: 250 },
+  // { id: 9, maxSteps: 40, winScoreThreshold: 300 },
+  // { id: 10, maxSteps: 30, winScoreThreshold: 200 },
+  // { id: 11, maxSteps: 30, winScoreThreshold: 100 },
 ];
 
 export const CONSTANTS = {
   boosterBombR: 1,
   scoreFormulaIndex: 1,
+  bombTrials: 3,
 };
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [

@@ -62,6 +62,7 @@ export class MechanicController implements IMechanicController {
       this._activeMechanic.onTileClick(tile);
       if (!(this._activeMechanic instanceof BasicMechanic)) {
         this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
+        console.log("Select basic mechanic");
       }
     }
   }

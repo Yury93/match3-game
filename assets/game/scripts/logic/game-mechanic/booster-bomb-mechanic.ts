@@ -43,8 +43,8 @@ export class BoosterBombMechanic extends AbstractMechanic {
     this.dropTiles();
     this.fillEmpty();
 
-    if (this.tableController.onBurn)
-      this.tableController.onBurn(tilesToBurn.length);
+    if (this.tableController.onBurnAction)
+      this.tableController.onBurnAction(tilesToBurn.length);
 
     return true;
   }

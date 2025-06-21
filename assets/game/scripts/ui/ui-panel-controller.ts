@@ -7,11 +7,11 @@ import { IUIPanelView } from "./ui-panel";
 import { IGameMechanic } from "../logic/game-mechanic/game-mechanic";
 
 export class UIPanelController {
-  private _bombTrial = 3;
   constructor(
     private _progressService: IProgressService,
     private _uiPanelView: IUIPanelView,
-    private _mechanicService: IMechanicController
+    private _mechanicService: IMechanicController,
+    private _bombTrial = 3
   ) {
     this.start();
   }
@@ -27,15 +27,21 @@ export class UIPanelController {
 
       if (!(activeMechanic as BasicMechanic)) return;
       if (this._bombTrial > 0) {
-        this._uiPanelView.bombButtonActive(true);
+        this._uiPanelView.activeBombButton(true);
         this.setActiveBomb();
         this._bombTrial -= 1;
-        if (this._bombTrial === 0) this._uiPanelView.bombButtonActive(false);
+        if (this._bombTrial === 0) this._uiPanelView.activeBombButton(false);
       } else {
-        this._uiPanelView.bombButtonActive(false);
+        this._uiPanelView.activeBombButton(false);
       }
       this._uiPanelView.showBombCount(this._bombTrial);
     };
+  }
+  getBombTrials() {
+    return this._bombTrial;
+  }
+  summonClickBomb() {
+    this._uiPanelView.startbombSummonAnimation();
   }
   updateScore() {
     this._uiPanelView.updateScore(this._progressService.currentScore);
@@ -44,7 +50,6 @@ export class UIPanelController {
   setActiveBomb() {
     const bombMechanic =
       this._mechanicService.getMechanicByType(BoosterBombMechanic);
-    console.log("bombMechanic = ", bombMechanic);
     this._mechanicService.setActiveMechanic(bombMechanic);
   }
 }
