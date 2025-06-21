@@ -1,12 +1,32 @@
 import { TableCell } from "../table-cell";
-import Tile from "../tile";
+import { ITile } from "../tile";
+
+export interface ITableView {
+  nodeView: cc.Node;
+  getContent(): cc.Node;
+  showFalseBurnMessage(tile: ITile);
+  addTile(tile: ITile, tableCell: TableCell);
+  explosion(tile: ITile);
+  removeTile(tile: ITile);
+  moveTile(tile: ITile, newPos: cc.Vec2);
+}
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TableView extends cc.Component {
-  showNoBurnMessage(tile: Tile) {
-    const node = tile.sprite.node;
+export default class TableView extends cc.Component implements ITableView {
+  @property(cc.Node)
+  content: cc.Node = null;
+  nodeView: cc.Node = null;
+  protected onLoad(): void {
+    this.nodeView = this.node;
+  }
+
+  getContent(): cc.Node {
+    return this.content;
+  }
+  showFalseBurnMessage(tile: ITile) {
+    const node = tile.nodeTile;
 
     const pulseAction = cc.sequence(
       cc.scaleTo(0.1, 1.2),
@@ -17,45 +37,40 @@ export default class TableView extends cc.Component {
 
     node.runAction(pulseAction);
   }
-  @property(cc.Node)
-  content: cc.Node = null;
-
-  getContent(): cc.Node {
-    return this.content;
-  }
-  addTile(tile: Tile, tableCell: TableCell) {
-    tile.node.setParent(this.content);
-    tile.node.setPosition(tableCell.getPosition());
-    tile.node.scale = 0;
-    tile.node.angle = 0;
-    cc.tween(tile.node)
+  addTile(tile: ITile, tableCell: TableCell) {
+    tile.nodeTile.setParent(this.content);
+    tile.nodeTile.setPosition(tableCell.getPosition());
+    tile.nodeTile.scale = 0;
+    tile.nodeTile.angle = 0;
+    cc.tween(tile.nodeTile)
       .delay(0.2)
       .to(0.3, { scale: 1 }, { easing: "backOut" })
       .call(() => {
-        cc.tween(tile.node)
+        cc.tween(tile.nodeTile)
           .to(0.2, { angle: -12 }, { easing: "sineInOut" })
           .start();
       })
       .start();
   }
-  explosion(tile: Tile) {
-    cc.tween(tile.node)
+  explosion(tile: ITile) {
+    cc.tween(tile.nodeTile)
       .to(0.1, { scale: 0 }, { easing: "backIn" })
       .call(() => {
-        tile.node.destroy();
+        tile.nodeTile.destroy();
       })
       .start();
   }
-  removeTile(tile: Tile) {
-    cc.tween(tile.node)
+  removeTile(tile: ITile) {
+    cc.tween(tile.sprite.node)
       .to(0.1, { scale: 0 }, { easing: "backIn" })
       .call(() => {
-        tile.node.destroy();
+        tile.sprite.node.destroy();
       })
       .start();
   }
-
-  moveTile(tile: Tile, newPos: cc.Vec2) {
-    cc.tween(tile.node).to(0.3, { y: newPos.y }, { easing: "quadOut" }).start();
+  moveTile(tile: ITile, newPos: cc.Vec2) {
+    cc.tween(tile.nodeTile)
+      .to(0.3, { y: newPos.y }, { easing: "quadOut" })
+      .start();
   }
 }

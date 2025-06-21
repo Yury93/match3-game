@@ -8,14 +8,36 @@ export default class Tile extends cc.Component implements ITile {
   tileType: TileType = TileType.BLUE;
   @property(cc.Sprite)
   sprite: cc.Sprite = null;
+  nodeTile: cc.Node = null;
+  touchHandler: (tile: ITile) => void;
 
   Init(TileType: TileType, spriteFrame: cc.SpriteFrame) {
+    this.nodeTile = this.node;
     this.tileType = TileType;
     this.sprite.spriteFrame = spriteFrame;
+    console.log("init ", `${this.nodeTile} ${this.tileType} ${this.sprite}`);
+  }
+
+  protected onDestroy(): void {
+    console.log("destroy ", `${this.nodeTile} ${this.tileType} ${this.sprite}`);
+  }
+  addListener(callback: (tile: ITile) => void) {
+    this.touchHandler = callback;
+    this.sprite.node.on(cc.Node.EventType.TOUCH_END, this.touchHandler, this);
+  }
+  removeListener() {
+    if (this.touchHandler === null || this.touchHandler === undefined) {
+      throw new Error("no touch handler");
+    }
+    this.sprite.node.off(cc.Node.EventType.TOUCH_END, this.touchHandler, this);
   }
 }
-
 export interface ITile {
   tileType: TileType;
   sprite: cc.Sprite;
+  nodeTile: cc.Node;
+  touchHandler: (tile: ITile) => void;
+  Init(tileType: TileType, spriteFrame: cc.SpriteFrame);
+  addListener(callback: (tile: ITile) => void);
+  removeListener();
 }

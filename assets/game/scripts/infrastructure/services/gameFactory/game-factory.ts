@@ -1,37 +1,29 @@
 import { IService } from "../serviceLocator";
 import { IAssetProvider } from "./asset-provider";
 import { PREFABS, TABLE, TILE_MODELS } from "../../../configs/configs";
-import Tile from "../../../logic/tile";
+import Tile, { ITile } from "../../../logic/tile";
 import { TableCell } from "../../../logic/table-cell";
-import TableView from "../../../logic/table/table-view";
-import { TableModel } from "../../../logic/table/table-model";
-import UiPanelView from "../../../ui/ui-panel";
+import TableView, { ITableView } from "../../../logic/table/table-view";
+import { ITableModel, TableModel } from "../../../logic/table/table-model";
 import Curtain from "../../../curtain/curtain";
 import { TableController } from "../../../logic/table/table-controller";
-import { IMechanicService, MechanicService } from "../mechanic-service";
-import { TileType } from "../../../logic/tile-type";
+import { ITileFactory } from "./tile-factory";
+import { UiPanelView } from "../../../ui/ui-panel";
+import { IVfxFactory, VfxFactory } from "./vfx-factory";
+import { IMechanicController } from "../../../logic/game-mechanic/mechanic-controller";
 
 export interface IGameFactory extends IService {
   loadAssets();
   createTableView(): TableView;
-  createTiles(cells: TableCell[][], tableContent: cc.Node): Tile[][];
-  createTile(
-    tileType: TileType,
-    spriteFrame: cc.SpriteFrame,
-    content: cc.Node,
-    tileCell: TableCell
-  );
-  getRandomTileModel(): { tileType: TileType; sprite: cc.SpriteFrame };
   createTableCells(content: cc.Node): TableCell[][];
-  createTableModel(tableCell: TableCell[][], tiles: Tile[][]): TableModel;
+  createTableModel(tableCell: TableCell[][], tiles: ITile[][]): TableModel;
   createTableController(
-    tableView: TableView,
-    tableModel: TableModel,
-    mechanicService: IMechanicService
+    tableView: ITableView,
+    tableModel: ITableModel,
+    vfxFactory: IVfxFactory
   );
   createUiPanelView(): UiPanelView;
   createCurtain(): Curtain;
-  createBombEffect(node: cc.Node);
 }
 
 export class GameFactory implements IGameFactory {
@@ -49,23 +41,7 @@ export class GameFactory implements IGameFactory {
       )
     );
   }
-  createBombEffect(node: cc.Node) {
-    try {
-      const director = cc.director.getScene().getChildByName("Canvas");
-      const bombEffect = this._assetProvider.instantiateAsset(
-        PREFABS.BombEffectPrefab
-      );
 
-      const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
-      const localPos = director.convertToNodeSpaceAR(worldPos);
-
-      bombEffect.setParent(director);
-      bombEffect.setPosition(localPos);
-      return bombEffect;
-    } catch (error) {
-      console.error("Failed to create curtain:", error);
-    }
-  }
   createTableView(): TableView {
     try {
       return this.instantiateOnCanvas(PREFABS.tablePrefab, TableView);
@@ -95,76 +71,22 @@ export class GameFactory implements IGameFactory {
     }
   }
   createTableController(
-    tableView: TableView,
-    tableModel: TableModel,
-    mechanicService: IMechanicService
+    tableView: ITableView,
+    tableModel: ITableModel,
+    vfxFactory: IVfxFactory
   ) {
-    return new TableController(this, tableView, tableModel, mechanicService);
+    const tableController = new TableController(
+      tableView,
+      tableModel,
+      vfxFactory
+    );
+    return tableController;
   }
   createTableModel(tableCells: TableCell[][], tiles: Tile[][]): TableModel {
     const tableModel: TableModel = new TableModel(tableCells, tiles);
     return tableModel;
   }
-  createTiles(cells: TableCell[][], tableContent: cc.Node): Tile[][] {
-    const tiles: Tile[][] = [];
 
-    for (let col = 0; col < cells.length; col++) {
-      tiles[col] = [];
-      for (let row = 0; row < cells[col].length; row++) {
-        const cell = cells[col][row];
-        if (cell.isFree()) {
-          const tileModel = this.getRandomTileModel();
-          const tile = this.createTile(
-            tileModel.tileType,
-            tileModel.sprite,
-            tableContent,
-            cell
-          );
-          cell.setFree(false);
-          tiles[col][row] = tile;
-        } else {
-          tiles[col][row] = null;
-        }
-      }
-    }
-    return tiles;
-  }
-  getRandomTileModel(): { tileType: TileType; sprite: cc.SpriteFrame } {
-    const mathRnd = Math.random();
-    const rnd = Math.floor(mathRnd * TILE_MODELS.length);
-    const model = TILE_MODELS[rnd];
-    const spritePath = model.path;
-    const tileType = model.type;
-
-    const texture = this._assetProvider.getAsset(spritePath);
-
-    const spriteFrame = new cc.SpriteFrame();
-    spriteFrame.setTexture(texture);
-
-    const tileModel = { tileType: tileType, sprite: spriteFrame };
-    return tileModel;
-  }
-
-  createTile(
-    tileType: TileType,
-    spriteFrame: cc.SpriteFrame,
-    content: cc.Node,
-    tileCell: TableCell
-  ): Tile {
-    try {
-      const tile: Tile = this._assetProvider
-        .instantiateAsset(PREFABS.tilePrefab)
-        .getComponent(Tile);
-
-      tile.node.setParent(content);
-      tile.node.setPosition(tileCell.getPosition());
-
-      tile.Init(tileType, spriteFrame);
-      return tile;
-    } catch (error) {
-      console.error("Failed to create table:", error);
-    }
-  }
   createTableCells(content: cc.Node): TableCell[][] {
     const grid: TableCell[][] = [];
     const id = Math.floor(Math.random() * TABLE.length);

@@ -1,37 +1,26 @@
 import { TableController } from "../../logic/table/table-controller";
 import { UIPanelController } from "../../ui/ui-panel-controller";
-import UiPanelView from "../../ui/ui-panel";
 import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { LoseState } from "./lose-state";
-import { WinState } from "./win-state";
-import { IMechanicService } from "../services/mechanic-service";
-import { IGameFactory } from "../services/gameFactory/game-factory";
+import { IMechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { TableModel } from "../../logic/table/table-model";
 import { StateNames } from "../state-machine/state-names";
+import { IUIPanelView } from "../../ui/ui-panel";
 
 export class GameLoopState implements IState {
   private _stateMachine: IStateMachine;
   private _progressService: IProgressService;
-  private _mechanicService: IMechanicService;
-  private _gameFactory: IGameFactory;
 
   private _isResultShown = false;
-  constructor(
-    stateMachine: IStateMachine,
-    progressService: IProgressService,
-    mechanicService: IMechanicService,
-    gameFactory: IGameFactory
-  ) {
+  constructor(stateMachine: IStateMachine, progressService: IProgressService) {
     this._stateMachine = stateMachine;
     this._progressService = progressService;
-    this._mechanicService = mechanicService;
-    this._gameFactory = gameFactory;
   }
   run(payload: {
     tableModel: TableModel;
     tableController: TableController;
-    uiPanelView: UiPanelView;
+    uiPanelView: IUIPanelView;
+    mechanicController: IMechanicController;
   }): void {
     this._isResultShown = false;
 
@@ -39,8 +28,7 @@ export class GameLoopState implements IState {
     const uiPanelController = new UIPanelController(
       this._progressService,
       payload.uiPanelView,
-      this._mechanicService,
-      this._gameFactory
+      payload.mechanicController
     );
 
     payload.tableController.onBurn = (groupSize: number) => {
@@ -55,10 +43,10 @@ export class GameLoopState implements IState {
     };
 
     this._progressService.onWin = () => {
-      this.handleGameEnd(StateNames.Win, payload.tableController);
+      this.handleGameEnd(StateNames.Win, payload.tableModel);
     };
     this._progressService.onLose = () => {
-      this.handleGameEnd(StateNames.Lose, payload.tableController);
+      this.handleGameEnd(StateNames.Lose, payload.tableModel);
     };
   }
   private resolveImpossibleMoves(
@@ -67,14 +55,14 @@ export class GameLoopState implements IState {
   ) {
     if (!this.hasPossibleMoves(tableModel)) {
       console.log("tails count after result ", tableModel.getTiles().length);
-      this.handleGameEnd(StateNames.Lose, tableController);
+      this.handleGameEnd(StateNames.Lose, tableModel);
     }
   }
-  private handleGameEnd(stateName: string, tableController: TableController) {
+  private handleGameEnd(stateName: string, tableModel: TableModel) {
     this._isResultShown = true;
     this._progressService.resetResults();
     this._progressService.resetSteps();
-    tableController.clearTable();
+    tableModel.clearTable();
     this._stateMachine.run(stateName);
     console.log("GAME END ", stateName);
   }

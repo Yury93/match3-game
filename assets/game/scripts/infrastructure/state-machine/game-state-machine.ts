@@ -6,8 +6,9 @@ import { GameLoopState } from "../states/game-loop-state";
 import { ProgressService } from "../services/progress-service";
 import { WinState } from "../states/win-state";
 import { LoseState } from "../states/lose-state";
-import { MechanicService } from "../services/mechanic-service";
 import { InitializeState } from "../states/initialize-state";
+import { TileFactory } from "../services/gameFactory/tile-factory";
+import { VfxFactory } from "../services/gameFactory/vfx-factory";
 
 export class StateMachine implements IStateMachine {
   private _states: Record<string, IState>;
@@ -24,13 +25,12 @@ export class StateMachine implements IStateMachine {
       CreateContentState: new CreateContentState(
         this,
         serviceLocator.single(GameFactory),
-        serviceLocator.single(MechanicService)
+        serviceLocator.single(TileFactory),
+        serviceLocator.single(VfxFactory)
       ),
       GameLoopState: new GameLoopState(
         this,
-        serviceLocator.single(ProgressService),
-        serviceLocator.single(MechanicService),
-        serviceLocator.single(GameFactory)
+        serviceLocator.single(ProgressService)
       ),
       WinState: new WinState(this, serviceLocator.single(GameFactory)),
       LoseState: new LoseState(this, serviceLocator.single(GameFactory)),

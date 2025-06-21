@@ -35,39 +35,32 @@ export default class Curtain extends cc.Component {
       this.resultLabel.string = message;
     }).start();
   }
-  private clickRestart() {
-    this.unsubscribeButtonEvents();
 
-    this.showCurtain(() => {
-      this.showFade(false);
-      this.resultLabel.node.active = false;
-      this.restartButton.node.active = false;
-      if (this.onRestart) {
-        this.onRestart();
-      }
-    })
-      .call(() => {
-        this.node.destroy();
-      })
-      .start();
+  private clickRestart() {
+    this.handleGameAction(this.restartButton.node, this.onRestart);
   }
   private clickContinue() {
-    this.subscribeButtonEvents();
-
+    this.handleGameAction(this.continueButton.node, this.onContinue);
+  }
+  private handleGameAction(
+    buttonToDeactivate: cc.Node,
+    finalCallback?: () => void
+  ) {
+    this.unsubscribeButtonEvents();
     this.showCurtain(() => {
       this.showFade(false);
       this.resultLabel.node.active = false;
-      this.continueButton.node.active = false;
-      if (this.onContinue) {
-        this.onContinue();
-      }
+      buttonToDeactivate.active = false;
     })
       .call(() => {
         this.node.destroy();
+
+        if (finalCallback) {
+          finalCallback();
+        }
       })
       .start();
   }
-
   private showFade(fade: boolean) {
     if (fade) {
       cc.tween(this.fadeSprite.node).to(0.5, { opacity: 170 }).start();
