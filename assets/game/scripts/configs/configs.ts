@@ -13,12 +13,15 @@ export const TABLE = [
     grid: 95,
   },
 ];
-const GAME_LEVELS: { maxSteps: number; winScoreThreshold: number }[] = [
-  { maxSteps: 35, winScoreThreshold: 250 },
-  { maxSteps: 40, winScoreThreshold: 300 },
-  { maxSteps: 30, winScoreThreshold: 200 },
-  { maxSteps: 30, winScoreThreshold: 100 },
-  // { maxSteps: 5, winScoreThreshold: 600 },
+const GAME_LEVELS: {
+  id: number;
+  maxSteps: number;
+  winScoreThreshold: number;
+}[] = [
+  { id: 1, maxSteps: 35, winScoreThreshold: 250 },
+  { id: 2, maxSteps: 40, winScoreThreshold: 300 },
+  { id: 3, maxSteps: 30, winScoreThreshold: 200 },
+  { id: 4, maxSteps: 30, winScoreThreshold: 100 },
 ];
 // Для рандомного уровня
 function getRandomLevel() {
