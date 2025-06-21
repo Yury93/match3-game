@@ -18,6 +18,7 @@ const GAME_LEVELS: { maxSteps: number; winScoreThreshold: number }[] = [
   { maxSteps: 40, winScoreThreshold: 300 },
   { maxSteps: 30, winScoreThreshold: 200 },
   { maxSteps: 30, winScoreThreshold: 100 },
+  // { maxSteps: 5, winScoreThreshold: 600 },
 ];
 // Для рандомного уровня
 function getRandomLevel() {

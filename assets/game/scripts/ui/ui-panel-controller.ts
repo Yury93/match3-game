@@ -1,17 +1,17 @@
 import { IGameFactory } from "../infrastructure/services/gameFactory/game-factory";
-import { IMechanicService } from "../infrastructure/services/mechanic-service";
+import { IMechanicController } from "../logic/game-mechanic/mechanic-controller";
 import { IProgressService } from "../infrastructure/services/progress-service";
 import { BasicMechanic } from "../logic/game-mechanic/basic-mechanic";
-import { BoosterBomb } from "../logic/game-mechanic/booster-bomb";
-import UiPanelView from "./ui-panel";
+import { BoosterBombMechanic } from "../logic/game-mechanic/booster-bomb-mechanic";
+import { IUIPanelView } from "./ui-panel";
+import { IGameMechanic } from "../logic/game-mechanic/game-mechanic";
 
 export class UIPanelController {
   private _bombTrial = 3;
   constructor(
     private _progressService: IProgressService,
-    private _uiPanelView: UiPanelView,
-    private _mechanicService: IMechanicService,
-    private _gameFactory: IGameFactory
+    private _uiPanelView: IUIPanelView,
+    private _mechanicService: IMechanicController
   ) {
     this.start();
   }
@@ -22,8 +22,10 @@ export class UIPanelController {
     );
     this._uiPanelView.showBombCount(this._bombTrial);
     this._uiPanelView.onClickBomb = () => {
-      if (!(this._mechanicService.activeMechanic() instanceof BasicMechanic))
-        return;
+      const activeMechanic: IGameMechanic =
+        this._mechanicService.getActiveMechanic();
+
+      if (!(activeMechanic as BasicMechanic)) return;
       if (this._bombTrial > 0) {
         this._uiPanelView.bombButtonActive(true);
         this.setActiveBomb();
@@ -40,8 +42,9 @@ export class UIPanelController {
     this._uiPanelView.updateStep(this._progressService.remainingSteps);
   }
   setActiveBomb() {
-    this._mechanicService.setActiveMechanic(
-      this._mechanicService.getMechanicByType(BoosterBomb)
-    );
+    const bombMechanic =
+      this._mechanicService.getMechanicByType(BoosterBombMechanic);
+    console.log("bombMechanic = ", bombMechanic);
+    this._mechanicService.setActiveMechanic(bombMechanic);
   }
 }

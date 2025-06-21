@@ -1,29 +1,39 @@
+import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import { ITableController } from "../table/table-controller";
+import { ITableModel } from "../table/table-model";
 import { ITile } from "../tile";
 import { IGameMechanic } from "./game-mechanic";
 
 export abstract class AbstractMechanic implements IGameMechanic {
+  protected tableController: ITableController;
+  protected tableModel: ITableModel;
+  constructor(private tileFactory: ITileFactory) {}
+  init(tableController: ITableController, tableModel: ITableModel) {
+    this.tableController = tableController;
+    this.tableModel = tableModel;
+  }
   onTurnEnd(): void {
     throw new Error("Method not implemented.");
   }
-  onTileClick(tile: ITile, tableController: any): boolean {
+  onTileClick(tile: ITile): boolean {
     throw new Error("Method not implemented.");
   }
-  protected dropTiles(tableController) {
-    const { columns, rows } = tableController.getTileCount();
+  protected dropTiles() {
+    const { columns, rows } = this.tableModel.getTileCount();
     for (let col = 0; col < columns; col++) {
       for (let row = rows - 1; row >= 0; row--) {
-        if (!tableController.getTile(col, row)) {
+        if (!this.tableModel.getTile(col, row)) {
           for (let k = row - 1; k >= 0; k--) {
-            const upperTile = tableController.getTile(col, k);
-            if (upperTile) {
-              tableController.setTile(col, row, upperTile);
-              tableController.setTile(col, k, null);
-              tableController.moveTile(
-                upperTile,
-                tableController.getCell(col, row).getPosition()
+            const tileTarget = this.tableModel.getTile(col, k);
+            if (tileTarget) {
+              this.tableModel.setTile(col, row, tileTarget);
+              this.tableModel.setTile(col, k, null);
+              this.tableModel.onMoveTileAction(
+                tileTarget,
+                this.tableModel.getCell(col, row).getPosition()
               );
-              tableController.getCell(col, row).setFree(false);
-              tableController.getCell(col, k).setFree(true);
+              this.tableModel.getCell(col, row).setFree(false);
+              this.tableModel.getCell(col, k).setFree(true);
               break;
             }
           }
@@ -32,16 +42,16 @@ export abstract class AbstractMechanic implements IGameMechanic {
     }
   }
 
-  protected fillEmpty(tableController) {
-    const { columns, rows } = tableController.getTileCount();
+  protected fillEmpty() {
+    const { columns, rows } = this.tableModel.getTileCount();
     for (let col = 0; col < columns; col++) {
       for (let row = 0; row < rows; row++) {
-        if (!tableController.getTile(col, row)) {
-          const cell = tableController.getCell(col, row);
-          const newTile = tableController.createRandomTile(cell);
-          tableController.setTile(col, row, newTile);
+        if (!this.tableModel.getTile(col, row)) {
+          const cell = this.tableModel.getCell(col, row);
+          const newTile = this.tileFactory.createRandomTile(cell);
+          this.tableModel.setTile(col, row, newTile);
           cell.setFree(false);
-          tableController.addTile(newTile, cell);
+          this.tableModel.onAddTile(newTile, cell);
         }
       }
     }

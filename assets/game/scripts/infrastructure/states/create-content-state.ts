@@ -1,32 +1,35 @@
-import TableView from "../../logic/table/table-view";
+import { ITableView } from "../../logic/table/table-view";
 import { TableCell } from "../../logic/table-cell";
-import { TableModel } from "../../logic/table/table-model";
-import Tile from "../../logic/tile";
+import { ITableModel } from "../../logic/table/table-model";
+import { ITile } from "../../logic/tile";
 import { IGameFactory } from "../services/gameFactory/game-factory";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { GameLoopState } from "./game-loop-state";
-import UiPanelView from "../../ui/ui-panel";
-import { TableController } from "../../logic/table/table-controller";
-import { IMechanicService } from "../services/mechanic-service";
+import { ITableController } from "../../logic/table/table-controller";
 import { StateNames } from "../state-machine/state-names";
+import { ITileFactory } from "../services/gameFactory/tile-factory";
+import { IUIPanelView } from "../../ui/ui-panel";
+import { IVfxFactory } from "../services/gameFactory/vfx-factory";
+import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
 
 export class CreateContentState implements IState {
   private _gameFactory: IGameFactory;
+  private _tilesFactory: ITileFactory;
   private _stateMachine: IStateMachine;
-  private _mechanicService: IMechanicService;
-  private _tableView: TableView = null;
+  private _tableView: ITableView = null;
   private _tableCell: TableCell[][] = null;
-  private _uiPanelView: UiPanelView = null;
+  private _uiPanelView: IUIPanelView = null;
   private _isLoadAssets: boolean = false;
-
+  private _vfxFactory: IVfxFactory;
   constructor(
     stateMachine: IStateMachine,
     gameFactory: IGameFactory,
-    mechanicService: IMechanicService
+    tilesFctory: ITileFactory,
+    vfxFactory: IVfxFactory
   ) {
     this._stateMachine = stateMachine;
     this._gameFactory = gameFactory;
-    this._mechanicService = mechanicService;
+    this._tilesFactory = tilesFctory;
+    this._vfxFactory = vfxFactory;
   }
   async run(): Promise<void> {
     console.log("run create content state");
@@ -34,39 +37,53 @@ export class CreateContentState implements IState {
       await this._gameFactory.loadAssets();
       this._isLoadAssets = true;
     }
+    this.destroyContent();
     this.createContent();
+  }
+  destroyContent() {
+    if (this._tableView) {
+      this._tableView.nodeView.destroy();
+      this._tableView = null;
+    }
+    if (this._uiPanelView) {
+      this._uiPanelView.nodeView.destroy();
+      this._uiPanelView = null;
+    }
   }
 
   private createContent() {
-    if (this._tableView === null)
-      this._tableView = this._gameFactory.createTableView();
-    if (this._uiPanelView === null)
-      this._uiPanelView = this._gameFactory.createUiPanelView();
+    this._tableView = this._gameFactory.createTableView();
+    this._uiPanelView = this._gameFactory.createUiPanelView();
     const content = this._tableView.getContent();
+    const uiPanelView: IUIPanelView = this._uiPanelView;
 
     this._tableCell = this._gameFactory.createTableCells(content);
 
-    const tiles: Tile[][] = this._gameFactory.createTiles(
-      this._tableCell,
-      content
-    );
+    const tiles: ITile[][] = this._tilesFactory.createTiles(this._tableCell);
 
-    const tableModel: TableModel = this._gameFactory.createTableModel(
+    const tableModel: ITableModel = this._gameFactory.createTableModel(
       this._tableCell,
       tiles
     );
-    const tableController: TableController =
+    const tableController: ITableController =
       this._gameFactory.createTableController(
         this._tableView,
         tableModel,
-        this._mechanicService
+        this._vfxFactory
       );
+    const mechanicController = new MechanicController(
+      this._tilesFactory,
+      tableController,
+      tableModel
+    );
 
-    const uiPanelView: UiPanelView = this._uiPanelView;
+    tableController.setMechanicController(mechanicController);
+
     this._stateMachine.run(StateNames.GameLoop, {
       tableModel,
       tableController,
       uiPanelView,
+      mechanicController: mechanicController,
     });
   }
   stop(): void {

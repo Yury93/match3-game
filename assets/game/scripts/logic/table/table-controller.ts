@@ -1,78 +1,35 @@
-import { IGameFactory } from "../../infrastructure/services/gameFactory/game-factory";
-import { IMechanicService } from "../../infrastructure/services/mechanic-service";
-import { BasicMechanic } from "../game-mechanic/basic-mechanic";
-import { BoosterBomb } from "../game-mechanic/booster-bomb";
-import Tile from "../tile";
-import { TableModel } from "./table-model";
-import TableView from "./table-view";
+import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import { IVfxFactory } from "../../infrastructure/services/gameFactory/vfx-factory";
+import { IMechanicController } from "../game-mechanic/mechanic-controller";
+import { TableCell } from "../table-cell";
+import Tile, { ITile } from "../tile";
+import { ITableModel } from "./table-model";
+import { ITableView } from "./table-view";
 
-export class TableController {
+export interface ITableController {
+  onBombAction(tile: ITile): unknown;
+  onBurn?: (groupSize: number) => void;
+
+  init();
+  setMechanicController(controller: IMechanicController);
+  moveTileOnView(tile: ITile, pos: cc.Vec2);
+  addTileOnView(tile: ITile, cell: TableCell);
+  onClearTile(tile: ITile);
+  onFalseBurned(tile: ITile);
+  onTileClick(tile: ITile);
+  onTurnEnd();
+}
+
+export class TableController implements ITableController {
   public onBurn?: (groupSize: number) => void;
-  private _mechanicService: IMechanicService;
+  private _mechanicController: IMechanicController;
 
   constructor(
-    private _gameFactory: IGameFactory,
-    private _tableView: TableView,
-    private _model: TableModel,
-    mechanicService: IMechanicService
+    private _tableView: ITableView,
+    private _model: ITableModel,
+    private _vfxFactory: IVfxFactory
   ) {
-    this._mechanicService = mechanicService;
-
-    const basicMachanic = new BasicMechanic();
-    const bombMechanic = new BoosterBomb(_gameFactory);
-    this._mechanicService.init([basicMachanic, bombMechanic]);
-    this._mechanicService.setActiveMechanic(basicMachanic);
-
     this.init();
-  }
-
-  getTile(col: number, row: number): Tile {
-    return this._model.getTiles()[col][row];
-  }
-  setTile(col: number, row: number, tile: Tile) {
-    this._model.getTiles()[col][row] = tile;
-  }
-  getCell(col: number, row: number) {
-    return this._model.getTableCells()[col][row];
-  }
-  getTilePosition(tile: Tile): { col: number; row: number } {
-    const tiles = this._model.getTiles();
-    for (let col = 0; col < tiles.length; col++) {
-      for (let row = 0; row < tiles[col].length; row++) {
-        if (tiles[col][row] === tile) {
-          return { col, row };
-        }
-      }
-    }
-    return { col: -1, row: -1 };
-  }
-  getTileCount(): { columns: number; rows: number } {
-    const tiles = this._model.getTiles();
-    return { columns: tiles.length, rows: tiles[0]?.length || 0 };
-  }
-  removeTile(tile: Tile) {
-    this._tableView.removeTile(tile);
-  }
-  moveTile(tile: Tile, pos: cc.Vec2) {
-    this._tableView.moveTile(tile, pos);
-  }
-  addTile(tile: Tile, cell) {
-    this._tableView.addTile(tile, cell);
-    tile.sprite.node.on(
-      cc.Node.EventType.TOUCH_END,
-      () => this.onTileClick(tile),
-      this
-    );
-  }
-  createRandomTile(cell): Tile {
-    const tileModel = this._gameFactory.getRandomTileModel();
-    const newTile = this._gameFactory.createTile(
-      tileModel.tileType,
-      tileModel.sprite,
-      this._tableView.getContent(),
-      cell
-    );
-    return newTile;
   }
 
   init() {
@@ -80,46 +37,45 @@ export class TableController {
     const cells = this._model.getTableCells();
     for (let col = 0; col < tiles.length; col++) {
       for (let row = 0; row < tiles[col].length; row++) {
-        const tile = tiles[col][row];
+        const tile: ITile = tiles[col][row];
         if (tile) {
-          tile.sprite.node.on(
-            cc.Node.EventType.TOUCH_END,
-            () => this.onTileClick(tile),
-            this
-          );
+          tile.addListener(() => this.onTileClick(tile));
           this._tableView.addTile(tile, cells[col][row]);
         }
       }
     }
+    this._model.onMoveTileAction = (tile, newPosiotn) =>
+      this.moveTileOnView(tile, newPosiotn);
+    this._model.onClearModelAction = (tile) => this.onClearTile(tile);
+    this._model.onAddTileAction = (tile, cell) =>
+      this.addTileOnView(tile, cell);
   }
-  onNoBurned(tile: Tile) {
-    this._tableView.showNoBurnMessage(tile);
+  setMechanicController(controller: IMechanicController) {
+    this._mechanicController = controller;
   }
-  onTileClick(tile: Tile) {
-    this._mechanicService.onTileClick(tile, this);
+  moveTileOnView(tile: ITile, pos: cc.Vec2) {
+    this._tableView.moveTile(tile, pos);
+  }
+  addTileOnView(tile: ITile, cell: TableCell) {
+    this._tableView.addTile(tile, cell);
+    tile.addListener(() => this.onTileClick(tile));
+  }
+  onClearTile(tile: ITile) {
+    tile.removeListener();
+    this._tableView.removeTile(tile);
+  }
+
+  onFalseBurned(tile: ITile) {
+    this._tableView.showFalseBurnMessage(tile);
+  }
+  onTileClick(tile: ITile) {
+    this._mechanicController.onTileClick(tile);
   }
 
   onTurnEnd() {
-    this._mechanicService.onTurnEnd(this);
+    this._mechanicController.onTurnEnd();
   }
-
-  clearTable(): void {
-    const tiles = this._model.getTiles();
-    const cells = this._model.getTableCells();
-    for (let col = 0; col < tiles.length; col++) {
-      for (let row = 0; row < tiles[col].length; row++) {
-        const tile = tiles[col][row];
-        if (tile) {
-          tile.sprite.node.off(
-            cc.Node.EventType.TOUCH_END,
-            () => this.onTileClick(tile),
-            this
-          );
-          this._tableView.removeTile(tile);
-          tiles[col][row] = null;
-          cells[col][row].setFree(true);
-        }
-      }
-    }
+  onBombAction(tile: ITile) {
+    this._vfxFactory.createVfxBomb(tile);
   }
 }

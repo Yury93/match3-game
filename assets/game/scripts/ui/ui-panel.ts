@@ -1,7 +1,17 @@
 const { ccclass, property } = cc._decorator;
 
+export interface IUIPanelView {
+  nodeView: cc.Node;
+  onClickBomb: () => void;
+  init(winScoreThreshold: number, maxStep: number);
+  updateScore(currentScore: number);
+  updateStep(remainingSteps: number);
+  showBombCount(count: number);
+  bombButtonActive(isActive);
+}
+
 @ccclass
-export default class UiPanelView extends cc.Component {
+export class UiPanelView extends cc.Component implements IUIPanelView {
   @property(cc.Label)
   stepsLabel: cc.Label = null;
   @property(cc.Label)
@@ -10,11 +20,13 @@ export default class UiPanelView extends cc.Component {
   countBombLabel: cc.Label = null;
   @property(cc.Button)
   bombButton: cc.Button = null;
-
+  nodeView: cc.Node;
   onClickBomb: () => void;
 
   private _winScore: number;
-
+  protected onLoad(): void {
+    this.nodeView = this.node;
+  }
   init(winScoreThreshold: number, maxStep: number) {
     this._winScore = winScoreThreshold;
     this.stepsLabel.string = maxStep.toString();
@@ -71,7 +83,7 @@ export default class UiPanelView extends cc.Component {
         .start();
     }
   }
-  protected onDestroy(): void {
+  protected onDestroy() {
     this.bombButton?.node?.off(
       cc.Node.EventType.TOUCH_END,
       this.clickBomb,

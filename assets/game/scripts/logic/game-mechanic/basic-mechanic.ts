@@ -1,68 +1,94 @@
-import Tile, { ITile } from "../tile";
+import { ITile } from "../tile";
 import { AbstractMechanic } from "./abstract-machanic";
 
 export class BasicMechanic extends AbstractMechanic {
-  onTileClick(tile: ITile, tableController): boolean {
-    const group = this.findConnectedTiles(tile as Tile, tableController);
+  onTileClick(tile: ITile): boolean {
+    const group = this.findConnectedTiles(tile);
     if (group.length < 2) {
-      tableController.onNoBurned(tile);
+      this.tableController.onFalseBurned(tile);
       return false;
     }
 
-    this.burnTiles(group, tableController);
-    this.dropTiles(tableController);
-    this.fillEmpty(tableController);
+    this.burnTiles(group);
+    this.dropTiles();
+    this.fillEmpty();
 
-    if (tableController.onBurn) tableController.onBurn(group.length);
+    if (this.tableController.onBurn) this.tableController.onBurn(group.length);
     return true;
   }
-  onTurnEnd(): void {}
+  onTurnEnd() {}
 
-  private findConnectedTiles(startTile: Tile, tableController): Tile[] {
-    const { columns, rows } = tableController.getTileCount();
-    const visited = new Set<Tile>();
-    const stack: Tile[] = [startTile];
-    const type = startTile.tileType;
+  private findConnectedTiles(startTile: ITile): ITile[] {
+    if (!startTile || !this.tableController) return [];
+
+    console.log(
+      "startTile: ",
+      startTile,
+      `/tileSprite ${startTile.sprite} / tile node: ${startTile.nodeTile}`
+    );
+    // Начальный тайл
+
+    const tileCount = this.tableModel.getTileCount();
+    const visited = new Set<ITile>();
+    const stack = [startTile];
+    const targetType = startTile.tileType;
+
+    // Направления
     const directions = [
-      [-1, 0],
-      [1, 0],
-      [0, -1],
-      [0, 1],
+      { col: -1, row: 0 },
+      { col: 1, row: 0 },
+      { col: 0, row: -1 },
+      { col: 0, row: 1 },
     ];
 
     while (stack.length > 0) {
-      const tile = stack.pop();
-      if (!tile || visited.has(tile)) continue;
-      if (tile.tileType !== type) continue;
-      visited.add(tile);
+      const currentTile = stack.pop()!;
+      // Пропускаем уже обработанные
+      if (visited.has(currentTile)) continue;
 
-      const { col, row } = tableController.getTilePosition(tile);
-      for (let i = 0; i < directions.length; i++) {
-        const [dc, dr] = directions[i];
-        const nc = col + dc;
-        const nr = row + dr;
-        if (nc >= 0 && nc < columns && nr >= 0 && nr < rows) {
-          const neighbor = tableController.getTile(nc, nr);
-          if (
-            neighbor &&
-            !visited.has(neighbor) &&
-            neighbor.tileType === type
-          ) {
-            stack.push(neighbor);
-          }
+      visited.add(currentTile);
+
+      const position = this.tableModel.getTilePosition(currentTile);
+      if (!position) continue;
+
+      // Проверяем всех соседей
+      for (const direction of directions) {
+        const neighborCol = position.col + direction.col;
+        const neighborRow = position.row + direction.row;
+
+        // Проверка выхода за границы сетки
+        const isOutsideGrid =
+          neighborCol < 0 ||
+          neighborRow < 0 ||
+          neighborCol >= tileCount.columns ||
+          neighborRow >= tileCount.rows;
+
+        if (isOutsideGrid) continue;
+
+        const neighbor = this.tableModel.getTile(neighborCol, neighborRow);
+
+        // Критерии добавления соседа в обработку
+        const isValidNeighbor =
+          neighbor &&
+          !visited.has(neighbor) &&
+          neighbor.tileType === targetType;
+
+        if (isValidNeighbor) {
+          stack.push(neighbor);
         }
       }
     }
+
     return Array.from(visited);
   }
 
-  private burnTiles(group: Tile[], tableController) {
+  private burnTiles(group: ITile[]) {
     group.forEach((tile) => {
-      const { col, row } = tableController.getTilePosition(tile);
+      const { col, row } = this.tableModel.getTilePosition(tile);
       if (col >= 0 && row >= 0) {
-        tableController.removeTile(tile);
-        tableController.setTile(col, row, null);
-        tableController.getCell(col, row).setFree(true);
+        this.tableController.onClearTile(tile);
+        this.tableModel.setTile(col, row, null);
+        this.tableModel.getCell(col, row).setFree(true);
       }
     });
   }

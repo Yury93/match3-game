@@ -1,8 +1,6 @@
 import { IGameFactory } from "../services/gameFactory/game-factory";
-import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { StateNames } from "../state-machine/state-names";
-import { CreateContentState } from "./create-content-state";
 
 export class LoseState implements IState {
   constructor(
