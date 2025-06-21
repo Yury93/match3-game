@@ -42,8 +42,10 @@ export class AssetProvider implements IAssetProvider {
   }
 
   unloadAsset(assetName: string): void {
-    console.log(`Unloading asset: ${assetName}`);
-    cc.resources.release(this._assets[assetName]);
-    delete this._assets[assetName];
+    if (this._assets[assetName]) {
+      console.log(`Unloading asset: ${assetName}`);
+      cc.resources.release(this._assets[assetName]);
+      delete this._assets[assetName];
+    }
   }
 }

@@ -1,36 +1,39 @@
-import { GLOBAL_GAME_CONFIGS, ScoreFormula } from "../../configs/configs";
-import { IStateMachine } from "../state-machine/state-interfaces";
+import { GAME_CONFIG, ScoreFormula } from "../../configs/configs";
 
 export interface IProgressService {
   currentScore: number;
   remainingSteps: number;
   isGameOver: boolean;
-  readonly WinScoreThreshold: number;
-  readonly MaxStep: number;
+  readonly winScoreThreshold: number;
+  readonly maxStep: number;
   onWin: () => void;
   onLose: () => void;
   nextStep(groupSize: number): void;
   checkGameOver(): boolean;
   resetResults();
-  resetSteps();
+  resetLevel();
 }
 export class ProgressService implements IProgressService {
   currentScore = 0;
   remainingSteps: number;
   isGameOver = false;
-  readonly WinScoreThreshold: number;
-  readonly MaxStep: number;
+  currentLevelId = 0;
+  winScoreThreshold: number;
+  maxStep: number;
   private _scoreFormula: ScoreFormula;
   onWin: () => void;
   onLose: () => void;
 
-  constructor(private _stateMachine: IStateMachine) {
-    this.MaxStep = GLOBAL_GAME_CONFIGS.MaxStep;
-    this.remainingSteps = GLOBAL_GAME_CONFIGS.MaxStep;
-    this.WinScoreThreshold = GLOBAL_GAME_CONFIGS.WinScoreThreshold;
-    this._scoreFormula = GLOBAL_GAME_CONFIGS.ScoreFormula;
+  constructor() {
+    this.resetLevel();
   }
-
+  resetLevel() {
+    const level = GAME_CONFIG.getLevel(this.currentLevelId);
+    this.maxStep = level.maxSteps;
+    this.remainingSteps = level.maxSteps;
+    this.winScoreThreshold = level.winScoreThreshold;
+    this._scoreFormula = GAME_CONFIG.getScoreFormula();
+  }
   nextStep(groupSize: number) {
     if (groupSize > 1) {
       this.currentScore += this.calculateScoreForBurnedGroup(groupSize);
@@ -42,12 +45,13 @@ export class ProgressService implements IProgressService {
     return this._scoreFormula(groupSize);
   }
   checkGameOver(): boolean {
-    if (this.currentScore >= this.WinScoreThreshold) {
+    if (this.currentScore >= this.winScoreThreshold) {
       this.isGameOver = true;
-
+      this.currentLevelId += 1;
       if (this.onWin) this.onWin();
     } else if (this.remainingSteps <= 0) {
       this.isGameOver = true;
+      this.currentLevelId += 1;
       if (this.onLose) this.onLose();
     }
     return this.isGameOver;
@@ -55,8 +59,6 @@ export class ProgressService implements IProgressService {
   resetResults() {
     this.currentScore = 0;
     this.isGameOver = false;
-  }
-  resetSteps() {
-    this.remainingSteps = GLOBAL_GAME_CONFIGS.MaxStep;
+    this.resetLevel();
   }
 }

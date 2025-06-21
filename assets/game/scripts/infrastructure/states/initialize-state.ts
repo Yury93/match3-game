@@ -17,7 +17,7 @@ export class InitializeState implements IState {
     const gameFactory = new GameFactory(assetProvider);
     const tileFactory = new TileFactory(assetProvider);
     const vfxFactory = new VfxFactory(assetProvider);
-    const progressService = new ProgressService(_stateMachine);
+    const progressService = new ProgressService();
 
     this._serviceLocator.registerSingle(assetProvider);
     this._serviceLocator.registerSingle(gameFactory);

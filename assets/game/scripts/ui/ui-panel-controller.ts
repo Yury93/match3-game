@@ -17,8 +17,8 @@ export class UIPanelController {
   }
   private start() {
     this._uiPanelView.init(
-      this._progressService.WinScoreThreshold,
-      this._progressService.MaxStep
+      this._progressService.winScoreThreshold,
+      this._progressService.maxStep
     );
     this._uiPanelView.showBombCount(this._bombTrial);
     this._uiPanelView.onClickBomb = () => {

@@ -7,10 +7,8 @@ import TableView, { ITableView } from "../../../logic/table/table-view";
 import { ITableModel, TableModel } from "../../../logic/table/table-model";
 import Curtain from "../../../curtain/curtain";
 import { TableController } from "../../../logic/table/table-controller";
-import { ITileFactory } from "./tile-factory";
 import { UiPanelView } from "../../../ui/ui-panel";
-import { IVfxFactory, VfxFactory } from "./vfx-factory";
-import { IMechanicController } from "../../../logic/game-mechanic/mechanic-controller";
+import { IVfxFactory } from "./vfx-factory";
 
 export interface IGameFactory extends IService {
   loadAssets();

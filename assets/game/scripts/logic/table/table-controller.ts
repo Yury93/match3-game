@@ -7,7 +7,7 @@ import { ITableModel } from "./table-model";
 import { ITableView } from "./table-view";
 
 export interface ITableController {
-  onBombAction(tile: ITile): unknown;
+  onBombAction(tile: ITile);
   onBurn?: (groupSize: number) => void;
 
   init();

@@ -8,27 +8,33 @@ export const TABLE = [
     grid: 95,
   },
   {
-    column: 3,
-    lines: 3,
+    column: 6,
+    lines: 6,
     grid: 95,
   },
 ];
-const GAME_LEVELS: { maxSteps: number; winScoreThreshold: number }[] = [
-  { maxSteps: 35, winScoreThreshold: 250 },
-  { maxSteps: 40, winScoreThreshold: 300 },
-  { maxSteps: 30, winScoreThreshold: 200 },
-  { maxSteps: 30, winScoreThreshold: 100 },
-  // { maxSteps: 5, winScoreThreshold: 600 },
+const GAME_LEVELS: {
+  id: number;
+  maxSteps: number;
+  winScoreThreshold: number;
+}[] = [
+  { id: 0, maxSteps: 35, winScoreThreshold: 90 },
+  { id: 1, maxSteps: 40, winScoreThreshold: 300 },
+  { id: 2, maxSteps: 30, winScoreThreshold: 200 },
+  { id: 3, maxSteps: 30, winScoreThreshold: 100 },
+  { id: 4, maxSteps: 35, winScoreThreshold: 250 },
+  { id: 5, maxSteps: 40, winScoreThreshold: 300 },
+  { id: 6, maxSteps: 30, winScoreThreshold: 200 },
+  { id: 7, maxSteps: 30, winScoreThreshold: 100 },
+  { id: 8, maxSteps: 35, winScoreThreshold: 250 },
+  { id: 9, maxSteps: 40, winScoreThreshold: 300 },
+  { id: 10, maxSteps: 30, winScoreThreshold: 200 },
+  { id: 11, maxSteps: 30, winScoreThreshold: 100 },
 ];
-// Для рандомного уровня
-function getRandomLevel() {
-  const id = Math.floor(Math.random() * GAME_LEVELS.length);
-  return GAME_LEVELS[id];
-}
-const _randomLevel = getRandomLevel();
 
 export const CONSTANTS = {
   boosterBombR: 1,
+  scoreFormulaIndex: 1,
 };
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [
@@ -36,17 +42,20 @@ const SCORE_FORMULAS: { formula: ScoreFormula }[] = [
   { formula: (groupSize: number) => groupSize },
 ];
 
-export const GLOBAL_GAME_CONFIGS = {
-  // MaxStep: GAME_LEVELS[0].maxSteps,
-  // WinScoreThreshold: GAME_LEVELS[0].winScoreThreshold,
-  MaxStep: _randomLevel.maxSteps,
-  WinScoreThreshold: _randomLevel.winScoreThreshold,
-  _scoreFormulaIndex: 1,
-
-  get ScoreFormula() {
-    return SCORE_FORMULAS[this._scoreFormulaIndex].formula;
-  },
-};
+class GlobalGameConfig {
+  getScoreFormula() {
+    return SCORE_FORMULAS[CONSTANTS.scoreFormulaIndex].formula;
+  }
+  getLevel(id: number) {
+    const level = GAME_LEVELS.find((level) => level.id === id);
+    if (!level) {
+      console.error(`Level with id ${id} not found return 0 level`);
+      return GAME_LEVELS[0];
+    }
+    return level;
+  }
+}
+export const GAME_CONFIG = new GlobalGameConfig();
 
 // Контентные конфиги
 export const PREFABS = {

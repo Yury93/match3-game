@@ -61,7 +61,7 @@ export class GameLoopState implements IState {
   private handleGameEnd(stateName: string, tableModel: TableModel) {
     this._isResultShown = true;
     this._progressService.resetResults();
-    this._progressService.resetSteps();
+
     tableModel.clearTable();
     this._stateMachine.run(stateName);
     console.log("GAME END ", stateName);
