@@ -1,10 +1,11 @@
 import { BasicMechanic } from "./basic-mechanic";
-import { BoosterBombMechanic } from "./booster-bomb-mechanic";
+import { BoosterBombMechanic as BombBoosterMechanic } from "./booster-bomb-mechanic";
 import { IGameMechanic } from "./game-mechanic";
 import { ITableController, TableController } from "../table/table-controller";
 import { ITableModel, TableModel } from "../table/table-model";
 import { ITile } from "../tile";
 import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import { TeleportBoosterMechanic } from "./teleport-booster-mechanic";
 
 export interface IMechanicController {
   initMechanics(
@@ -30,7 +31,8 @@ export class MechanicController implements IMechanicController {
   ) {
     this.initMechanics(tableController, tableModel, [
       new BasicMechanic(tileFactory),
-      new BoosterBombMechanic(tileFactory),
+      new BombBoosterMechanic(tileFactory),
+      new TeleportBoosterMechanic(tileFactory),
     ]);
   }
 
@@ -49,6 +51,7 @@ export class MechanicController implements IMechanicController {
   }
 
   setActiveMechanic(mechanic: IGameMechanic) {
+    console.log("set active mechanic : ", mechanic);
     this._activeMechanic = mechanic;
   }
   getActiveMechanic(): IGameMechanic | null {
@@ -57,13 +60,23 @@ export class MechanicController implements IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined {
     return this._mechanics.find((m) => m instanceof type);
   }
+  ///FIXME:  Нужно как то по другому обработать смену механики, так как в текущей реализации
+  //  при нажатии натайл, механика сбрасывпется к базовой, но сейчас есть еще и механика смены позиций тайла
   onTileClick(tile: ITile) {
-    if (this._activeMechanic && this._activeMechanic.onTileClick) {
-      this._activeMechanic.onTileClick(tile);
-      if (!(this._activeMechanic instanceof BasicMechanic)) {
-        this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
-        console.log("Select basic mechanic");
-      }
+    // if (this._activeMechanic && this._activeMechanic.onTileClick) {
+    //   this._activeMechanic.onTileClick(tile);
+    //   if (!(this._activeMechanic instanceof BasicMechanic)) {
+    //     this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
+    //     console.log("Select basic mechanic");
+    //   }
+    // }
+    if (!this._activeMechanic) return;
+
+    const shouldReset = this._activeMechanic.onTileClick(tile);
+
+    // Сбрасываем только если механика завершила действие
+    if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
+      this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }
   }
 

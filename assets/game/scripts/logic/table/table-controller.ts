@@ -1,12 +1,13 @@
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import { IVfxFactory } from "../../infrastructure/services/gameFactory/vfx-factory";
 import { IMechanicController } from "../game-mechanic/mechanic-controller";
 import { TableCell } from "../table-cell";
-import Tile, { ITile } from "../tile";
+import { ITile } from "../tile";
 import { ITableModel } from "./table-model";
 import { ITableView } from "./table-view";
 
 export interface ITableController {
+  onDeselectTile(tile: ITile);
+  onSelectTile(tile: ITile);
   onBombAction(tile: ITile);
   onBurnAction: (groupSize: number) => void;
   onFalseBurnedAction: () => void;
@@ -48,9 +49,11 @@ export class TableController implements ITableController {
     }
     this._model.onMoveTileAction = (tile, newPosiotn) =>
       this.moveTileOnView(tile, newPosiotn);
-    this._model.onClearModelAction = (tile) => this.onClearTile(tile);
+
     this._model.onAddTileAction = (tile, cell) =>
       this.addTileOnView(tile, cell);
+
+    this._model.onClearModelAction = (tile) => this.onClearTile(tile);
   }
   setMechanicController(controller: IMechanicController) {
     this._mechanicController = controller;
@@ -80,5 +83,11 @@ export class TableController implements ITableController {
   }
   onBombAction(tile: ITile) {
     this._vfxFactory.createVfxBomb(tile);
+  }
+  onDeselectTile(tile: ITile) {
+    // throw new Error("Method not implemented.");
+  }
+  onSelectTile(tile: ITile) {
+    // throw new Error("Method not implemented.");
   }
 }

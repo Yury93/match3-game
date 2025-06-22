@@ -70,7 +70,14 @@ export default class TableView extends cc.Component implements ITableView {
   }
   moveTile(tile: ITile, newPos: cc.Vec2) {
     cc.tween(tile.nodeTile)
-      .to(0.3, { y: newPos.y }, { easing: "quadOut" })
+      .to(
+        0.3,
+        {
+          x: newPos.x,
+          y: newPos.y,
+        },
+        { easing: "quadOut" }
+      )
       .start();
   }
 }

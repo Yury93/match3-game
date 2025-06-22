@@ -1,0 +1,78 @@
+import { ITile } from "../tile";
+import { AbstractMechanic } from "./abstract-machanic";
+
+export class TeleportBoosterMechanic extends AbstractMechanic {
+  private firstSelectedTile: ITile | null = null;
+
+  onTileClick(tile: ITile): boolean {
+    if (!this.firstSelectedTile) {
+      this.firstSelectedTile = tile;
+      this.tableController.onSelectTile(tile);
+      return false;
+    }
+
+    if (this.firstSelectedTile === tile) {
+      this.tableController.onDeselectTile(tile);
+      this.firstSelectedTile = null;
+      return false;
+    }
+
+    const pos1 = this.tableModel.getTilePosition(this.firstSelectedTile);
+    const pos2 = this.tableModel.getTilePosition(tile);
+
+    if (!pos1 || !pos2) return false;
+
+    this.swapTiles(pos1, pos2, tile);
+
+    this.tableController.onDeselectTile(this.firstSelectedTile);
+    this.firstSelectedTile = null;
+
+    return true;
+  }
+
+  private swapTiles(
+    pos1: { col: number; row: number },
+    pos2: { col: number; row: number },
+    tile: ITile
+  ) {
+    const tile1 = this.tableModel.getTile(pos1.col, pos1.row);
+    const tile2 = this.tableModel.getTile(pos2.col, pos2.row);
+
+    const pos3 = this.tableModel.getTilePosition(this.firstSelectedTile);
+    const pos4 = this.tableModel.getTilePosition(tile);
+
+    console.log(
+      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(
+        pos3
+      )},\n second tile type: ${
+        tile2.tileType
+      }, second tile type: ${JSON.stringify(pos4)}`
+    );
+    if (!tile1 || !tile2) return;
+
+    this.tableModel.setTile(pos1.col, pos1.row, tile2);
+    this.tableModel.setTile(pos2.col, pos2.row, tile1);
+
+    const cell1 = this.tableModel.getCell(pos1.col, pos1.row);
+    const cell2 = this.tableModel.getCell(pos2.col, pos2.row);
+    const pos5 = this.tableModel.getTilePosition(this.firstSelectedTile);
+    const pos6 = this.tableModel.getTilePosition(tile);
+
+    console.log(
+      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(
+        pos5
+      )},\n second tile type: ${
+        tile2.tileType
+      }, second tile type: ${JSON.stringify(pos6)}`
+    );
+    this.tableModel.onMoveTileAction(tile1, cell2.getPosition());
+    this.tableModel.onMoveTileAction(tile2, cell1.getPosition());
+  }
+
+  onTurnEnd(): void {
+    if (this.firstSelectedTile) {
+      this.tableController.onDeselectTile(this.firstSelectedTile);
+      this.firstSelectedTile = null;
+    }
+  }
+}

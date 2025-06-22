@@ -9,6 +9,7 @@ export interface IUIPanelView {
   showBombCount(count: number);
   activeBombButton(isActive);
   startbombSummonAnimation();
+  onClickTeleport: () => void;
 }
 
 @ccclass
@@ -21,8 +22,11 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
   countBombLabel: cc.Label = null;
   @property(cc.Button)
   bombButton: cc.Button = null;
+  @property(cc.Button)
+  teleportButton: cc.Button = null;
   nodeView: cc.Node;
   onClickBomb: () => void;
+  onClickTeleport: () => void;
 
   private _winScore: number;
   protected onLoad(): void {
@@ -34,6 +38,11 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.scoreLabel.string = `${0}/${winScoreThreshold}`;
 
     this.bombButton.node.on(cc.Node.EventType.TOUCH_END, this.clickBomb, this);
+    this.teleportButton.node.on(
+      cc.Node.EventType.TOUCH_END,
+      this.clickTeleport,
+      this
+    );
     this.activeBombButton(true);
   }
   updateScore(currentScore: number) {
@@ -53,7 +62,9 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     cc.Tween.stopAllByTarget(node);
     this.animateButton(node, isActive);
   }
-
+  private clickTeleport() {
+    if (this.onClickTeleport) this.onClickTeleport();
+  }
   private clickBomb() {
     if (this.onClickBomb) this.onClickBomb();
   }
