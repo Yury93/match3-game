@@ -1692,6 +1692,9 @@
     "teleportButton": {
       "__id__": 41
     },
+    "countTeleportLabel": {
+      "__id__": 33
+    },
     "_id": ""
   },
   {

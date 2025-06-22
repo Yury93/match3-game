@@ -8,6 +8,7 @@ import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-fac
 import { TeleportBoosterMechanic } from "./teleport-booster-mechanic";
 
 export interface IMechanicController {
+  onClickTile: (tile: ITile) => void;
   initMechanics(
     tableController: TableController,
     tableModel: TableModel,
@@ -19,11 +20,10 @@ export interface IMechanicController {
   onTileClick(tile: ITile);
   onTurnEnd();
 }
-
 export class MechanicController implements IMechanicController {
   private _mechanics: IGameMechanic[] = [];
   private _activeMechanic: IGameMechanic | null = null;
-
+  onClickTile: (tile: ITile) => void;
   constructor(
     tileFactory: ITileFactory,
     tableController: ITableController,
@@ -49,7 +49,6 @@ export class MechanicController implements IMechanicController {
       throw e;
     }
   }
-
   setActiveMechanic(mechanic: IGameMechanic) {
     console.log("set active mechanic : ", mechanic);
     this._activeMechanic = mechanic;
@@ -60,26 +59,14 @@ export class MechanicController implements IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined {
     return this._mechanics.find((m) => m instanceof type);
   }
-  ///FIXME:  Нужно как то по другому обработать смену механики, так как в текущей реализации
-  //  при нажатии натайл, механика сбрасывпется к базовой, но сейчас есть еще и механика смены позиций тайла
   onTileClick(tile: ITile) {
-    // if (this._activeMechanic && this._activeMechanic.onTileClick) {
-    //   this._activeMechanic.onTileClick(tile);
-    //   if (!(this._activeMechanic instanceof BasicMechanic)) {
-    //     this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
-    //     console.log("Select basic mechanic");
-    //   }
-    // }
     if (!this._activeMechanic) return;
-
+    if (this.onClickTile) this.onClickTile(tile);
     const shouldReset = this._activeMechanic.onTileClick(tile);
-
-    // Сбрасываем только если механика завершила действие
     if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
       this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }
   }
-
   onTurnEnd() {
     for (const mechanic of this._mechanics) {
       if (mechanic.onTurnEnd) {

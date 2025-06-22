@@ -2,11 +2,9 @@ import { ITableController } from "../../logic/table/table-controller";
 import { UIPanelController } from "../../ui/ui-panel-controller";
 import { IProgressService } from "../services/progress-service";
 import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { IMechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { ITableModel } from "../../logic/table/table-model";
 import { StateNames } from "../state-machine/state-names";
 import { IUIPanelView } from "../../ui/ui-panel";
-import { CONSTANTS } from "../../configs/configs";
 
 export class GameLoopState implements IState {
   private _stateMachine: IStateMachine;
@@ -21,31 +19,25 @@ export class GameLoopState implements IState {
     tableModel: ITableModel;
     tableController: ITableController;
     uiPanelView: IUIPanelView;
-    mechanicController: IMechanicController;
+    uiPanelController: UIPanelController;
   }): void {
     this._isResultShown = false;
 
-    const uiPanelController = new UIPanelController(
-      this._progressService,
-      payload.uiPanelView,
-      payload.mechanicController,
-      CONSTANTS.bombTrials
-    );
-    let bombTrials = uiPanelController.getBombTrials();
+    let bombTrials = payload.uiPanelController.getBombTrials();
 
     if (bombTrials <= 0) this.resolveImpossibleMoves(payload.tableModel);
 
     payload.tableController.onBurnAction = (groupSize: number) => {
       this._progressService.nextStep(groupSize);
-      uiPanelController.updateScore();
-      bombTrials = uiPanelController.getBombTrials();
+      payload.uiPanelController.updateScore();
+      bombTrials = payload.uiPanelController.getBombTrials();
       if (!this._isResultShown && bombTrials <= 0) {
         this.resolveImpossibleMoves(payload.tableModel);
       }
     };
     payload.tableController.onFalseBurned = () => {
-      bombTrials = uiPanelController.getBombTrials();
-      if (bombTrials > 0) uiPanelController.summonClickBomb();
+      bombTrials = payload.uiPanelController.getBombTrials();
+      if (bombTrials > 0) payload.uiPanelController.summonClickBomb();
     };
 
     this._progressService.onWin = () => {

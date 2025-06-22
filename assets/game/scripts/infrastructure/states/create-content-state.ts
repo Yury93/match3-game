@@ -10,27 +10,23 @@ import { ITileFactory } from "../services/gameFactory/tile-factory";
 import { IUIPanelView } from "../../ui/ui-panel";
 import { IVfxFactory } from "../services/gameFactory/vfx-factory";
 import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
+import { UIPanelController } from "../../ui/ui-panel-controller";
+import { IProgressService } from "../services/progress-service";
+import { CONSTANTS } from "../../configs/configs";
 
 export class CreateContentState implements IState {
-  private _gameFactory: IGameFactory;
-  private _tilesFactory: ITileFactory;
-  private _stateMachine: IStateMachine;
   private _tableView: ITableView = null;
   private _tableCell: TableCell[][] = null;
   private _uiPanelView: IUIPanelView = null;
   private _isLoadAssets: boolean = false;
-  private _vfxFactory: IVfxFactory;
+
   constructor(
-    stateMachine: IStateMachine,
-    gameFactory: IGameFactory,
-    tilesFctory: ITileFactory,
-    vfxFactory: IVfxFactory
-  ) {
-    this._stateMachine = stateMachine;
-    this._gameFactory = gameFactory;
-    this._tilesFactory = tilesFctory;
-    this._vfxFactory = vfxFactory;
-  }
+    private _stateMachine: IStateMachine,
+    private _gameFactory: IGameFactory,
+    private _tilesFactory: ITileFactory,
+    private _vfxFactory: IVfxFactory,
+    private _progressService: IProgressService
+  ) {}
   async run(): Promise<void> {
     console.log("run create content state");
     if (!this._isLoadAssets) {
@@ -79,11 +75,18 @@ export class CreateContentState implements IState {
 
     tableController.setMechanicController(mechanicController);
 
+    const uiPanelController = new UIPanelController(
+      this._progressService,
+      uiPanelView,
+      mechanicController,
+      CONSTANTS.bombTrials,
+      CONSTANTS.teleportTrials
+    );
     this._stateMachine.run(StateNames.GameLoop, {
       tableModel,
       tableController,
       uiPanelView,
-      mechanicController: mechanicController,
+      uiPanelController,
     });
   }
   stop(): void {

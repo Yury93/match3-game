@@ -4,6 +4,9 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Tile extends cc.Component implements ITile {
+  destroyTile() {
+    this.destroy();
+  }
   @property
   tileType: TileType = TileType.BLUE;
   @property(cc.Sprite)
@@ -40,4 +43,5 @@ export interface ITile {
   Init(tileType: TileType, spriteFrame: cc.SpriteFrame);
   addListener(callback: (tile: ITile) => void);
   removeListener();
+  destroyTile();
 }

@@ -26,7 +26,8 @@ export class StateMachine implements IStateMachine {
         this,
         serviceLocator.single(GameFactory),
         serviceLocator.single(TileFactory),
-        serviceLocator.single(VfxFactory)
+        serviceLocator.single(VfxFactory),
+        serviceLocator.single(ProgressService)
       ),
       GameLoopState: new GameLoopState(
         this,

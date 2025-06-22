@@ -1,12 +1,25 @@
+import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import { ITile } from "../tile";
 import { AbstractMechanic } from "./abstract-machanic";
+import { MechanicType } from "./mechanic-types";
 
 export class TeleportBoosterMechanic extends AbstractMechanic {
   private firstSelectedTile: ITile | null = null;
 
+  constructor(tileFactory: ITileFactory) {
+    super(tileFactory);
+    this.mechanicType = MechanicType.TeleportBoster;
+  }
+  //FIXME: почему то когда я кликаю на тайл чтобы его переместить,
+  // а потом я кликаю на другую механику и потом опть в этой механике кликаю на
+  // тайл для перемещени. то вылетает ошибка
   onTileClick(tile: ITile): boolean {
-    if (!this.firstSelectedTile) {
+    if (!this.firstSelectedTile || !this.firstSelectedTile.nodeTile) {
       this.firstSelectedTile = tile;
+      console.log(
+        "first tile selected setup: ",
+        this.firstSelectedTile.nodeTile
+      );
       this.tableController.onSelectTile(tile);
       return false;
     }
@@ -16,7 +29,6 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
       this.firstSelectedTile = null;
       return false;
     }
-
     const pos1 = this.tableModel.getTilePosition(this.firstSelectedTile);
     const pos2 = this.tableModel.getTilePosition(tile);
 
@@ -67,6 +79,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     );
     this.tableModel.onMoveTileAction(tile1, cell2.getPosition());
     this.tableModel.onMoveTileAction(tile2, cell1.getPosition());
+    this.dispatchUseMechanicEvent();
   }
 
   onTurnEnd(): void {

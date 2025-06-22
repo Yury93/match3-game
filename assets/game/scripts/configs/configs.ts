@@ -23,7 +23,7 @@ const GAME_LEVELS: {
   maxSteps: number;
   winScoreThreshold: number;
 }[] = [
-  { id: 0, maxSteps: 30, winScoreThreshold: 100 },
+  { id: 0, maxSteps: 300, winScoreThreshold: 1000 },
   // { id: 0, maxSteps: 35, winScoreThreshold: 90 },
   // { id: 1, maxSteps: 40, winScoreThreshold: 300 },
   // { id: 2, maxSteps: 30, winScoreThreshold: 200 },
@@ -41,7 +41,8 @@ const GAME_LEVELS: {
 export const CONSTANTS = {
   boosterBombR: 1,
   scoreFormulaIndex: 1,
-  bombTrials: 3,
+  bombTrials: 30,
+  teleportTrials: 30,
 };
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [

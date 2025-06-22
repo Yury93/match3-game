@@ -1,15 +1,19 @@
 const { ccclass, property } = cc._decorator;
 
 export interface IUIPanelView {
+  playTeleportActivationAnimation();
+  setTeleportButtonActive(isActive: boolean);
+  updateTeleportCount(teleportTrial: number);
   nodeView: cc.Node;
-  onClickBomb: () => void;
+  onBombButtonClick: () => void;
   init(winScoreThreshold: number, maxStep: number);
   updateScore(currentScore: number);
   updateStep(remainingSteps: number);
-  showBombCount(count: number);
-  activeBombButton(isActive);
-  startbombSummonAnimation();
-  onClickTeleport: () => void;
+  updateBombCount(count: number);
+  setBombButtonActive(isActive: boolean);
+  playBombSummonAnimation();
+  onTeleportButtonClick: () => void;
+  playBombActivationAnimation();
 }
 
 @ccclass
@@ -24,9 +28,11 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
   bombButton: cc.Button = null;
   @property(cc.Button)
   teleportButton: cc.Button = null;
+  @property(cc.Label)
+  countTeleportLabel: cc.Label = null;
   nodeView: cc.Node;
-  onClickBomb: () => void;
-  onClickTeleport: () => void;
+  onBombButtonClick: () => void;
+  onTeleportButtonClick: () => void;
 
   private _winScore: number;
   protected onLoad(): void {
@@ -43,7 +49,8 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
       this.clickTeleport,
       this
     );
-    this.activeBombButton(true);
+    this.setBombButtonActive(true);
+    this.setTeleportButtonActive(true);
   }
   updateScore(currentScore: number) {
     this.scoreLabel.string = `${currentScore}/${this._winScore}`;
@@ -53,20 +60,92 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.stepsLabel.string = remainingSteps.toString();
     this.animateLabel(this.stepsLabel, 0.5);
   }
-  showBombCount(count: number) {
+  updateBombCount(count: number) {
     this.countBombLabel.string = count.toString();
     this.animateLabel(this.countBombLabel, 0.5);
   }
-  activeBombButton(isActive) {
+  setBombButtonActive(isActive) {
     const node = this.bombButton.node;
     cc.Tween.stopAllByTarget(node);
     this.animateButton(node, isActive);
   }
+  setTeleportButtonActive(isActive) {
+    const node = this.teleportButton.node;
+    cc.Tween.stopAllByTarget(node);
+    this.animateButton(node, isActive);
+  }
+  updateTeleportCount(teleportTrial: number) {
+    this.countTeleportLabel.string = teleportTrial.toString();
+    this.animateLabel(this.countTeleportLabel, 0.5);
+  }
+  playBombActivationAnimation() {
+    this.playButtonActiveAnimation(this.bombButton.node);
+  }
+  playTeleportActivationAnimation() {
+    this.playButtonActiveAnimation(this.teleportButton.node);
+  }
+  playBombSummonAnimation() {
+    cc.Tween.stopAllByTarget(this.bombButton.node);
+    cc.tween(this.bombButton.node)
+      .to(
+        0.3,
+        {
+          scale: 1.25,
+          color: cc.Color.RED,
+        },
+        { easing: "sineOut" }
+      )
+      .to(
+        0.4,
+        {
+          scale: 1.0,
+          color: cc.Color.WHITE,
+        },
+        { easing: "sineIn" }
+      )
+      .to(0.1, { angle: -5 })
+      .to(0.1, { angle: 5 })
+      .to(0.1, { angle: 0 })
+      .repeat(10)
+      .start();
+  }
+  private playButtonActiveAnimation(buttonNode: cc.Node) {
+    cc.Tween.stopAllByTarget(buttonNode);
+    buttonNode.scale = 1;
+    buttonNode.color = cc.Color.WHITE;
+    cc.tween(buttonNode)
+      .to(
+        0.3,
+        {
+          scale: 1.3,
+          color: cc.Color.GREEN,
+        },
+        { easing: "sineOut" }
+      )
+      .to(0.1, { scale: 1.1 })
+      .to(0.1, { scale: 1.3 })
+      .to(0.1, { scale: 1.1 })
+      .to(0.1, { scale: 1.3 })
+      .to(0.1, { scale: 1.1 })
+      .call(() => {
+        cc.tween(buttonNode)
+          .to(
+            0.3,
+            {
+              scale: 1,
+              color: cc.Color.WHITE,
+            },
+            { easing: "sineOut" }
+          )
+          .start();
+      })
+      .start();
+  }
   private clickTeleport() {
-    if (this.onClickTeleport) this.onClickTeleport();
+    if (this.onTeleportButtonClick) this.onTeleportButtonClick();
   }
   private clickBomb() {
-    if (this.onClickBomb) this.onClickBomb();
+    if (this.onBombButtonClick) this.onBombButtonClick();
   }
   private animateButton(node: cc.Node, isActive) {
     cc.Tween.stopAllByTarget(this.node);
@@ -96,31 +175,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
         .start();
     }
   }
-  startbombSummonAnimation() {
-    cc.Tween.stopAllByTarget(this.bombButton.node);
-    cc.tween(this.bombButton.node)
-      .to(
-        0.3,
-        {
-          scale: 1.25,
-          color: cc.Color.RED,
-        },
-        { easing: "sineOut" }
-      )
-      .to(
-        0.4,
-        {
-          scale: 1.0,
-          color: cc.Color.WHITE,
-        },
-        { easing: "sineIn" }
-      )
-      .to(0.1, { angle: -5 })
-      .to(0.1, { angle: 5 })
-      .to(0.1, { angle: 0 })
-      .repeat(10)
-      .start();
-  }
+
   protected onDestroy() {
     this.bombButton?.node?.off(
       cc.Node.EventType.TOUCH_END,
