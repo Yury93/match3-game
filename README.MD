@@ -24,20 +24,41 @@
 
 # Структура проекта
 
-scripts/
-├── configs/  
-├── curtain/  
-├── infrastructure/  
-│ ├── services/
-│ └── state-machine/  
-├── logic/  
-│ ├── game-mechanic/  
-│ ├── table/
-│ └── tile/  
-├── states/  
-├── ui/  
-entry-point.ts  
-game.ts
+graph TD
+    A[EntryPoint] --> B[Game]
+    B --> C[StateMachine]
+    C --> D[InitializeState]
+    C --> E[CreateContentState]
+    C --> F[GameLoopState]
+    C --> G[ResultState]
+    
+    E --> H[GameFactory]
+    E --> I[TileFactory]
+    E --> J[VFXFactory]
+    
+    F --> K[TableController]
+    F --> L[ProgressService]
+    F --> M[MechanicController]
+    F --> UI1[UIPanelController]
+    
+    K --> N[TableModel]
+    K --> O[TableView]
+    
+    M --> P[BasicMechanic]
+    M --> Q[BombBoosterMechanic]
+    M --> R[TeleportBoosterMechanic]
+    
+    G --> S[Curtain]
+    H --> T[UiPanelView]
+    J --> W[VFXMessage]
+    J --> X[BombEffect]
+    
+    style S fill:#f9f,stroke:#333
+    style T fill:#f9f,stroke:#333
+    style U fill:#f9f,stroke:#333
+    style V fill:#f9f,stroke:#333
+    style W fill:#f9f,stroke:#333
+    style X fill:#f9f,stroke:#333
 
 # Игровой процесс
 
@@ -50,10 +71,11 @@ game.ts
 Плитки падают вниз, заполняя пустоты
 Генерация новых плиток сверху
 Использование бомбы (ограниченное количество)
+Использование телепорта (ограниченное количество)
 
 **_Условия победы:_**
 Достижение целевого количества очков за ограниченное число ходов
-Формула очков: groupSize '_' groupSize '_' 5 или groupSize (выбирается случайно)
+Формула очков: groupSize "*" groupSize "*" 5 или groupSize (выбирается случайно)
 
 **_Экран результатов:_**
 Анимированный занавес с сообщением
