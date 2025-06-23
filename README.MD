@@ -24,7 +24,8 @@
 
 # Структура проекта
 
-graph TD
+```mermaid
+graph LR
     A[EntryPoint] --> B[Game]
     B --> C[StateMachine]
     C --> D[InitializeState]
@@ -39,24 +40,23 @@ graph TD
     F --> K[TableController]
     F --> L[ProgressService]
     F --> M[MechanicController]
-    F --> N[UIPanelController]
+    F --> N[UIPanel]
     
     K --> O[TableModel]
     K --> P[TableView]
     
-    M --> Q[BasicMechanic]
-    M --> R[BombBoosterMechanic]
-    M --> S[TeleportBoosterMechanic]
+    M --> Q[Basic]
+    M --> R[Bomb]
+    M --> S[Teleport]
     
     G --> T[Curtain]
-    H --> U[UiPanelView]
-    J --> V[VFXMessage]
-    J --> W[BombEffect]
+    H --> U[UI Views]
+    J --> V[VFX Msg]
+    J --> W[Bomb FX]
     
-    style T fill:#f9f,stroke:#333
-    style U fill:#f9f,stroke:#333
-    style V fill:#f9f,stroke:#333
-    style W fill:#f9f,stroke:#333
+    class T, U, V, W special;
+    classDef special fill:#f9f,stroke:#333,stroke-width:2px;
+```
 
 # Игровой процесс
 
