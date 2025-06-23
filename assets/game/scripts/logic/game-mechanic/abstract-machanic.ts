@@ -3,11 +3,19 @@ import { ITableController } from "../table/table-controller";
 import { ITableModel } from "../table/table-model";
 import { ITile } from "../tile";
 import { IGameMechanic } from "./game-mechanic";
+import {
+  MechanicEventSystem,
+  MechanicEventType,
+} from "./mechanic-event-system";
+import { MechanicType } from "./mechanic-types";
 
 export abstract class AbstractMechanic implements IGameMechanic {
   protected tableController: ITableController;
   protected tableModel: ITableModel;
+  mechanicType: MechanicType = MechanicType.Basic;
+
   constructor(private tileFactory: ITileFactory) {}
+
   init(tableController: ITableController, tableModel: ITableModel) {
     this.tableController = tableController;
     this.tableModel = tableModel;
@@ -55,5 +63,12 @@ export abstract class AbstractMechanic implements IGameMechanic {
         }
       }
     }
+  }
+  dispatchUseMechanicEvent() {
+    MechanicEventSystem.dispatch({
+      type: MechanicEventType.MECHANIC_USED,
+      mechanic: this,
+      mechanicType: this.mechanicType,
+    });
   }
 }

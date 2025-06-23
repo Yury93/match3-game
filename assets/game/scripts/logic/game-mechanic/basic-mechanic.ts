@@ -1,7 +1,13 @@
+import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import { ITile } from "../tile";
 import { AbstractMechanic } from "./abstract-machanic";
+import { MechanicType } from "./mechanic-types";
 
 export class BasicMechanic extends AbstractMechanic {
+  constructor(tileFactory: ITileFactory) {
+    super(tileFactory);
+    this.mechanicType = MechanicType.Basic;
+  }
   onTileClick(tile: ITile): boolean {
     const group = this.findConnectedTiles(tile);
     if (group.length < 2) {
@@ -13,7 +19,10 @@ export class BasicMechanic extends AbstractMechanic {
     this.dropTiles();
     this.fillEmpty();
 
-    if (this.tableController.onBurn) this.tableController.onBurn(group.length);
+    if (this.tableController.onBurnAction)
+      this.tableController.onBurnAction(group.length);
+
+    this.dispatchUseMechanicEvent();
     return true;
   }
   onTurnEnd() {}
@@ -26,7 +35,6 @@ export class BasicMechanic extends AbstractMechanic {
       startTile,
       `/tileSprite ${startTile.sprite} / tile node: ${startTile.nodeTile}`
     );
-    // Начальный тайл
 
     const tileCount = this.tableModel.getTileCount();
     const visited = new Set<ITile>();

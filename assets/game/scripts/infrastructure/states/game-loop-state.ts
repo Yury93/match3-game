@@ -1,109 +1,106 @@
-import { TableController } from "../../logic/table/table-controller";
-import { UIPanelController } from "../../ui/ui-panel-controller";
-import { IProgressService } from "../services/progress-service";
-import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { IMechanicController } from "../../logic/game-mechanic/mechanic-controller";
-import { TableModel } from "../../logic/table/table-model";
-import { StateNames } from "../state-machine/state-names";
+import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
+import { ProgressController } from "../../logic/progress-controller";
+import { ITableController } from "../../logic/table/table-controller";
+import { ITableModel } from "../../logic/table/table-model";
 import { IUIPanelView } from "../../ui/ui-panel";
+import { UIPanelController } from "../../ui/ui-panel-controller";
+import { IProgressService } from "../services/levels/progress-service";
+import { MovePlayerValidator } from "../services/move-validator";
+import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { StateNames } from "../state-machine/state-names";
 
 export class GameLoopState implements IState {
-  private _stateMachine: IStateMachine;
-  private _progressService: IProgressService;
-
   private _isResultShown = false;
-  constructor(stateMachine: IStateMachine, progressService: IProgressService) {
-    this._stateMachine = stateMachine;
-    this._progressService = progressService;
-  }
+  private _tableModel!: ITableModel;
+  private _tableController!: ITableController;
+  private _boosterHandler!: BoosterHandler;
+  private _uiPanelController!: UIPanelController;
+  private _progressController!: ProgressController;
+
+  constructor(
+    private _stateMachine: IStateMachine,
+    private _progressService: IProgressService,
+    private _movePlayerValidator: MovePlayerValidator
+  ) {}
+
   run(payload: {
-    tableModel: TableModel;
-    tableController: TableController;
+    tableModel: ITableModel;
+    tableController: ITableController;
     uiPanelView: IUIPanelView;
-    mechanicController: IMechanicController;
+    uiPanelController: UIPanelController;
+    boosterHandler: BoosterHandler;
+    progressController: ProgressController;
   }): void {
     this._isResultShown = false;
 
-    this.resolveImpossibleMoves(payload.tableModel, payload.tableController);
-    const uiPanelController = new UIPanelController(
-      this._progressService,
-      payload.uiPanelView,
-      payload.mechanicController
-    );
+    this._tableModel = payload.tableModel;
+    this._tableController = payload.tableController;
+    this._boosterHandler = payload.boosterHandler;
+    this._uiPanelController = payload.uiPanelController;
+    this._progressController = payload.progressController;
 
-    payload.tableController.onBurn = (groupSize: number) => {
+    this.tryResolveMoves();
+
+    this._tableController.onBurnAction = (groupSize: number) => {
       this._progressService.nextStep(groupSize);
-      uiPanelController.updateScore();
-      if (!this._isResultShown) {
-        this.resolveImpossibleMoves(
-          payload.tableModel,
-          payload.tableController
-        );
-      }
+      this._uiPanelController.updateScore();
+      this._progressController.checkProgress();
+      this.tryResolveMoves();
     };
 
-    this._progressService.onWin = () => {
-      this.handleGameEnd(StateNames.Win, payload.tableModel);
+    this._tableController.onEndTurnAction = () => {
+      this.tryResolveMoves();
     };
-    this._progressService.onLose = () => {
-      this.handleGameEnd(StateNames.Lose, payload.tableModel);
+
+    this._tableController.onFalseBurned = () => {
+      if (this._boosterHandler.getBombTrials() > 0) {
+        this._uiPanelController.summonClickBomb();
+      }
+      if (!this._isResultShown && !this.hasBoosterTrials()) {
+        this._progressController.checkProgress();
+      }
+      this.tryResolveMoves();
     };
+
+    this._progressController.onWinEvent = () =>
+      this.handleGameEnd("win", "Успех!");
+
+    this._progressController.onLoseEvent = () =>
+      this.handleGameEnd("lose", "Закончились\n шаги...");
   }
-  private resolveImpossibleMoves(
-    tableModel: TableModel,
-    tableController: TableController
-  ) {
-    if (!this.hasPossibleMoves(tableModel)) {
-      console.log("tails count after result ", tableModel.getTiles().length);
-      this.handleGameEnd(StateNames.Lose, tableModel);
+
+  private hasBoosterTrials(): boolean {
+    return (
+      this._boosterHandler.getBombTrials() > 0 ||
+      this._boosterHandler.getTeleportTrials() > 0
+    );
+  }
+
+  private tryResolveMoves(): void {
+    if (this._isResultShown || this.hasBoosterTrials()) return;
+    this.resolveImpossibleMoves();
+  }
+
+  private resolveImpossibleMoves(): void {
+    if (!this._movePlayerValidator.hasPossibleMoves(this._tableModel)) {
+      this.handleGameEnd("lose", "Нет\n вариантов...");
     }
   }
-  private handleGameEnd(stateName: string, tableModel: TableModel) {
+
+  private handleGameEnd(results: string, message: string): void {
+    this._tableController.onBurnAction = null;
+    this._tableController.onFalseBurned = null;
+    this._boosterHandler.destroy();
     this._isResultShown = true;
-    this._progressService.resetResults();
-    this._progressService.resetSteps();
-    tableModel.clearTable();
-    this._stateMachine.run(stateName);
-    console.log("GAME END ", stateName);
+    this._tableController.removeClickTileListeners();
+    this._uiPanelController.removeBoosterListeners();
+
+    this._stateMachine.run(StateNames.ResultState, {
+      result: results,
+      message: message,
+      tableController: this._tableController,
+    });
   }
+
   stop(): void {}
-  private hasPossibleMoves(model: TableModel): boolean {
-    const tiles = model.getTiles();
-    const columns = tiles.length;
-    const rows = tiles[0].length;
-
-    for (let col = 0; col < columns; col++) {
-      for (let row = 0; row < rows; row++) {
-        const tile = tiles[col][row];
-        if (!tile) continue;
-
-        // Проверка соседей
-        const neighbors = [
-          { x: col + 1, y: row },
-          { x: col, y: row + 1 },
-          { x: col - 1, y: row },
-          { x: col, y: row - 1 },
-        ];
-
-        for (const neighbor of neighbors) {
-          if (this.isValidPosition(neighbor.x, neighbor.y, columns, rows)) {
-            const neighborTile = tiles[neighbor.x][neighbor.y];
-            if (neighborTile && neighborTile.tileType === tile.tileType) {
-              return true;
-            }
-          }
-        }
-      }
-    }
-
-    return false;
-  }
-  private isValidPosition(
-    col: number,
-    row: number,
-    maxCol: number,
-    maxRow: number
-  ): boolean {
-    return col >= 0 && col < maxCol && row >= 0 && row < maxRow;
-  }
 }

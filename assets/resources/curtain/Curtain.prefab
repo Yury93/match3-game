@@ -223,8 +223,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 634.19,
-      "height": 133.56
+      "width": 1035.02,
+      "height": 345.56
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -275,9 +275,9 @@
     ],
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_string": "ПОБЕДА",
-    "_N$string": "ПОБЕДА",
-    "_fontSize": 145.39999999999984,
+    "_string": "",
+    "_N$string": "",
+    "_fontSize": 98.40000000000012,
     "_lineHeight": 106.19999999999999,
     "_enableWrapText": true,
     "_N$file": {
@@ -291,7 +291,7 @@
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
-    "_N$overflow": 0,
+    "_N$overflow": 3,
     "_N$cacheMode": 0,
     "_id": ""
   },

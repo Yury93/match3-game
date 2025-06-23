@@ -56,7 +56,7 @@ export default class TableView extends cc.Component implements ITableView {
     cc.tween(tile.nodeTile)
       .to(0.1, { scale: 0 }, { easing: "backIn" })
       .call(() => {
-        tile.nodeTile.destroy();
+        tile.destroyTile();
       })
       .start();
   }
@@ -64,13 +64,20 @@ export default class TableView extends cc.Component implements ITableView {
     cc.tween(tile.sprite.node)
       .to(0.1, { scale: 0 }, { easing: "backIn" })
       .call(() => {
-        tile.sprite.node.destroy();
+        tile.destroyTile();
       })
       .start();
   }
   moveTile(tile: ITile, newPos: cc.Vec2) {
     cc.tween(tile.nodeTile)
-      .to(0.3, { y: newPos.y }, { easing: "quadOut" })
+      .to(
+        0.3,
+        {
+          x: newPos.x,
+          y: newPos.y,
+        },
+        { easing: "quadOut" }
+      )
       .start();
   }
 }

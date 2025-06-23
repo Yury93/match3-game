@@ -8,6 +8,8 @@ export default class Tile extends cc.Component implements ITile {
   tileType: TileType = TileType.BLUE;
   @property(cc.Sprite)
   sprite: cc.Sprite = null;
+  @property(cc.Sprite)
+  highlight: cc.Sprite = null;
   nodeTile: cc.Node = null;
   touchHandler: (tile: ITile) => void;
 
@@ -31,6 +33,13 @@ export default class Tile extends cc.Component implements ITile {
     }
     this.sprite.node.off(cc.Node.EventType.TOUCH_END, this.touchHandler, this);
   }
+  setActiveHightlight(active: boolean) {
+    if (this.highlight.node) this.highlight.node.active = active;
+    else throw new Error("no highlight node");
+  }
+  destroyTile() {
+    this.destroy();
+  }
 }
 export interface ITile {
   tileType: TileType;
@@ -40,4 +49,6 @@ export interface ITile {
   Init(tileType: TileType, spriteFrame: cc.SpriteFrame);
   addListener(callback: (tile: ITile) => void);
   removeListener();
+  destroyTile();
+  setActiveHightlight(active: boolean);
 }

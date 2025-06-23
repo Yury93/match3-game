@@ -2,13 +2,14 @@ import { CONSTANTS } from "../../configs/configs";
 import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import { ITile } from "../tile";
 import { AbstractMechanic } from "./abstract-machanic";
+import { MechanicType } from "./mechanic-types";
 
 export class BoosterBombMechanic extends AbstractMechanic {
   private readonly RADIUS = CONSTANTS.boosterBombR;
   constructor(tileFactory: ITileFactory) {
     super(tileFactory);
+    this.mechanicType = MechanicType.BombBoster;
   }
-  onTurnEnd(): void {}
 
   onTileClick(tile: ITile): boolean {
     this.tableController.onBombAction(tile);
@@ -43,9 +44,15 @@ export class BoosterBombMechanic extends AbstractMechanic {
     this.dropTiles();
     this.fillEmpty();
 
-    if (this.tableController.onBurn)
-      this.tableController.onBurn(tilesToBurn.length);
+    if (this.tableController.onBurnAction)
+      this.tableController.onBurnAction(tilesToBurn.length);
 
+    this.dispatchUseMechanicEvent();
+    this.onTurnEnd();
     return true;
+  }
+
+  onTurnEnd(): void {
+    this.tableController.onTurnEnd();
   }
 }

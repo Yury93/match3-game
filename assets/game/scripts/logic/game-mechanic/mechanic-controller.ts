@@ -1,12 +1,14 @@
 import { BasicMechanic } from "./basic-mechanic";
-import { BoosterBombMechanic } from "./booster-bomb-mechanic";
+import { BoosterBombMechanic as BombBoosterMechanic } from "./booster-bomb-mechanic";
 import { IGameMechanic } from "./game-mechanic";
 import { ITableController, TableController } from "../table/table-controller";
 import { ITableModel, TableModel } from "../table/table-model";
 import { ITile } from "../tile";
 import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import { TeleportBoosterMechanic } from "./teleport-booster-mechanic";
 
 export interface IMechanicController {
+  onClickTile: (tile: ITile) => void;
   initMechanics(
     tableController: TableController,
     tableModel: TableModel,
@@ -17,12 +19,12 @@ export interface IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined;
   onTileClick(tile: ITile);
   onTurnEnd();
+  removeListeners();
 }
-
 export class MechanicController implements IMechanicController {
   private _mechanics: IGameMechanic[] = [];
   private _activeMechanic: IGameMechanic | null = null;
-
+  onClickTile: (tile: ITile) => void;
   constructor(
     tileFactory: ITileFactory,
     tableController: ITableController,
@@ -30,7 +32,8 @@ export class MechanicController implements IMechanicController {
   ) {
     this.initMechanics(tableController, tableModel, [
       new BasicMechanic(tileFactory),
-      new BoosterBombMechanic(tileFactory),
+      new BombBoosterMechanic(tileFactory),
+      new TeleportBoosterMechanic(tileFactory),
     ]);
   }
 
@@ -47,8 +50,8 @@ export class MechanicController implements IMechanicController {
       throw e;
     }
   }
-
   setActiveMechanic(mechanic: IGameMechanic) {
+    console.log("set active mechanic : ", mechanic);
     this._activeMechanic = mechanic;
   }
   getActiveMechanic(): IGameMechanic | null {
@@ -58,14 +61,16 @@ export class MechanicController implements IMechanicController {
     return this._mechanics.find((m) => m instanceof type);
   }
   onTileClick(tile: ITile) {
-    if (this._activeMechanic && this._activeMechanic.onTileClick) {
-      this._activeMechanic.onTileClick(tile);
-      if (!(this._activeMechanic instanceof BasicMechanic)) {
-        this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
-      }
+    if (!this._activeMechanic) return;
+    if (this.onClickTile) this.onClickTile(tile);
+    const shouldReset = this._activeMechanic.onTileClick(tile);
+    if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
+      this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }
   }
-
+  removeListeners() {
+    this.onClickTile = null;
+  }
   onTurnEnd() {
     for (const mechanic of this._mechanics) {
       if (mechanic.onTurnEnd) {
