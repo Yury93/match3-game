@@ -52,13 +52,14 @@ export class GameLoopState implements IState {
       this.tryResolveMoves();
     };
 
-    this._tableController.onFalseBurned = () => {
+    this._tableController.onFalseBurned = (tile) => {
       if (this._boosterHandler.getBombTrials() > 0) {
         this._uiPanelController.summonClickBomb();
       }
       if (!this._isResultShown && !this.hasBoosterTrials()) {
         this._progressController.checkProgress();
       }
+      this._tableController.onFalseBurnedAction(tile);
       this.tryResolveMoves();
     };
 

@@ -14,7 +14,7 @@ export class BasicMechanic extends AbstractMechanic {
       this.tableController.onFalseBurned(tile);
       return false;
     }
-
+    this.tableController.beforeBurnGroupAction(tile, group.length);
     this.burnTiles(group);
     this.dropTiles();
     this.fillEmpty();

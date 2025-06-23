@@ -6,12 +6,15 @@ import { ITableModel } from "./table-model";
 import { ITableView } from "./table-view";
 
 export interface ITableController {
+  onSwap(tile: ITile);
+  beforeBurnGroupAction(tile: ITile, length: number);
+  beforeBombAction(tile: ITile, length: number);
   removeClickTileListeners();
   onDeselectTile(tile: ITile);
   onSelectTile(tile: ITile);
   onBombAction(tile: ITile);
   onBurnAction: (groupSize: number) => void;
-  onFalseBurnedAction: () => void;
+  onFalseBurnedAction: (tile: ITile) => void;
   onEndTurnAction: () => void;
   init();
   setMechanicController(controller: IMechanicController);
@@ -27,7 +30,7 @@ export interface ITableController {
 export class TableController implements ITableController {
   onBurnAction: (groupSize: number) => void;
   onEndTurnAction: () => void;
-  onFalseBurnedAction: () => void;
+  onFalseBurnedAction: (tile: ITile) => void;
   private _mechanicController: IMechanicController;
 
   constructor(
@@ -36,6 +39,18 @@ export class TableController implements ITableController {
     private _vfxFactory: IVfxFactory
   ) {
     this.init();
+  }
+  onSwap(tile: ITile) {
+    this._vfxFactory.createVfxMessage(tile.nodeTile, `а это хак`);
+  }
+  beforeBurnGroupAction(tile: ITile, length: number) {
+    this._vfxFactory.createVfxMessage(tile.nodeTile, `+${length} очков!`);
+  }
+  beforeBombAction(tile: ITile, length: number) {
+    this._vfxFactory.createVfxMessage(
+      tile.nodeTile,
+      `Забудь, что сейчас было +${length}`
+    );
   }
 
   init() {
@@ -57,6 +72,11 @@ export class TableController implements ITableController {
       this.addTileOnView(tile, cell);
 
     this._model.onClearModelAction = (tile) => this.onClearTile(tile);
+    this.onFalseBurnedAction = (tile) => {
+      console.log("sprite: ", tile.sprite);
+      this._vfxFactory.createVfxMessage(tile.nodeTile, "неуязвимая плитка!");
+      this._tableView.showFalseBurnMessage(tile);
+    };
   }
   setMechanicController(controller: IMechanicController) {
     this._mechanicController = controller;
@@ -74,10 +94,6 @@ export class TableController implements ITableController {
     this._tableView.removeTile(tile);
   }
 
-  onFalseBurned(tile: ITile) {
-    this._tableView.showFalseBurnMessage(tile);
-    if (this.onFalseBurnedAction) this.onFalseBurnedAction();
-  }
   onTileClick(tile: ITile) {
     this._mechanicController.onTileClick(tile);
   }
@@ -89,6 +105,10 @@ export class TableController implements ITableController {
     tile.setActiveHightlight(false);
   }
   onSelectTile(tile: ITile) {
+    this._vfxFactory.createVfxMessage(
+      tile.nodeTile,
+      "сквозь пространство и время"
+    );
     tile.setActiveHightlight(true);
   }
   resetTable() {
@@ -105,6 +125,7 @@ export class TableController implements ITableController {
       }
     }
   }
+  onFalseBurned(tile: ITile) {}
   onTurnEnd() {
     if (this.onEndTurnAction) this.onEndTurnAction();
   }

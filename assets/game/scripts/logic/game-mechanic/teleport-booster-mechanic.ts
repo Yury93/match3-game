@@ -36,7 +36,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     if (this.firstSelectedTile && this.firstSelectedTile.nodeTile)
       this.tableController.onDeselectTile(this.firstSelectedTile);
     this.firstSelectedTile = null;
-
+    this.tableController.onSwap(tile);
     return true;
   }
 

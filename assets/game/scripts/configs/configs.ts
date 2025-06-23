@@ -23,18 +23,18 @@ const GAME_LEVELS: {
   maxSteps: number;
   winScoreThreshold: number;
 }[] = [
-  { id: 0, maxSteps: 2, winScoreThreshold: 2 },
-  { id: 1, maxSteps: 10, winScoreThreshold: 10 },
-  { id: 2, maxSteps: 12, winScoreThreshold: 25 },
-  { id: 3, maxSteps: 25, winScoreThreshold: 50 },
-  { id: 4, maxSteps: 25, winScoreThreshold: 60 },
-  { id: 5, maxSteps: 35, winScoreThreshold: 100 },
-  { id: 6, maxSteps: 45, winScoreThreshold: 110 },
-  { id: 7, maxSteps: 55, winScoreThreshold: 150 },
-  { id: 8, maxSteps: 60, winScoreThreshold: 155 },
-  { id: 9, maxSteps: 70, winScoreThreshold: 160 },
-  { id: 10, maxSteps: 70, winScoreThreshold: 170 },
-  { id: 11, maxSteps: 70, winScoreThreshold: 500 },
+  { id: 0, maxSteps: 2, winScoreThreshold: 5 },
+  { id: 1, maxSteps: 5, winScoreThreshold: 15 },
+  { id: 2, maxSteps: 6, winScoreThreshold: 25 },
+  { id: 3, maxSteps: 10, winScoreThreshold: 50 },
+  { id: 4, maxSteps: 11, winScoreThreshold: 60 },
+  { id: 5, maxSteps: 12, winScoreThreshold: 100 },
+  { id: 6, maxSteps: 15, winScoreThreshold: 110 },
+  { id: 7, maxSteps: 20, winScoreThreshold: 150 },
+  { id: 8, maxSteps: 25, winScoreThreshold: 155 },
+  { id: 9, maxSteps: 25, winScoreThreshold: 160 },
+  { id: 10, maxSteps: 30, winScoreThreshold: 170 },
+  { id: 11, maxSteps: 100, winScoreThreshold: 500 },
 ];
 
 export const CONSTANTS = {
@@ -71,6 +71,7 @@ export const PREFABS = {
   BombEffectPrefab: "table/ExplosionEffect",
   tilePrefab: "tiles/TilePrefab",
   curtainPrefab: "curtain/Curtain",
+  LabelPrefab: "table/label",
 };
 export const TILE_MODELS: { path: string; type: TileType }[] = [
   { path: "tiles/block_blue", type: TileType.BLUE },

@@ -33,7 +33,7 @@ export class BoosterBombMechanic extends AbstractMechanic {
     }
 
     if (tilesToBurn.length === 0) return false;
-
+    this.tableController.beforeBombAction(tile, tilesToBurn.length);
     tilesToBurn.forEach((t) => {
       const pos = this.tableModel.getTilePosition(t);
       this.tableController.onClearTile(t);

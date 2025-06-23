@@ -33,6 +33,7 @@ export class GameFactory implements IGameFactory {
     await this._assetProvider.loadAsset(PREFABS.tilePrefab);
     await this._assetProvider.loadAsset(PREFABS.UIPanelPrefab);
     await this._assetProvider.loadAsset(PREFABS.BombEffectPrefab);
+    await this._assetProvider.loadAsset(PREFABS.LabelPrefab);
     await Promise.all(
       TILE_MODELS.map((tileModel) =>
         this._assetProvider.loadAsset(tileModel.path)
