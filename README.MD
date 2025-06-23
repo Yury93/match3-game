@@ -25,7 +25,7 @@
 # Структура проекта
 
 ```mermaid
-graph LR
+graph TD
     A[EntryPoint] --> B[Game]
     B --> C[StateMachine]
     C --> D[InitializeState]
@@ -38,24 +38,21 @@ graph LR
     E --> J[VFXFactory]
     
     F --> K[TableController]
-    F --> L[ProgressService]
-    F --> M[MechanicController]
-    F --> N[UIPanel]
-    
     K --> O[TableModel]
     K --> P[TableView]
     
-    M --> Q[Basic]
-    M --> R[Bomb]
-    M --> S[Teleport]
+    F --> L[ProgressService]
+    F --> M[MechanicController]
+    M --> Q[BasicMechanic]
+    M --> R[BombBooster]
+    M --> S[TeleportBooster]
+    
+    F --> N[UIPanel]
     
     G --> T[Curtain]
     H --> U[UI Views]
-    J --> V[VFX Msg]
-    J --> W[Bomb FX]
-    
-    class T, U, V, W special;
-    classDef special fill:#f9f,stroke:#333,stroke-width:2px;
+    J --> V[VFX Message]
+    J --> W[Bomb Effect]
 ```
 
 # Игровой процесс
