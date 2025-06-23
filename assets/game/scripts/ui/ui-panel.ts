@@ -14,6 +14,7 @@ export interface IUIPanelView {
   playBombSummonAnimation();
   onTeleportButtonClick: () => void;
   playBombActivationAnimation();
+  removeListeners();
 }
 
 @ccclass
@@ -51,6 +52,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     );
     this.setBombButtonActive(true);
     this.setTeleportButtonActive(true);
+    console.log("init ui panel view");
   }
   updateScore(currentScore: number) {
     this.scoreLabel.string = `${currentScore}/${this._winScore}`;
@@ -61,6 +63,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.animateLabel(this.stepsLabel, 0.5);
   }
   updateBombCount(count: number) {
+    console.log("update bomb count ", this.countBombLabel);
     this.countBombLabel.string = count.toString();
     this.animateLabel(this.countBombLabel, 0.5);
   }
@@ -109,6 +112,10 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
       .repeat(10)
       .start();
   }
+  removeListeners() {
+    this.onTeleportButtonClick = null;
+    this.onBombButtonClick = null;
+  }
   private playButtonActiveAnimation(buttonNode: cc.Node) {
     cc.Tween.stopAllByTarget(buttonNode);
     buttonNode.scale = 1;
@@ -147,6 +154,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
   private clickBomb() {
     if (this.onBombButtonClick) this.onBombButtonClick();
   }
+
   private animateButton(node: cc.Node, isActive) {
     cc.Tween.stopAllByTarget(this.node);
     if (isActive) {

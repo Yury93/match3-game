@@ -11,12 +11,14 @@ import { IUIPanelView } from "../../ui/ui-panel";
 import { IVfxFactory } from "../services/gameFactory/vfx-factory";
 import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { UIPanelController } from "../../ui/ui-panel-controller";
-import { IProgressService } from "../services/progress-service";
 import { CONSTANTS } from "../../configs/configs";
+import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
+import { IProgressService } from "../services/levels/progress-service";
+import { ProgressController } from "../../logic/progress-controller";
+import { LevelService } from "../services/levels/level-service";
 
 export class CreateContentState implements IState {
   private _tableView: ITableView = null;
-  private _tableCell: TableCell[][] = null;
   private _uiPanelView: IUIPanelView = null;
   private _isLoadAssets: boolean = false;
 
@@ -25,7 +27,8 @@ export class CreateContentState implements IState {
     private _gameFactory: IGameFactory,
     private _tilesFactory: ITileFactory,
     private _vfxFactory: IVfxFactory,
-    private _progressService: IProgressService
+    private _progressService: IProgressService,
+    private _levelService: LevelService
   ) {}
   async run(): Promise<void> {
     console.log("run create content state");
@@ -36,6 +39,7 @@ export class CreateContentState implements IState {
     this.destroyContent();
     this.createContent();
   }
+
   destroyContent() {
     if (this._tableView) {
       this._tableView.nodeView.destroy();
@@ -48,47 +52,114 @@ export class CreateContentState implements IState {
   }
 
   private createContent() {
-    this._tableView = this._gameFactory.createTableView();
-    this._uiPanelView = this._gameFactory.createUiPanelView();
-    const content = this._tableView.getContent();
-    const uiPanelView: IUIPanelView = this._uiPanelView;
-
-    this._tableCell = this._gameFactory.createTableCells(content);
-
-    const tiles: ITile[][] = this._tilesFactory.createTiles(this._tableCell);
-
-    const tableModel: ITableModel = this._gameFactory.createTableModel(
-      this._tableCell,
-      tiles
-    );
-    const tableController: ITableController =
-      this._gameFactory.createTableController(
-        this._tableView,
-        tableModel,
-        this._vfxFactory
-      );
-    const mechanicController = new MechanicController(
-      this._tilesFactory,
+    this.createViews();
+    const tableCells = this.createTableCells();
+    const tiles = this.createTiles(tableCells);
+    const tableModel = this.createTableModel(tableCells, tiles);
+    const tableController = this.createTableController(tableModel);
+    const mechanicController = this.createMechanicController(
       tableController,
       tableModel
     );
 
     tableController.setMechanicController(mechanicController);
 
-    const uiPanelController = new UIPanelController(
-      this._progressService,
-      uiPanelView,
+    const boosterHandler = this.createBoosterHandler();
+    const progressController = this.createProgressController();
+    const uiPanelController = this.createUIPanelController(
       mechanicController,
-      CONSTANTS.bombTrials,
-      CONSTANTS.teleportTrials
+      boosterHandler,
+      progressController
     );
+
+    this.startGameLoopState(
+      tableModel,
+      tableController,
+      boosterHandler,
+      progressController,
+      uiPanelController
+    );
+  }
+
+  private createViews() {
+    this._tableView = this._gameFactory.createTableView();
+    this._uiPanelView = this._gameFactory.createUiPanelView();
+  }
+
+  private createTableCells(): TableCell[][] {
+    const content = this._tableView.getContent();
+    return this._gameFactory.createTableCells(content);
+  }
+
+  private createTiles(tableCells: TableCell[][]): ITile[][] {
+    return this._tilesFactory.createTiles(tableCells);
+  }
+
+  private createTableModel(
+    tableCells: TableCell[][],
+    tiles: ITile[][]
+  ): ITableModel {
+    return this._gameFactory.createTableModel(tableCells, tiles);
+  }
+
+  private createTableController(tableModel: ITableModel): ITableController {
+    return this._gameFactory.createTableController(
+      this._tableView,
+      tableModel,
+      this._vfxFactory
+    );
+  }
+
+  private createMechanicController(
+    tableController: ITableController,
+    tableModel: ITableModel
+  ): MechanicController {
+    return new MechanicController(
+      this._tilesFactory,
+      tableController,
+      tableModel
+    );
+  }
+
+  private createBoosterHandler(): BoosterHandler {
+    return new BoosterHandler(CONSTANTS.bombTrials, CONSTANTS.teleportTrials);
+  }
+
+  private createProgressController(): ProgressController {
+    return new ProgressController(this._progressService, this._levelService);
+  }
+
+  private createUIPanelController(
+    mechanicController: MechanicController,
+    boosterHandler: BoosterHandler,
+    progressController: ProgressController
+  ): UIPanelController {
+    return new UIPanelController(
+      progressController,
+      this._progressService,
+      this._uiPanelView,
+      mechanicController,
+      boosterHandler
+    );
+  }
+
+  private startGameLoopState(
+    tableModel: ITableModel,
+    tableController: ITableController,
+    boosterHandler: BoosterHandler,
+    progressController: ProgressController,
+    uiPanelController: UIPanelController
+  ) {
     this._stateMachine.run(StateNames.GameLoop, {
       tableModel,
       tableController,
-      uiPanelView,
+      uiPanelView: this._uiPanelView,
       uiPanelController,
+      boosterHandler,
+      progressController,
     });
   }
+
   stop(): void {
     console.log("stop create content state");
   }

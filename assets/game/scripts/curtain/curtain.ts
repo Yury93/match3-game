@@ -18,12 +18,12 @@ export default class Curtain extends cc.Component {
   onContinue: () => void;
   onRestart: () => void;
 
-  win() {
-    this.showResult(this.continueButton, `Успех!`);
+  win(message: string) {
+    this.showResult(this.continueButton, message);
   }
 
-  lose() {
-    this.showResult(this.restartButton, `Неудача!`);
+  lose(message: string) {
+    this.showResult(this.restartButton, message);
   }
   private showResult(button: cc.Button, message: string) {
     this.subscribeButtonEvents();

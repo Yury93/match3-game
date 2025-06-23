@@ -10,7 +10,6 @@ export class BoosterBombMechanic extends AbstractMechanic {
     super(tileFactory);
     this.mechanicType = MechanicType.BombBoster;
   }
-  onTurnEnd(): void {}
 
   onTileClick(tile: ITile): boolean {
     this.tableController.onBombAction(tile);
@@ -49,7 +48,11 @@ export class BoosterBombMechanic extends AbstractMechanic {
       this.tableController.onBurnAction(tilesToBurn.length);
 
     this.dispatchUseMechanicEvent();
-
+    this.onTurnEnd();
     return true;
+  }
+
+  onTurnEnd(): void {
+    this.tableController.onTurnEnd();
   }
 }

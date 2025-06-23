@@ -7,42 +7,41 @@ export const TABLE = [
     lines: 2,
     grid: 95,
   },
-  // {
-  //   column: 9,
-  //   lines: 9,
-  //   grid: 95,
-  // },
-  // {
-  //   column: 6,
-  //   lines: 6,
-  //   grid: 95,
-  // },
+  {
+    column: 9,
+    lines: 9,
+    grid: 95,
+  },
+  {
+    column: 6,
+    lines: 6,
+    grid: 95,
+  },
 ];
 const GAME_LEVELS: {
   id: number;
   maxSteps: number;
   winScoreThreshold: number;
 }[] = [
-  { id: 0, maxSteps: 300, winScoreThreshold: 1000 },
-  // { id: 0, maxSteps: 35, winScoreThreshold: 90 },
-  // { id: 1, maxSteps: 40, winScoreThreshold: 300 },
-  // { id: 2, maxSteps: 30, winScoreThreshold: 200 },
-  // { id: 3, maxSteps: 30, winScoreThreshold: 100 },
-  // { id: 4, maxSteps: 35, winScoreThreshold: 250 },
-  // { id: 5, maxSteps: 40, winScoreThreshold: 300 },
-  // { id: 6, maxSteps: 30, winScoreThreshold: 200 },
-  // { id: 7, maxSteps: 30, winScoreThreshold: 100 },
-  // { id: 8, maxSteps: 35, winScoreThreshold: 250 },
-  // { id: 9, maxSteps: 40, winScoreThreshold: 300 },
-  // { id: 10, maxSteps: 30, winScoreThreshold: 200 },
-  // { id: 11, maxSteps: 30, winScoreThreshold: 100 },
+  { id: 0, maxSteps: 2, winScoreThreshold: 2 },
+  { id: 1, maxSteps: 10, winScoreThreshold: 10 },
+  { id: 2, maxSteps: 12, winScoreThreshold: 25 },
+  { id: 3, maxSteps: 25, winScoreThreshold: 50 },
+  { id: 4, maxSteps: 25, winScoreThreshold: 60 },
+  { id: 5, maxSteps: 35, winScoreThreshold: 100 },
+  { id: 6, maxSteps: 45, winScoreThreshold: 110 },
+  { id: 7, maxSteps: 55, winScoreThreshold: 150 },
+  { id: 8, maxSteps: 60, winScoreThreshold: 155 },
+  { id: 9, maxSteps: 70, winScoreThreshold: 160 },
+  { id: 10, maxSteps: 70, winScoreThreshold: 170 },
+  { id: 11, maxSteps: 70, winScoreThreshold: 500 },
 ];
 
 export const CONSTANTS = {
   boosterBombR: 1,
   scoreFormulaIndex: 1,
-  bombTrials: 30,
-  teleportTrials: 30,
+  bombTrials: 3,
+  teleportTrials: 3,
 };
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [

@@ -6,12 +6,13 @@ import { ITableModel } from "./table-model";
 import { ITableView } from "./table-view";
 
 export interface ITableController {
+  removeClickTileListeners();
   onDeselectTile(tile: ITile);
   onSelectTile(tile: ITile);
   onBombAction(tile: ITile);
   onBurnAction: (groupSize: number) => void;
   onFalseBurnedAction: () => void;
-
+  onEndTurnAction: () => void;
   init();
   setMechanicController(controller: IMechanicController);
   moveTileOnView(tile: ITile, pos: cc.Vec2);
@@ -20,10 +21,12 @@ export interface ITableController {
   onFalseBurned(tile: ITile);
   onTileClick(tile: ITile);
   onTurnEnd();
+  resetTable();
 }
 
 export class TableController implements ITableController {
   onBurnAction: (groupSize: number) => void;
+  onEndTurnAction: () => void;
   onFalseBurnedAction: () => void;
   private _mechanicController: IMechanicController;
 
@@ -65,6 +68,7 @@ export class TableController implements ITableController {
     this._tableView.addTile(tile, cell);
     tile.addListener(() => this.onTileClick(tile));
   }
+
   onClearTile(tile: ITile) {
     tile.removeListener();
     this._tableView.removeTile(tile);
@@ -78,16 +82,30 @@ export class TableController implements ITableController {
     this._mechanicController.onTileClick(tile);
   }
 
-  onTurnEnd() {
-    this._mechanicController.onTurnEnd();
-  }
   onBombAction(tile: ITile) {
     this._vfxFactory.createVfxBomb(tile);
   }
   onDeselectTile(tile: ITile) {
-    // throw new Error("Method not implemented.");
+    tile.setActiveHightlight(false);
   }
   onSelectTile(tile: ITile) {
-    // throw new Error("Method not implemented.");
+    tile.setActiveHightlight(true);
+  }
+  resetTable() {
+    this._model.clearTable();
+  }
+  removeClickTileListeners() {
+    const tiles = this._model.getTiles();
+    for (let col = 0; col < tiles.length; col++) {
+      for (let row = 0; row < tiles[col].length; row++) {
+        const tile: ITile = tiles[col][row];
+        if (tile) {
+          tile.removeListener();
+        }
+      }
+    }
+  }
+  onTurnEnd() {
+    if (this.onEndTurnAction) this.onEndTurnAction();
   }
 }

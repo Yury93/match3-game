@@ -10,9 +10,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     super(tileFactory);
     this.mechanicType = MechanicType.TeleportBoster;
   }
-  //FIXME: почему то когда я кликаю на тайл чтобы его переместить,
-  // а потом я кликаю на другую механику и потом опть в этой механике кликаю на
-  // тайл для перемещени. то вылетает ошибка
+
   onTileClick(tile: ITile): boolean {
     if (!this.firstSelectedTile || !this.firstSelectedTile.nodeTile) {
       this.firstSelectedTile = tile;
@@ -35,8 +33,8 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     if (!pos1 || !pos2) return false;
 
     this.swapTiles(pos1, pos2, tile);
-
-    this.tableController.onDeselectTile(this.firstSelectedTile);
+    if (this.firstSelectedTile && this.firstSelectedTile.nodeTile)
+      this.tableController.onDeselectTile(this.firstSelectedTile);
     this.firstSelectedTile = null;
 
     return true;
@@ -80,6 +78,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     this.tableModel.onMoveTileAction(tile1, cell2.getPosition());
     this.tableModel.onMoveTileAction(tile2, cell1.getPosition());
     this.dispatchUseMechanicEvent();
+    this.onTurnEnd();
   }
 
   onTurnEnd(): void {
@@ -87,5 +86,6 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
       this.tableController.onDeselectTile(this.firstSelectedTile);
       this.firstSelectedTile = null;
     }
+    this.tableController.onTurnEnd();
   }
 }

@@ -19,7 +19,7 @@ export class ServiceLocator {
   public single<TService extends IService>(
     type?: new (...args: any[]) => TService
   ): TService {
-    const serviceType = type || this.getType<TService>();
+    const serviceType = type;
     console.log("get service ", serviceType);
 
     const service = this._services.get(serviceType);
@@ -28,14 +28,6 @@ export class ServiceLocator {
       throw new Error(`Service ${serviceType.name} not registered`);
     }
     return service as TService;
-  }
-
-  private getType<T>(): Function {
-    return class Dummy {
-      static get type(): Function {
-        return null as any as Function;
-      }
-    }.type;
   }
 }
 

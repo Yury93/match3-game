@@ -19,6 +19,7 @@ export interface IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined;
   onTileClick(tile: ITile);
   onTurnEnd();
+  removeListeners();
 }
 export class MechanicController implements IMechanicController {
   private _mechanics: IGameMechanic[] = [];
@@ -66,6 +67,9 @@ export class MechanicController implements IMechanicController {
     if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
       this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }
+  }
+  removeListeners() {
+    this.onClickTile = null;
   }
   onTurnEnd() {
     for (const mechanic of this._mechanics) {

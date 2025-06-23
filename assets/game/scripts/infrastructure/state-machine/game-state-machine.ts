@@ -3,12 +3,13 @@ import { IState, IStateMachine } from "./state-interfaces";
 import { CreateContentState } from "../states/create-content-state";
 import { GameFactory } from "../services/gameFactory/game-factory";
 import { GameLoopState } from "../states/game-loop-state";
-import { ProgressService } from "../services/progress-service";
-import { WinState } from "../states/win-state";
-import { LoseState } from "../states/lose-state";
 import { InitializeState } from "../states/initialize-state";
 import { TileFactory } from "../services/gameFactory/tile-factory";
 import { VfxFactory } from "../services/gameFactory/vfx-factory";
+import { MovePlayerValidator } from "../services/move-validator";
+import { LevelService } from "../services/levels/level-service";
+import { ProgressService } from "../services/levels/progress-service";
+import { ResultState } from "../states/result-state";
 
 export class StateMachine implements IStateMachine {
   private _states: Record<string, IState>;
@@ -27,14 +28,19 @@ export class StateMachine implements IStateMachine {
         serviceLocator.single(GameFactory),
         serviceLocator.single(TileFactory),
         serviceLocator.single(VfxFactory),
-        serviceLocator.single(ProgressService)
+        serviceLocator.single(ProgressService),
+        serviceLocator.single(LevelService)
       ),
       GameLoopState: new GameLoopState(
         this,
+        serviceLocator.single(ProgressService),
+        serviceLocator.single(MovePlayerValidator)
+      ),
+      ResultState: new ResultState(
+        this,
+        serviceLocator.single(GameFactory),
         serviceLocator.single(ProgressService)
       ),
-      WinState: new WinState(this, serviceLocator.single(GameFactory)),
-      LoseState: new LoseState(this, serviceLocator.single(GameFactory)),
     };
 
     console.log("States registered:", Object.keys(this._states));
