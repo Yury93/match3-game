@@ -55,8 +55,6 @@ graph TD
     
     style S fill:#f9f,stroke:#333
     style T fill:#f9f,stroke:#333
-    style U fill:#f9f,stroke:#333
-    style V fill:#f9f,stroke:#333
     style W fill:#f9f,stroke:#333
     style X fill:#f9f,stroke:#333
 
