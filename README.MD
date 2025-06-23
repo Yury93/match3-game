@@ -25,8 +25,7 @@
 # Структура проекта
 
 ```mermaid
-graph TD
-   graph TD
+graph TD 
     A[EntryPoint] --> B[Game]
     B --> C[StateMachine]
     C --> D[InitializeState]
