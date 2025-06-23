@@ -61,7 +61,7 @@ graph TD
     AD --> AE[BasicMechanic]
     AD --> AF[BombBoosterMechanic]
     AD --> AG[TeleportBoosterMechanic]
-    F --> AH[UIPanel]
+    F --> AH[UIPanelСontroller]
     AH --> AI[UIPanelView]
     F --> AJ[MovePlayerValidator]
     
