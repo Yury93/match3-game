@@ -7,7 +7,7 @@
 
 - Динамическое игровое поле - случайная генерация уровня из нескольких конфигураций
 - Система бустеров - специальная бомба для уничтожения групп плиток
-- Гибкая система сложности - 4 уровня с разными параметрами
+- Гибкая система уровней с нарастающей сложностью - 10 уровней с разными параметрами
 - Прогрессивная система очков - разные формулы расчета результатов
 - Полноценный игровой цикл - победа/поражение с возможностью рестарта
 
@@ -15,7 +15,7 @@
 
 - Удобное решение для геймдизайна - config.ts
 - Проект строго следует принципам SOLID
-- Реализована собственная система DI через ServiceLocator
+- Реализована собственная система DI
 - Машина состояний (State Machine) для управления игровым процессом
 - Система механик с возможностью расширения
 - Оптимизированная загрузка ресурсов
@@ -26,6 +26,7 @@
 
 ```mermaid
 graph TD
+   graph TD
     A[EntryPoint] --> B[Game]
     B --> C[StateMachine]
     C --> D[InitializeState]
@@ -33,26 +34,41 @@ graph TD
     C --> F[GameLoopState]
     C --> G[ResultState]
     
-    E --> H[GameFactory]
-    E --> I[TileFactory]
-    E --> J[VFXFactory]
+    D --> H[ServiceLocator]
+    H --> I[AssetProvider]
+    H --> J[GameFactory]
+    H --> K[TileFactory]
+    H --> L[VfxFactory]
+    H --> M[LevelConfigService]
+    H --> N[LevelService]
+    H --> O[ProgressService]
+    H --> P[MovePlayerValidator]
     
-    F --> K[TableController]
-    K --> O[TableModel]
-    K --> P[TableView]
+    E --> Q[TableView]
+    E --> R[UiPanelView]
+    E --> S[Curtain]
+    E --> T[TableController]
+    T --> U[TableModel]
+    U --> V[TableCell]
+    T --> W[TableView]
+    E --> X[TileFactory]
+    X --> Y[Tile]
+    E --> Z[VfxFactory]
+    Z --> AA[VFXMessage]
+    Z --> AB[BombEffect]
     
-    F --> L[ProgressService]
-    F --> M[MechanicController]
-    M --> Q[BasicMechanic]
-    M --> R[BombBooster]
-    M --> S[TeleportBooster]
+    F --> AC[ProgressController]
+    F --> AD[MechanicController]
+    AD --> AE[BasicMechanic]
+    AD --> AF[BombBoosterMechanic]
+    AD --> AG[TeleportBoosterMechanic]
+    F --> AH[UIPanel]
+    AH --> AI[UIPanelView]
+    F --> AJ[MovePlayerValidator]
     
-    F --> N[UIPanel]
-    
-    G --> T[Curtain]
-    H --> U[UI Views]
-    J --> V[VFX Message]
-    J --> W[Bomb Effect]
+    G --> AK[Curtain]
+    G --> AL[ProgressService]
+ 
 ```
 
 # Игровой процесс
@@ -70,7 +86,7 @@ graph TD
 
 **_Условия победы:_**
 Достижение целевого количества очков за ограниченное число ходов
-Формула очков: groupSize "*" groupSize "*" 5 или groupSize (выбирается случайно)
+Формула очков: groupSize "*" groupSize "*" 5 или groupSize  
 
 **_Экран результатов:_**
 Анимированный занавес с сообщением
