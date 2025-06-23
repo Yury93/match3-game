@@ -39,24 +39,24 @@ graph TD
     F --> K[TableController]
     F --> L[ProgressService]
     F --> M[MechanicController]
-    F --> UI1[UIPanelController]
+    F --> N[UIPanelController]
     
-    K --> N[TableModel]
-    K --> O[TableView]
+    K --> O[TableModel]
+    K --> P[TableView]
     
-    M --> P[BasicMechanic]
-    M --> Q[BombBoosterMechanic]
-    M --> R[TeleportBoosterMechanic]
+    M --> Q[BasicMechanic]
+    M --> R[BombBoosterMechanic]
+    M --> S[TeleportBoosterMechanic]
     
-    G --> S[Curtain]
-    H --> T[UiPanelView]
-    J --> W[VFXMessage]
-    J --> X[BombEffect]
+    G --> T[Curtain]
+    H --> U[UiPanelView]
+    J --> V[VFXMessage]
+    J --> W[BombEffect]
     
-    style S fill:#f9f,stroke:#333
     style T fill:#f9f,stroke:#333
+    style U fill:#f9f,stroke:#333
+    style V fill:#f9f,stroke:#333
     style W fill:#f9f,stroke:#333
-    style X fill:#f9f,stroke:#333
 
 # Игровой процесс
 
