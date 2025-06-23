@@ -4,10 +4,30 @@ import { IService } from "../serviceLocator";
 import { IAssetProvider } from "./asset-provider";
 
 export interface IVfxFactory extends IService {
+  createVfxMessage(node: cc.Node, text: string): cc.Node;
   createVfxBomb(tile: ITile);
 }
 export class VfxFactory implements IVfxFactory {
   constructor(private _assetProvider: IAssetProvider) {}
+  createVfxMessage(node: cc.Node, text: string): cc.Node {
+    try {
+      const director = cc.director.getScene().getChildByName("Canvas");
+      const label = this._assetProvider
+        .instantiateAsset(PREFABS.LabelPrefab)
+        .getComponent(cc.Label);
+
+      const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
+      const localPos = director.convertToNodeSpaceAR(worldPos);
+
+      label.node.setParent(director);
+      label.node.setPosition(localPos);
+
+      label.string = text;
+      return label.node;
+    } catch (error) {
+      throw new Error("Failed to create vfx message: " + error);
+    }
+  }
   createVfxBomb(tile: ITile) {
     const explosion = this.createBombEffect(tile.sprite.node).getComponent(
       cc.Sprite
@@ -38,7 +58,7 @@ export class VfxFactory implements IVfxFactory {
       bombEffect.setPosition(localPos);
       return bombEffect;
     } catch (error) {
-      console.error("Failed to create curtain:", error);
+      console.error("Failed to create bomb:", error);
     }
   }
 }
