@@ -23,18 +23,26 @@ const GAME_LEVELS: {
   maxSteps: number;
   winScoreThreshold: number;
 }[] = [
-  { id: 0, maxSteps: 2, winScoreThreshold: 5 },
-  { id: 1, maxSteps: 5, winScoreThreshold: 15 },
-  { id: 2, maxSteps: 6, winScoreThreshold: 25 },
-  { id: 3, maxSteps: 10, winScoreThreshold: 50 },
-  { id: 4, maxSteps: 11, winScoreThreshold: 60 },
-  { id: 5, maxSteps: 12, winScoreThreshold: 100 },
-  { id: 6, maxSteps: 15, winScoreThreshold: 110 },
-  { id: 7, maxSteps: 20, winScoreThreshold: 150 },
-  { id: 8, maxSteps: 25, winScoreThreshold: 155 },
-  { id: 9, maxSteps: 25, winScoreThreshold: 160 },
-  { id: 10, maxSteps: 30, winScoreThreshold: 170 },
-  { id: 11, maxSteps: 100, winScoreThreshold: 500 },
+   { id: 0, maxSteps: 15, winScoreThreshold: 50 }, 
+  { id: 1, maxSteps: 12, winScoreThreshold: 40 },
+  { id: 2, maxSteps: 10, winScoreThreshold: 45 },
+  { id: 3, maxSteps: 9, winScoreThreshold: 50 },
+  { id: 4, maxSteps: 8, winScoreThreshold: 55 },
+  { id: 5, maxSteps: 7, winScoreThreshold: 60 },
+  { id: 6, maxSteps: 7, winScoreThreshold: 65 },
+  { id: 7, maxSteps: 8, winScoreThreshold: 70 },
+  { id: 8, maxSteps: 8, winScoreThreshold: 75 },
+  { id: 9, maxSteps: 9, winScoreThreshold: 80 },
+  { id: 10, maxSteps: 9, winScoreThreshold: 85 },
+  { id: 11, maxSteps: 10, winScoreThreshold: 90 },
+  { id: 12, maxSteps: 10, winScoreThreshold: 95 },
+  { id: 13, maxSteps: 11, winScoreThreshold: 100 },
+  { id: 14, maxSteps: 11, winScoreThreshold: 105 },
+  { id: 15, maxSteps: 12, winScoreThreshold: 110 },
+  { id: 16, maxSteps: 12, winScoreThreshold: 115 },
+  { id: 17, maxSteps: 13, winScoreThreshold: 120 },
+  { id: 18, maxSteps: 13, winScoreThreshold: 125 },
+  { id: 19, maxSteps: 14, winScoreThreshold: 130 },
 ];
 
 export const CONSTANTS = {
