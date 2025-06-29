@@ -10,10 +10,11 @@ import { MovePlayerValidator } from "../services/move-validator";
 import { LevelService } from "../services/levels/level-service";
 import { ProgressService } from "../services/levels/progress-service";
 import { ResultState } from "../states/result-state";
+import { IPayload } from "./payloads";
 
 export class StateMachine implements IStateMachine {
-  private _states: Record<string, IState>;
-  public currentState: IState | null = null;
+  private _states: Record<string, IState<IPayload>>;
+  public currentState: IState<IPayload> | null = null;
   constructor(serviceLocator: ServiceLocator) {
     console.log("start register process states in state machine");
     this.registerStates(serviceLocator);
@@ -46,8 +47,8 @@ export class StateMachine implements IStateMachine {
     console.log("States registered:", Object.keys(this._states));
   }
 
-  run(stateName: string, payload?: any): void {
-    const state = this._states[stateName];
+  run<T extends IPayload>(stateName: string, payload?: T): void {
+    const state = this._states[stateName]as IState<T> | undefined;;
 
     if (!state) {
       console.error(

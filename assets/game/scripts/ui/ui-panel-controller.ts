@@ -2,8 +2,7 @@ import { IMechanicController } from "../logic/game-mechanic/mechanic-controller"
 import { BoosterBombMechanic } from "../logic/game-mechanic/booster-bomb-mechanic";
 import { IUIPanelView } from "./ui-panel";
 import { IGameMechanic } from "../logic/game-mechanic/game-mechanic";
-import { TeleportBoosterMechanic } from "../logic/game-mechanic/teleport-booster-mechanic";
-import { ITile } from "../logic/tile";
+import { TeleportBoosterMechanic } from "../logic/game-mechanic/teleport-booster-mechanic"; 
 import { BoosterHandler } from "../logic/game-mechanic/booster-handler";
 import { IProgressService } from "../infrastructure/services/levels/progress-service";
 import { ProgressController } from "../logic/progress-controller";
@@ -31,8 +30,7 @@ export class UIPanelController {
 
     this._uiPanelView.onBombButtonClick = () => this.onClickBombBooster();
     this._uiPanelView.onTeleportButtonClick = () =>
-      this.onClickTeleportBooster();
-    this._mechanicService.onClickTile = (tile) => this.onClickTile(tile);
+      this.onClickTeleportBooster(); 
   }
   removeBoosterListeners() {
     this._uiPanelView.removeListeners();
@@ -82,8 +80,7 @@ export class UIPanelController {
       this._uiPanelView.playBombActivationAnimation();
     }
   }
-
-  private onClickTile(tile: ITile): void {}
+ 
 
   private setActiveBomb() {
     const bombMechanic =

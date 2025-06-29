@@ -1,10 +1,12 @@
-export interface IStateMachine {
-  currentState: IState | null;
+import { IPayload } from "./payloads";
 
-  run(stateName: string, payload?: any): void;
+export interface IStateMachine {
+  currentState: IState<IPayload>  | null;
+
+  run<T extends IPayload>(stateName: string, payload?: T): void;
 }
 
-export interface IState {
-  run(payload?: any): void;
+export interface IState<T = void> {
+  run(payload?: T): void;
   stop(): void;
 }

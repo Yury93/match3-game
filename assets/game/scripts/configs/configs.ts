@@ -2,11 +2,11 @@ import { TileType } from "../logic/tile-type";
 
 // Геймдизайнерские конфиги
 export const TABLE = [
-  {
-    column: 2,
-    lines: 2,
-    grid: 95,
-  },
+  // {
+  //   column: 2,
+  //   lines: 2,
+  //   grid: 95,
+  // }, //// Оставил для проверки варианта, когда сгенерировалось поле с отсутствием групп одинаковых тайлов
   {
     column: 9,
     lines: 9,

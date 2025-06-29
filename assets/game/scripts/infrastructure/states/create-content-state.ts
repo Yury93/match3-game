@@ -16,6 +16,7 @@ import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
 import { IProgressService } from "../services/levels/progress-service";
 import { ProgressController } from "../../logic/progress-controller";
 import { LevelService } from "../services/levels/level-service";
+import { IGameLoopPayload } from "../state-machine/payloads";
 
 export class CreateContentState implements IState {
   private _tableView: ITableView = null;
@@ -80,28 +81,23 @@ export class CreateContentState implements IState {
       uiPanelController
     );
   }
-
   private createViews() {
     this._tableView = this._gameFactory.createTableView();
     this._uiPanelView = this._gameFactory.createUiPanelView();
   }
-
   private createTableCells(): TableCell[][] {
     const content = this._tableView.getContent();
     return this._gameFactory.createTableCells(content);
   }
-
   private createTiles(tableCells: TableCell[][]): ITile[][] {
     return this._tilesFactory.createTiles(tableCells);
   }
-
   private createTableModel(
     tableCells: TableCell[][],
     tiles: ITile[][]
   ): ITableModel {
     return this._gameFactory.createTableModel(tableCells, tiles);
   }
-
   private createTableController(tableModel: ITableModel): ITableController {
     return this._gameFactory.createTableController(
       this._tableView,
@@ -109,7 +105,6 @@ export class CreateContentState implements IState {
       this._vfxFactory
     );
   }
-
   private createMechanicController(
     tableController: ITableController,
     tableModel: ITableModel
@@ -120,15 +115,12 @@ export class CreateContentState implements IState {
       tableModel
     );
   }
-
   private createBoosterHandler(): BoosterHandler {
     return new BoosterHandler(CONSTANTS.bombTrials, CONSTANTS.teleportTrials);
   }
-
   private createProgressController(): ProgressController {
     return new ProgressController(this._progressService, this._levelService);
   }
-
   private createUIPanelController(
     mechanicController: MechanicController,
     boosterHandler: BoosterHandler,
@@ -142,7 +134,6 @@ export class CreateContentState implements IState {
       boosterHandler
     );
   }
-
   private startGameLoopState(
     tableModel: ITableModel,
     tableController: ITableController,
@@ -150,7 +141,7 @@ export class CreateContentState implements IState {
     progressController: ProgressController,
     uiPanelController: UIPanelController
   ) {
-    this._stateMachine.run(StateNames.GameLoop, {
+    this._stateMachine.run<IGameLoopPayload>(StateNames.GameLoop, {
       tableModel,
       tableController,
       uiPanelView: this._uiPanelView,

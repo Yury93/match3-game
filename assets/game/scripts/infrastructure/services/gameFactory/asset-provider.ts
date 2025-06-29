@@ -9,8 +9,7 @@ export interface IAssetProvider extends IService {
 export class AssetProvider implements IAssetProvider {
   private _assets: Record<string, any> = {};
 
-  async loadAsset(path: string): Promise<any> {
-    // console.log(`Loading asset: ${path}`);
+  async loadAsset(path: string): Promise<any> { 
     if (this._assets[path]) {
       return this._assets[path];
     }
@@ -22,8 +21,7 @@ export class AssetProvider implements IAssetProvider {
           reject(err);
           return;
         }
-        this._assets[path] = prefab;
-        // console.log(`Asset loaded: ${path}`);
+        this._assets[path] = prefab; 
         resolve(prefab);
       });
     });

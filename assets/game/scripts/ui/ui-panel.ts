@@ -51,8 +51,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
       this
     );
     this.setBombButtonActive(true);
-    this.setTeleportButtonActive(true);
-    console.log("init ui panel view");
+    this.setTeleportButtonActive(true); 
   }
   updateScore(currentScore: number) {
     this.scoreLabel.string = `${currentScore}/${this._winScore}`;
@@ -62,8 +61,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.stepsLabel.string = remainingSteps.toString();
     this.animateLabel(this.stepsLabel, 0.5);
   }
-  updateBombCount(count: number) {
-    console.log("update bomb count ", this.countBombLabel);
+  updateBombCount(count: number) { 
     this.countBombLabel.string = count.toString();
     this.animateLabel(this.countBombLabel, 0.5);
   }
@@ -188,6 +186,11 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.bombButton?.node?.off(
       cc.Node.EventType.TOUCH_END,
       this.clickBomb,
+      this
+    );
+       this.teleportButton?.node?.off(
+      cc.Node.EventType.TOUCH_END,
+      this.clickTeleport,
       this
     );
   }
