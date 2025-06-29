@@ -1,3 +1,4 @@
+import { CONSTANTS, GAME_CONFIG } from "../../configs/configs";
 import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import { ITableController } from "../table/table-controller";
 import { ITableModel } from "../table/table-model";
@@ -8,6 +9,8 @@ import {
   MechanicEventType,
 } from "./mechanic-event-system";
 import { MechanicType } from "./mechanic-types";
+
+
 
 export abstract class AbstractMechanic implements IGameMechanic {
   protected tableController: ITableController;
@@ -23,10 +26,11 @@ export abstract class AbstractMechanic implements IGameMechanic {
   onTurnEnd(): void {
     throw new Error("Method not implemented.");
   }
-  onTileClick(tile: ITile): boolean {
+  onTileClick(tile: ITile): Promise<boolean> {
     throw new Error("Method not implemented.");
   }
-  protected dropTiles() {
+  protected async dropTiles() {
+   await setTimeout(()=> {
     const { columns, rows } = this.tableModel.getTileCount();
     for (let col = 0; col < columns; col++) {
       for (let row = rows - 1; row >= 0; row--) {
@@ -47,10 +51,11 @@ export abstract class AbstractMechanic implements IGameMechanic {
           }
         }
       }
-    }
+    }},CONSTANTS.dropTilesDelay);
   }
 
-  protected fillEmpty() {
+  protected async fillEmpty() {
+       await setTimeout(()=> {
     const { columns, rows } = this.tableModel.getTileCount();
     for (let col = 0; col < columns; col++) {
       for (let row = 0; row < rows; row++) {
@@ -62,7 +67,7 @@ export abstract class AbstractMechanic implements IGameMechanic {
           this.tableModel.onAddTile(newTile, cell);
         }
       }
-    }
+    }},CONSTANTS.dropTilesDelay);
   }
   dispatchUseMechanicEvent() {
     MechanicEventSystem.dispatch({

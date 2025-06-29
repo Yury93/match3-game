@@ -1,3 +1,4 @@
+import { CONSTANTS } from "../../configs/configs";
 import { IVfxFactory } from "../../infrastructure/services/gameFactory/vfx-factory";
 import { IMechanicController } from "../game-mechanic/mechanic-controller";
 import { TableCell } from "../table-cell";
@@ -43,8 +44,9 @@ export class TableController implements ITableController {
   onSwap(tile: ITile) {
     this._vfxFactory.createVfxMessage(tile.nodeTile, `а это хак`);
   }
-  beforeBurnGroupAction(tile: ITile, length: number) {
-    this._vfxFactory.createVfxMessage(tile.nodeTile, `+${length} очков!`);
+  beforeBurnGroupAction(tile: ITile, group: number) {
+    if(group > CONSTANTS.minGroupForBurn)
+    this._vfxFactory.createVfxMessage(tile.nodeTile, `+${group} очков!`);
   }
   beforeBombAction(tile: ITile, length: number) {
     this._vfxFactory.createVfxMessage(
@@ -91,7 +93,7 @@ export class TableController implements ITableController {
 
   onClearTile(tile: ITile) {
     tile.removeListener();
-    this._tableView.removeTile(tile);
+   tile.playDestroyAnimation(()=>tile.nodeTile.destroy());
   }
 
   onTileClick(tile: ITile) {

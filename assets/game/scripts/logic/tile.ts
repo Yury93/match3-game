@@ -36,10 +36,13 @@ export default class Tile extends cc.Component implements ITile {
   setActiveHightlight(active: boolean) {
     if (this.highlight.node) this.highlight.node.active = active;
     else throw new Error("no highlight node");
-  }
-  destroyTile() {
-    this.destroy();
-  }
+  } 
+    playDestroyAnimation(onComplete: () => void) {
+        cc.tween(this.node)
+            .to(0.5, { scale: 0 }, { easing: "backIn" }).delay(0.5)
+            .call(onComplete)
+            .start();
+    }
 }
 export interface ITile {
   tileType: TileType;
@@ -49,6 +52,6 @@ export interface ITile {
   Init(tileType: TileType, spriteFrame: cc.SpriteFrame);
   addListener(callback: (tile: ITile) => void);
   removeListener();
-  destroyTile();
+  playDestroyAnimation(onComplete: () => void);
   setActiveHightlight(active: boolean);
 }

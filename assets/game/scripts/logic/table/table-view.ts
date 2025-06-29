@@ -5,9 +5,7 @@ export interface ITableView {
   nodeView: cc.Node;
   getContent(): cc.Node;
   showFalseBurnMessage(tile: ITile);
-  addTile(tile: ITile, tableCell: TableCell);
-  explosion(tile: ITile);
-  removeTile(tile: ITile);
+  addTile(tile: ITile, tableCell: TableCell); 
   moveTile(tile: ITile, newPos: cc.Vec2);
 }
 
@@ -51,23 +49,7 @@ export default class TableView extends cc.Component implements ITableView {
           .start();
       })
       .start();
-  }
-  explosion(tile: ITile) {
-    cc.tween(tile.nodeTile)
-      .to(0.1, { scale: 0 }, { easing: "backIn" })
-      .call(() => {
-        tile.destroyTile();
-      })
-      .start();
-  }
-  removeTile(tile: ITile) {
-    cc.tween(tile.sprite.node)
-      .to(0.1, { scale: 0 }, { easing: "backIn" })
-      .call(() => {
-        tile.destroyTile();
-      })
-      .start();
-  }
+  } 
   moveTile(tile: ITile, newPos: cc.Vec2) {
     cc.tween(tile.nodeTile)
       .to(

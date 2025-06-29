@@ -11,7 +11,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     this.mechanicType = MechanicType.TeleportBoster;
   }
 
-  onTileClick(tile: ITile): boolean {
+  async onTileClick(tile: ITile): Promise<boolean> {
     if (!this.firstSelectedTile || !this.firstSelectedTile.nodeTile) {
       this.firstSelectedTile = tile;
       console.log(

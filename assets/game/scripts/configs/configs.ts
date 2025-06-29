@@ -50,6 +50,8 @@ export const CONSTANTS = {
   scoreFormulaIndex: 1,
   bombTrials: 3,
   teleportTrials: 3,
+  dropTilesDelay: 500,
+  minGroupForBurn:2
 };
 export type ScoreFormula = (groupSize: number) => number;
 const SCORE_FORMULAS: { formula: ScoreFormula }[] = [

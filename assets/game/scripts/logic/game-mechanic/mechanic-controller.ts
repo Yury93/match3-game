@@ -60,10 +60,10 @@ export class MechanicController implements IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined {
     return this._mechanics.find((m) => m instanceof type);
   }
-  onTileClick(tile: ITile) {
+  async onTileClick(tile: ITile) {
     if (!this._activeMechanic) return;
     if (this.onClickTile) this.onClickTile(tile);
-    const shouldReset = this._activeMechanic.onTileClick(tile);
+    const shouldReset = await this._activeMechanic.onTileClick(tile);
     if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
       this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }

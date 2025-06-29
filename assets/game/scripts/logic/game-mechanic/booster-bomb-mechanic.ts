@@ -11,7 +11,7 @@ export class BoosterBombMechanic extends AbstractMechanic {
     this.mechanicType = MechanicType.BombBoster;
   }
 
-  onTileClick(tile: ITile): boolean {
+  async onTileClick(tile: ITile): Promise<boolean> {
     this.tableController.onBombAction(tile);
     const { col, row } = this.tableModel.getTilePosition(tile as ITile);
     if (col < 0 || row < 0) return false;
@@ -41,8 +41,8 @@ export class BoosterBombMechanic extends AbstractMechanic {
       this.tableModel.getCell(pos.col, pos.row).setFree(true);
     });
 
-    this.dropTiles();
-    this.fillEmpty();
+   await this.dropTiles();
+  await  this.fillEmpty();
 
     if (this.tableController.onBurnAction)
       this.tableController.onBurnAction(tilesToBurn.length);
