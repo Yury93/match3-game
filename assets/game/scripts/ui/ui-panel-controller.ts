@@ -32,7 +32,7 @@ export class UIPanelController {
     this._uiPanelView.onTeleportButtonClick = () =>
       this.onClickTeleportBooster(); 
   }
-  removeBoosterListeners() {
+  removeClickBoosterListeners() {
     this._uiPanelView.removeListeners();
     this._mechanicService.removeListeners();
   }

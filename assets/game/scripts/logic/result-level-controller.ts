@@ -9,6 +9,6 @@ export class ResultLevelController {
 
   clearLevel() {
     this._progressService.resetLevel();
-    this._tableController.resetTable();
+    this._tableController.clearTableModel();
   }
 }

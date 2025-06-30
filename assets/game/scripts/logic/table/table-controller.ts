@@ -19,13 +19,11 @@ export interface ITableController {
   onEndTurnAction: () => void;
   init();
   setMechanicController(controller: IMechanicController);
-  moveTileOnView(tile: ITile, pos: cc.Vec2);
-  addTileOnView(tile: ITile, cell: TableCell);
   onClearTile(tile: ITile);
   onFalseBurned(tile: ITile);
   onTileClick(tile: ITile);
   onTurnEnd();
-  resetTable();
+  clearTableModel();
 }
 
 export class TableController implements ITableController {
@@ -45,8 +43,8 @@ export class TableController implements ITableController {
     this._vfxFactory.createVfxMessage(tile.nodeTile, `а это хак`);
   }
   beforeBurnGroupAction(tile: ITile, group: number) {
-    if(group > CONSTANTS.minGroupForBurn)
-    this._vfxFactory.createVfxMessage(tile.nodeTile, `+${group} очков!`);
+    if (group > CONSTANTS.minGroupForBurn)
+      this._vfxFactory.createVfxMessage(tile.nodeTile, `+${group} очков!`);
   }
   beforeBombAction(tile: ITile, length: number) {
     this._vfxFactory.createVfxMessage(
@@ -62,8 +60,7 @@ export class TableController implements ITableController {
       for (let row = 0; row < tiles[col].length; row++) {
         const tile: ITile = tiles[col][row];
         if (tile) {
-          tile.addListener(() => this.onTileClick(tile));
-          this._tableView.addTile(tile, cells[col][row]);
+          this.addTileOnView(tile, cells[col][row]);
         }
       }
     }
@@ -83,20 +80,14 @@ export class TableController implements ITableController {
   setMechanicController(controller: IMechanicController) {
     this._mechanicController = controller;
   }
-  moveTileOnView(tile: ITile, pos: cc.Vec2) {
-    this._tableView.moveTile(tile, pos);
-  }
-  addTileOnView(tile: ITile, cell: TableCell) {
-    this._tableView.addTile(tile, cell);
-    tile.addListener(() => this.onTileClick(tile));
-  }
-
   onClearTile(tile: ITile) {
+    console.log("тайл очищен от слушателей ", tile.tileType);
     tile.removeListener();
-   tile.playDestroyAnimation(()=>tile.nodeTile.destroy());
+    tile.playDestroyAnimation(() => tile.nodeTile.destroy());
   }
 
   onTileClick(tile: ITile) {
+    console.log("click  по тайлу ", tile.tileType);
     this._mechanicController.onTileClick(tile);
   }
 
@@ -113,7 +104,7 @@ export class TableController implements ITableController {
     );
     tile.setActiveHightlight(true);
   }
-  resetTable() {
+  clearTableModel() {
     this._model.clearTable();
   }
   removeClickTileListeners() {
@@ -122,7 +113,7 @@ export class TableController implements ITableController {
       for (let row = 0; row < tiles[col].length; row++) {
         const tile: ITile = tiles[col][row];
         if (tile) {
-          tile.removeListener();
+          tile.removeListener(); 
         }
       }
     }
@@ -130,5 +121,14 @@ export class TableController implements ITableController {
   onFalseBurned(tile: ITile) {}
   onTurnEnd() {
     if (this.onEndTurnAction) this.onEndTurnAction();
+  }
+  private moveTileOnView(tile: ITile, pos: cc.Vec2) {
+    this._tableView.moveTile(tile, pos);
+  }
+  private addTileOnView(tile: ITile, cell: TableCell) {
+    this._tableView.addTile(tile, cell);
+    tile.addListener( () =>
+      this.onTileClick(tile)
+    );
   }
 }

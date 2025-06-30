@@ -136,7 +136,7 @@ class GameEndHandler {
   ) {}
 
   handleGameEnd(results: string, message: string): void {
-    this.cleanupGameResources();
+    this.cleanListeners();
   this._gameEventCoordinator.removeEventListeners();
 
 
@@ -146,9 +146,9 @@ class GameEndHandler {
       tableController: this._tableController,
     });
   } 
-  private cleanupGameResources() {
-    this._boosterHandler.dispose();
+  private cleanListeners() {
+    this._boosterHandler.cleanListeners();
     this._tableController.removeClickTileListeners();
-    this._uiPanelController.removeBoosterListeners();
+    this._uiPanelController.removeClickBoosterListeners();
   }
 }
