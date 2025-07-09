@@ -1,19 +1,29 @@
+import {
+  IGlobalGameConfig,
+  IPrefabsConfig,
+  ITableConfig,
+  ITileModelsConfig,
+} from "../configs/config-types";
 import { ServiceLocator } from "./services/serviceLocator";
 import { StateMachine } from "./state-machine/game-state-machine";
-import { IStateMachine } from "./state-machine/state-interfaces";
+import { GameStateRegister as GameStatesRegister } from "./state-machine/game-states-register";
 import { StateNames } from "./state-machine/state-names";
-import { InitializeState } from "./states/initialize-state";
 
 export class Game {
-  public stateMachine: IStateMachine;
+  private _stateMachine: StateMachine;
 
-  constructor(serviceLocator: ServiceLocator) {
-    console.log("start create state machine");
-    this.stateMachine = new StateMachine(serviceLocator);
-    console.log(
-      "this.stateMachine.run(StateNames.Initialize);  / StateArgument:",
-      StateNames.Initialize
-    );
-    this.stateMachine.run(StateNames.Initialize);
+  constructor(params: {
+    serviceLocator: ServiceLocator;
+    tileModelConfig: ITileModelsConfig[];
+    prefabsConfig: IPrefabsConfig;
+    gameConfig: IGlobalGameConfig;
+    tableConfig: ITableConfig[];
+  }) {
+    const { serviceLocator, ...configs } = params;
+    this._stateMachine = new StateMachine({
+      serviceLocator: serviceLocator,
+      stateRegister: new GameStatesRegister(configs),
+    });
+    this._stateMachine.run(StateNames.Initialize);
   }
 }

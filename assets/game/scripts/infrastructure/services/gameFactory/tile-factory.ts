@@ -1,4 +1,5 @@
-import { PREFABS, TILE_MODELS } from "../../../configs/configs";
+
+import { IPrefabsConfig, ITileModelsConfig } from "../../../configs/config-types";
 import { TableCell } from "../../../logic/table-cell";
 import Tile, { ITile } from "../../../logic/tile";
 import { TileType } from "../../../logic/tile-type";
@@ -16,7 +17,14 @@ export interface ITileFactory extends IService {
   createRandomTile(cell: TableCell): ITile;
 }
 export class TileFactory implements ITileFactory {
-  constructor(private _assetProvider: IAssetProvider) {}
+  private _assetProvider: IAssetProvider;
+  private _tileModels: ITileModelsConfig[];
+  private _prefabs: IPrefabsConfig;
+  constructor(params: { assetProvider: IAssetProvider, tileModelsConfig: ITileModelsConfig[], prefabsConfig: IPrefabsConfig }) {
+    this._assetProvider = params.assetProvider;
+    this._tileModels = params.tileModelsConfig;
+    this._prefabs = params.prefabsConfig;
+  }
 
   createRandomTile(cell: TableCell): ITile {
     const tileModel = this.getRandomTileModel();
@@ -49,8 +57,8 @@ export class TileFactory implements ITileFactory {
   }
   getRandomTileModel(): { tileType: TileType; sprite: cc.SpriteFrame } {
     const mathRnd = Math.random();
-    const rnd = Math.floor(mathRnd * TILE_MODELS.length);
-    const model = TILE_MODELS[rnd];
+    const rnd = Math.floor(mathRnd * this._tileModels.length);
+    const model = this._tileModels[rnd];
     const spritePath = model.path;
     const tileType = model.type;
 
@@ -70,7 +78,7 @@ export class TileFactory implements ITileFactory {
   ): Tile {
     try {
       const tile: Tile = this._assetProvider
-        .instantiateAsset(PREFABS.tilePrefab)
+        .instantiateAsset(this._prefabs.tilePrefab)
         .getComponent(Tile);
 
       tile.node.setPosition(tileCell.getPosition());

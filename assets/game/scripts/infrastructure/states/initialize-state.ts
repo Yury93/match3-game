@@ -8,20 +8,51 @@ import { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { StateNames } from "../state-machine/state-names";
 import { LevelService } from "../services/levels/level-service";
 import { ProgressService } from "../services/levels/progress-service";
-import { GAME_CONFIG } from "../../configs/configs";
 import { LevelConfigService } from "../services/levels/level-config-service";
+import {
+  IGlobalGameConfig,
+  IPrefabsConfig,
+  ITableConfig,
+  ITileModelsConfig,
+} from "../../configs/config-types";
 
 export class InitializeState implements IState {
-  constructor(
-    private _stateMachine: IStateMachine,
-    private _serviceLocator: ServiceLocator
-  ) {
+  private _stateMachine: IStateMachine;
+  private _serviceLocator: ServiceLocator;
+  constructor(params: {
+    stateMachine: IStateMachine;
+    serviceLocator: ServiceLocator;
+    tileModelsConfig: ITileModelsConfig[];
+    prefabsConfig: IPrefabsConfig;
+    gameConfig: IGlobalGameConfig;
+    tableConfig: ITableConfig[];
+  }) {
     console.log("run RegisterDependecies");
+    const {
+      stateMachine,
+      serviceLocator,
+      tileModelsConfig,
+      prefabsConfig,
+      gameConfig,
+      tableConfig,
+    } = params;
+
+    this._serviceLocator = serviceLocator;
+    this._stateMachine = stateMachine;
+
     const assetProvider = new AssetProvider();
-    const gameFactory = new GameFactory(assetProvider);
-    const tileFactory = new TileFactory(assetProvider);
+    const gameFactory = new GameFactory({
+      assetProvider,
+      prefabsConfig,
+      tableConfig,
+    });
+    const tileFactory = new TileFactory({
+      assetProvider: assetProvider,
+      tileModelsConfig: tileModelsConfig,
+      prefabsConfig: prefabsConfig,
+    });
     const vfxFactory = new VfxFactory(assetProvider);
-    const levelConfigService = new LevelConfigService(GAME_CONFIG);
+    const levelConfigService = new LevelConfigService(gameConfig);
     const levelService = new LevelService(levelConfigService);
     const progressService = new ProgressService(
       levelService,

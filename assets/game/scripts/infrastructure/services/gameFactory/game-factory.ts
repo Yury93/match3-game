@@ -9,6 +9,7 @@ import Curtain from "../../../curtain/curtain";
 import { TableController } from "../../../logic/table/table-controller";
 import { UiPanelView } from "../../../ui/ui-panel";
 import { IVfxFactory } from "./vfx-factory";
+import { IPrefabsConfig, ITableConfig } from "../../../configs/config-types";
 
 export interface IGameFactory extends IService {
   loadAssets();
@@ -25,20 +26,28 @@ export interface IGameFactory extends IService {
 }
 
 export class GameFactory implements IGameFactory {
-  constructor(private _assetProvider: IAssetProvider) {}
+  private _assetProvider: IAssetProvider;
+  private _prefabsConfig: IPrefabsConfig;
+  private _tableConfig: ITableConfig[];
+  constructor(params: {
+    assetProvider: IAssetProvider;
+    prefabsConfig: IPrefabsConfig;
+    tableConfig: ITableConfig[];
+  }) {
+    const { assetProvider, prefabsConfig, tableConfig } = params;
+    this._assetProvider = assetProvider;
+    this._prefabsConfig = prefabsConfig;
+    this._tableConfig = tableConfig;
+  }
 
   async loadAssets() {
-    await this._assetProvider.loadAsset(PREFABS.curtainPrefab);
-    await this._assetProvider.loadAsset(PREFABS.tablePrefab);
-    await this._assetProvider.loadAsset(PREFABS.tilePrefab);
-    await this._assetProvider.loadAsset(PREFABS.UIPanelPrefab);
-    await this._assetProvider.loadAsset(PREFABS.BombEffectPrefab);
-    await this._assetProvider.loadAsset(PREFABS.LabelPrefab);
-    await Promise.all(
-      TILE_MODELS.map((tileModel) =>
+    const prefabs = this._prefabsConfig.getAll();
+    await Promise.all([
+      ...prefabs.map((prefab) => this._assetProvider.loadAsset(prefab)),
+      ...TILE_MODELS.map((tileModel) =>
         this._assetProvider.loadAsset(tileModel.path)
-      )
-    );
+      ),
+    ]);
   }
 
   createTableView(): TableView {
@@ -50,7 +59,7 @@ export class GameFactory implements IGameFactory {
   }
   createUiPanelView(): UiPanelView {
     try {
-      return this.instantiateOnCanvas(PREFABS.UIPanelPrefab, UiPanelView);
+      return this.instantiateOnCanvas(PREFABS.uIPanelPrefab, UiPanelView);
     } catch (error) {
       console.error("Failed to create UI panel:", error);
     }
@@ -89,7 +98,7 @@ export class GameFactory implements IGameFactory {
   createTableCells(content: cc.Node): TableCell[][] {
     const grid: TableCell[][] = [];
     const id = Math.floor(Math.random() * TABLE.length);
-    const tableConfig = TABLE[id];
+    const tableConfig = this._tableConfig[id];
     const columns = tableConfig.column;
     const lines = tableConfig.lines;
 

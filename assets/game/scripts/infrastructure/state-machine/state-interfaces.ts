@@ -8,3 +8,6 @@ export interface IState {
   run(payload?: any): void;
   stop(): void;
 }
+export interface IGameStates {
+    [stateName: string]: IState;
+}
