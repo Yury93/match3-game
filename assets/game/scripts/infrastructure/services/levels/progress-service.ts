@@ -1,6 +1,6 @@
-import { ScoreFormula } from "../../../configs/configs";
 import { LevelService } from "./level-service";
 import { IService } from "../serviceLocator";
+import { ScoreFormula } from "../../../configs/config-types";
 
 export interface IProgressService extends IService {
   currentScore: number;
@@ -52,7 +52,7 @@ export class ProgressService implements IProgressService {
   checkGameOver(): boolean {
     return (this.isGameOver =
       this.currentScore >=
-        this._levelService.getCurrentLevel().winScoreThreshold ||
+      this._levelService.getCurrentLevel().winScoreThreshold ||
       this.remainingSteps <= 0);
   }
 }

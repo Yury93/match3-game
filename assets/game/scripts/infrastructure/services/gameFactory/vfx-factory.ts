@@ -8,12 +8,12 @@ export interface IVfxFactory extends IService {
   createVfxBomb(tile: ITile);
 }
 export class VfxFactory implements IVfxFactory {
-  constructor(private _assetProvider: IAssetProvider) {}
+  constructor(private _assetProvider: IAssetProvider) { }
   createVfxMessage(node: cc.Node, text: string): cc.Node {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
       const label = this._assetProvider
-        .instantiateAsset(PREFABS.LabelPrefab)
+        .instantiateAsset(PREFABS.labelPrefab)
         .getComponent(cc.Label);
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -48,7 +48,7 @@ export class VfxFactory implements IVfxFactory {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
       const bombEffect = this._assetProvider.instantiateAsset(
-        PREFABS.BombEffectPrefab
+        PREFABS.bombEffectPrefab
       );
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
