@@ -1,3 +1,5 @@
+import { ServiceLocator } from "../services/serviceLocator";
+
 export interface IStateMachine {
   currentState: IState | null;
 
@@ -9,5 +11,11 @@ export interface IState {
   stop(): void;
 }
 export interface IGameStates {
-    [stateName: string]: IState;
+  [stateName: string]: IState;
+}
+export interface IStateRegister {
+  registerStates(params: {
+    serviceLocator: ServiceLocator;
+    stateMachine: IStateMachine;
+  }): IGameStates;
 }
