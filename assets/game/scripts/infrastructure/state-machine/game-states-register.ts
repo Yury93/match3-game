@@ -15,9 +15,9 @@ import { CreateContentState } from "../states/create-content-state";
 import { GameLoopState } from "../states/game-loop-state";
 import { InitializeState } from "../states/initialize-state";
 import { ResultState } from "../states/result-state";
-import { IGameStates, IStateMachine } from "./state-interfaces";
+import { IGameStates, IStateMachine, IStateRegister } from "./state-interfaces";
 
-export class GameStateRegister {
+export class GameStateRegister implements IStateRegister {
   private _tileModelConfig: ITileModelsConfig[];
   private _prefabsConfig: IPrefabsConfig;
   private _gameConfig: IGlobalGameConfig;

@@ -1,12 +1,11 @@
 import { ServiceLocator } from "../services/serviceLocator";
-import { GameStateRegister } from "./game-states-register";
-import { IState, IStateMachine } from "./state-interfaces";
+import { IState, IStateMachine, IStateRegister } from "./state-interfaces";
 
 export class StateMachine implements IStateMachine {
   private _states: Record<string, IState>;
   public currentState: IState | null = null;
   constructor(params: {
-    stateRegister: GameStateRegister;
+    stateRegister: IStateRegister;
     serviceLocator: ServiceLocator;
   }) {
     const { stateRegister, serviceLocator } = params;
