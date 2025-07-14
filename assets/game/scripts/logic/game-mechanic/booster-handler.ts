@@ -1,10 +1,13 @@
-import {
+import type {
   IMechanicEvent,
   IMechanicObserver,
+} from "./mechanic-event-system";
+import {
   MechanicEventSystem,
   MechanicEventType,
 } from "./mechanic-event-system";
 import { MechanicType } from "./mechanic-types";
+
 type UpdateCallback = () => void;
 
 export class BoosterHandler implements IMechanicObserver {

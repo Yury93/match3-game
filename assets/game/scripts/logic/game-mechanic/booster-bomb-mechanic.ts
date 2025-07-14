@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../../configs/configs";
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
-import { ITile } from "../tile";
+import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type { ITile } from "../tile";
+
 import { AbstractMechanic } from "./abstract-machanic";
 import { MechanicType } from "./mechanic-types";
 
@@ -44,8 +45,9 @@ export class BoosterBombMechanic extends AbstractMechanic {
     this.dropTiles();
     this.fillEmpty();
 
-    if (this.tableController.onBurnAction)
+    if (this.tableController.onBurnAction) {
       this.tableController.onBurnAction(tilesToBurn.length);
+    }
 
     this.dispatchUseMechanicEvent();
     this.onTurnEnd();

@@ -1,5 +1,6 @@
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
-import { ITile } from "../tile";
+import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type { ITile } from "../tile";
+
 import { AbstractMechanic } from "./abstract-machanic";
 import { MechanicType } from "./mechanic-types";
 
@@ -19,8 +20,9 @@ export class BasicMechanic extends AbstractMechanic {
     this.dropTiles();
     this.fillEmpty();
 
-    if (this.tableController.onBurnAction)
+    if (this.tableController.onBurnAction) {
       this.tableController.onBurnAction(group.length);
+    }
 
     this.dispatchUseMechanicEvent();
     return true;
@@ -33,7 +35,7 @@ export class BasicMechanic extends AbstractMechanic {
     console.log(
       "startTile: ",
       startTile,
-      `/tileSprite ${startTile.sprite} / tile node: ${startTile.nodeTile}`
+      `/tileSprite ${startTile.sprite} / tile node: ${startTile.nodeTile}`,
     );
 
     const tileCount = this.tableModel.getTileCount();

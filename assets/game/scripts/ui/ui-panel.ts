@@ -48,7 +48,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.teleportButton.node.on(
       cc.Node.EventType.TOUCH_END,
       this.clickTeleport,
-      this
+      this,
     );
     this.setBombButtonActive(true);
     this.setTeleportButtonActive(true);
@@ -96,7 +96,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
           scale: 1.25,
           color: cc.Color.RED,
         },
-        { easing: "sineOut" }
+        { easing: "sineOut" },
       )
       .to(
         0.4,
@@ -104,7 +104,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
           scale: 1.0,
           color: cc.Color.WHITE,
         },
-        { easing: "sineIn" }
+        { easing: "sineIn" },
       )
       .to(0.1, { angle: -5 })
       .to(0.1, { angle: 5 })
@@ -127,7 +127,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
           scale: 1.3,
           color: cc.Color.GREEN,
         },
-        { easing: "sineOut" }
+        { easing: "sineOut" },
       )
       .to(0.1, { scale: 1.1 })
       .to(0.1, { scale: 1.3 })
@@ -142,7 +142,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
               scale: 1,
               color: cc.Color.WHITE,
             },
-            { easing: "sineOut" }
+            { easing: "sineOut" },
           )
           .start();
       })
@@ -188,7 +188,7 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.bombButton?.node?.off(
       cc.Node.EventType.TOUCH_END,
       this.clickBomb,
-      this
+      this,
     );
   }
 }

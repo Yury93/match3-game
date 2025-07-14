@@ -1,5 +1,6 @@
-import { ITile } from "../tile";
-import { TableCell } from "../table-cell";
+import type { TableCell } from "../table-cell";
+import type { ITile } from "../tile";
+
 interface ITileGrid {
   getTableCells();
   getTiles();
@@ -23,7 +24,10 @@ export class TableModel implements ITableModel {
   onAddTileAction?: (tile: ITile, cell: TableCell) => void;
   onMoveTileAction?: (tile: ITile, pos: cc.Vec2) => void;
   onClearModelAction?: (tile: ITile) => void;
-  constructor(private _tableCells: TableCell[][], private _tiles: ITile[][]) {}
+  constructor(
+    private _tableCells: TableCell[][],
+    private _tiles: ITile[][],
+  ) {}
   onAddTile(tile: ITile, cell: TableCell) {
     if (this.onAddTileAction) this.onAddTileAction(tile, cell);
   }

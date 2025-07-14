@@ -1,4 +1,4 @@
-import { ServiceLocator } from "../services/serviceLocator";
+import type { ServiceLocator } from "../services/serviceLocator";
 
 export interface IStateMachine {
   currentState: IState | null;

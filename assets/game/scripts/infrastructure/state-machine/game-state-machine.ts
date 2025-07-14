@@ -1,5 +1,6 @@
-import { ServiceLocator } from "../services/serviceLocator";
-import { IState, IStateMachine, IStateRegister } from "./state-interfaces";
+import type { ServiceLocator } from "../services/serviceLocator";
+
+import type { IState, IStateMachine, IStateRegister } from "./state-interfaces";
 
 export class StateMachine implements IStateMachine {
   private _states: Record<string, IState>;
@@ -10,7 +11,7 @@ export class StateMachine implements IStateMachine {
   }) {
     const { stateRegister, serviceLocator } = params;
     this._states = stateRegister.registerStates({
-      serviceLocator: serviceLocator,
+      serviceLocator,
       stateMachine: this,
     });
   }
@@ -18,10 +19,10 @@ export class StateMachine implements IStateMachine {
     const state = this._states[stateName];
 
     if (!state) {
-      console.error(
+      cc.error(
         "State not registered:",
         stateName,
-        `/ all keys: ${Object.keys(this._states)}`
+        `/ all keys: ${Object.keys(this._states)}`,
       );
       return;
     }

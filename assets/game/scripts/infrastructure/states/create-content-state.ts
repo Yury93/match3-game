@@ -1,21 +1,21 @@
-import { ITableView } from "../../logic/table/table-view";
-import { TableCell } from "../../logic/table-cell";
-import { ITableModel } from "../../logic/table/table-model";
-import { ITile } from "../../logic/tile";
-import { IGameFactory } from "../services/gameFactory/game-factory";
-import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { ITableController } from "../../logic/table/table-controller";
-import { StateNames } from "../state-machine/state-names";
-import { ITileFactory } from "../services/gameFactory/tile-factory";
-import { IUIPanelView } from "../../ui/ui-panel";
-import { IVfxFactory } from "../services/gameFactory/vfx-factory";
-import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
-import { UIPanelController } from "../../ui/ui-panel-controller";
 import { CONSTANTS } from "../../configs/configs";
 import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
-import { IProgressService } from "../services/levels/progress-service";
+import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { ProgressController } from "../../logic/progress-controller";
-import { LevelService } from "../services/levels/level-service";
+import type { TableCell } from "../../logic/table-cell";
+import type { ITableController } from "../../logic/table/table-controller";
+import type { ITableModel } from "../../logic/table/table-model";
+import type { ITableView } from "../../logic/table/table-view";
+import type { ITile } from "../../logic/tile";
+import type { IUIPanelView } from "../../ui/ui-panel";
+import { UIPanelController } from "../../ui/ui-panel-controller";
+import type { IGameFactory } from "../services/gameFactory/game-factory";
+import type { ITileFactory } from "../services/gameFactory/tile-factory";
+import type { IVfxFactory } from "../services/gameFactory/vfx-factory";
+import type { LevelService } from "../services/levels/level-service";
+import type { IProgressService } from "../services/levels/progress-service";
+import type { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { StateNames } from "../state-machine/state-names";
 
 export class CreateContentState implements IState {
   private _tableView: ITableView = null;
@@ -28,10 +28,10 @@ export class CreateContentState implements IState {
     private _tilesFactory: ITileFactory,
     private _vfxFactory: IVfxFactory,
     private _progressService: IProgressService,
-    private _levelService: LevelService
+    private _levelService: LevelService,
   ) {}
   async run(): Promise<void> {
-    console.log("run create content state");
+    cc.log("run create content state");
     if (!this._isLoadAssets) {
       await this._gameFactory.loadAssets();
       this._isLoadAssets = true;
@@ -59,7 +59,7 @@ export class CreateContentState implements IState {
     const tableController = this.createTableController(tableModel);
     const mechanicController = this.createMechanicController(
       tableController,
-      tableModel
+      tableModel,
     );
 
     tableController.setMechanicController(mechanicController);
@@ -69,7 +69,7 @@ export class CreateContentState implements IState {
     const uiPanelController = this.createUIPanelController(
       mechanicController,
       boosterHandler,
-      progressController
+      progressController,
     );
 
     this.startGameLoopState(
@@ -77,7 +77,7 @@ export class CreateContentState implements IState {
       tableController,
       boosterHandler,
       progressController,
-      uiPanelController
+      uiPanelController,
     );
   }
 
@@ -97,7 +97,7 @@ export class CreateContentState implements IState {
 
   private createTableModel(
     tableCells: TableCell[][],
-    tiles: ITile[][]
+    tiles: ITile[][],
   ): ITableModel {
     return this._gameFactory.createTableModel(tableCells, tiles);
   }
@@ -106,18 +106,18 @@ export class CreateContentState implements IState {
     return this._gameFactory.createTableController(
       this._tableView,
       tableModel,
-      this._vfxFactory
+      this._vfxFactory,
     );
   }
 
   private createMechanicController(
     tableController: ITableController,
-    tableModel: ITableModel
+    tableModel: ITableModel,
   ): MechanicController {
     return new MechanicController(
       this._tilesFactory,
       tableController,
-      tableModel
+      tableModel,
     );
   }
 
@@ -132,14 +132,14 @@ export class CreateContentState implements IState {
   private createUIPanelController(
     mechanicController: MechanicController,
     boosterHandler: BoosterHandler,
-    progressController: ProgressController
+    progressController: ProgressController,
   ): UIPanelController {
     return new UIPanelController(
       progressController,
       this._progressService,
       this._uiPanelView,
       mechanicController,
-      boosterHandler
+      boosterHandler,
     );
   }
 
@@ -148,7 +148,7 @@ export class CreateContentState implements IState {
     tableController: ITableController,
     boosterHandler: BoosterHandler,
     progressController: ProgressController,
-    uiPanelController: UIPanelController
+    uiPanelController: UIPanelController,
   ) {
     this._stateMachine.run(StateNames.GameLoop, {
       tableModel,
@@ -161,6 +161,6 @@ export class CreateContentState implements IState {
   }
 
   stop(): void {
-    console.log("stop create content state");
+    cc.log("stop create content state");
   }
 }

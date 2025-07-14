@@ -1,12 +1,13 @@
-import { IMechanicController } from "../logic/game-mechanic/mechanic-controller";
+import type { IProgressService } from "../infrastructure/services/levels/progress-service";
 import { BoosterBombMechanic } from "../logic/game-mechanic/booster-bomb-mechanic";
-import { IUIPanelView } from "./ui-panel";
-import { IGameMechanic } from "../logic/game-mechanic/game-mechanic";
+import type { BoosterHandler } from "../logic/game-mechanic/booster-handler";
+import type { IGameMechanic } from "../logic/game-mechanic/game-mechanic";
+import type { IMechanicController } from "../logic/game-mechanic/mechanic-controller";
 import { TeleportBoosterMechanic } from "../logic/game-mechanic/teleport-booster-mechanic";
-import { ITile } from "../logic/tile";
-import { BoosterHandler } from "../logic/game-mechanic/booster-handler";
-import { IProgressService } from "../infrastructure/services/levels/progress-service";
-import { ProgressController } from "../logic/progress-controller";
+import type { ProgressController } from "../logic/progress-controller";
+import type { ITile } from "../logic/tile";
+
+import type { IUIPanelView } from "./ui-panel";
 
 export class UIPanelController {
   constructor(
@@ -14,7 +15,7 @@ export class UIPanelController {
     private _progressService: IProgressService,
     private _uiPanelView: IUIPanelView,
     private _mechanicService: IMechanicController,
-    private boosterService: BoosterHandler
+    private boosterService: BoosterHandler,
   ) {
     this.start();
   }
@@ -22,7 +23,7 @@ export class UIPanelController {
   private start() {
     this._uiPanelView.init(
       this._progressController.getWinScoreThreshold(),
-      this._progressService.getMaxStep()
+      this._progressService.getMaxStep(),
     );
 
     this.updateBoostersUI();
@@ -65,7 +66,7 @@ export class UIPanelController {
 
     if (this.boosterService.getTeleportTrials() > 0) {
       const teleportMechanic = this._mechanicService.getMechanicByType(
-        TeleportBoosterMechanic
+        TeleportBoosterMechanic,
       );
       this._mechanicService.setActiveMechanic(teleportMechanic);
       this._uiPanelView.playTeleportActivationAnimation();

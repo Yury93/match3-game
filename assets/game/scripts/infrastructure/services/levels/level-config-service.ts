@@ -1,8 +1,8 @@
-import { IGlobalGameConfig } from "../../../configs/config-types";
-import { IService } from "../serviceLocator";
+import type { IGlobalGameConfig } from "../../../configs/config-types";
+import type { IService } from "../serviceLocator";
 
 export class LevelConfigService implements IService {
-  constructor(private _config: IGlobalGameConfig) { }
+  constructor(private _config: IGlobalGameConfig) {}
 
   getLevel(levelId: number) {
     return this._config.getLevel(levelId);

@@ -1,5 +1,6 @@
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
-import { ITile } from "../tile";
+import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type { ITile } from "../tile";
+
 import { AbstractMechanic } from "./abstract-machanic";
 import { MechanicType } from "./mechanic-types";
 
@@ -16,7 +17,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
       this.firstSelectedTile = tile;
       console.log(
         "first tile selected setup: ",
-        this.firstSelectedTile.nodeTile
+        this.firstSelectedTile.nodeTile,
       );
       this.tableController.onSelectTile(tile);
       return false;
@@ -33,8 +34,9 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     if (!pos1 || !pos2) return false;
 
     this.swapTiles(pos1, pos2, tile);
-    if (this.firstSelectedTile && this.firstSelectedTile.nodeTile)
+    if (this.firstSelectedTile && this.firstSelectedTile.nodeTile) {
       this.tableController.onDeselectTile(this.firstSelectedTile);
+    }
     this.firstSelectedTile = null;
     this.tableController.onSwap(tile);
     return true;
@@ -43,7 +45,7 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
   private swapTiles(
     pos1: { col: number; row: number },
     pos2: { col: number; row: number },
-    tile: ITile
+    tile: ITile,
   ) {
     const tile1 = this.tableModel.getTile(pos1.col, pos1.row);
     const tile2 = this.tableModel.getTile(pos2.col, pos2.row);
@@ -52,11 +54,9 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     const pos4 = this.tableModel.getTilePosition(tile);
 
     console.log(
-      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(
-        pos3
-      )},\n second tile type: ${
+      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(pos3)},\n second tile type: ${
         tile2.tileType
-      }, second tile type: ${JSON.stringify(pos4)}`
+      }, second tile type: ${JSON.stringify(pos4)}`,
     );
     if (!tile1 || !tile2) return;
 
@@ -69,11 +69,9 @@ export class TeleportBoosterMechanic extends AbstractMechanic {
     const pos6 = this.tableModel.getTilePosition(tile);
 
     console.log(
-      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(
-        pos5
-      )},\n second tile type: ${
+      `first tile type: ${tile1.tileType},first tile pos:  ${JSON.stringify(pos5)},\n second tile type: ${
         tile2.tileType
-      }, second tile type: ${JSON.stringify(pos6)}`
+      }, second tile type: ${JSON.stringify(pos6)}`,
     );
     this.tableModel.onMoveTileAction(tile1, cell2.getPosition());
     this.tableModel.onMoveTileAction(tile2, cell1.getPosition());

@@ -1,8 +1,9 @@
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
-import { ITableController } from "../table/table-controller";
-import { ITableModel } from "../table/table-model";
-import { ITile } from "../tile";
-import { IGameMechanic } from "./game-mechanic";
+import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type { ITableController } from "../table/table-controller";
+import type { ITableModel } from "../table/table-model";
+import type { ITile } from "../tile";
+
+import type { IGameMechanic } from "./game-mechanic";
 import {
   MechanicEventSystem,
   MechanicEventType,
@@ -38,7 +39,7 @@ export abstract class AbstractMechanic implements IGameMechanic {
               this.tableModel.setTile(col, k, null);
               this.tableModel.onMoveTileAction(
                 tileTarget,
-                this.tableModel.getCell(col, row).getPosition()
+                this.tableModel.getCell(col, row).getPosition(),
               );
               this.tableModel.getCell(col, row).setFree(false);
               this.tableModel.getCell(col, k).setFree(true);

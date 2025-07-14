@@ -1,5 +1,5 @@
-import { IGameMechanic } from "./game-mechanic";
-import { MechanicType } from "./mechanic-types";
+import type { IGameMechanic } from "./game-mechanic";
+import type { MechanicType } from "./mechanic-types";
 
 export enum MechanicEventType {
   MECHANIC_USED = "MECHANIC_USED",

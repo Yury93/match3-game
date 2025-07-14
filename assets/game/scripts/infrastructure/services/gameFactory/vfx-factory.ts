@@ -1,14 +1,15 @@
 import { PREFABS } from "../../../configs/configs";
-import { ITile } from "../../../logic/tile";
-import { IService } from "../serviceLocator";
-import { IAssetProvider } from "./asset-provider";
+import type { ITile } from "../../../logic/tile";
+import type { IService } from "../serviceLocator";
+
+import type { IAssetProvider } from "./asset-provider";
 
 export interface IVfxFactory extends IService {
   createVfxMessage(node: cc.Node, text: string): cc.Node;
   createVfxBomb(tile: ITile);
 }
 export class VfxFactory implements IVfxFactory {
-  constructor(private _assetProvider: IAssetProvider) { }
+  constructor(private _assetProvider: IAssetProvider) {}
   createVfxMessage(node: cc.Node, text: string): cc.Node {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
@@ -30,7 +31,7 @@ export class VfxFactory implements IVfxFactory {
   }
   createVfxBomb(tile: ITile) {
     const explosion = this.createBombEffect(tile.sprite.node).getComponent(
-      cc.Sprite
+      cc.Sprite,
     );
     explosion.node.active = true;
     explosion.node.opacity = 0;
@@ -48,7 +49,7 @@ export class VfxFactory implements IVfxFactory {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
       const bombEffect = this._assetProvider.instantiateAsset(
-        PREFABS.bombEffectPrefab
+        PREFABS.bombEffectPrefab,
       );
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));

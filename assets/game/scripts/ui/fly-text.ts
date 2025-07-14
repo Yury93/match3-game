@@ -22,11 +22,11 @@ export default class FlyText extends cc.Component {
             position: cc.v3(
               startPos.x,
               startPos.y + this.moveDistance,
-              startPos.z
+              startPos.z,
             ),
           }),
 
-        cc.tween().to(this.duration, { opacity: 0 }, { easing: "fade" })
+        cc.tween().to(this.duration, { opacity: 0 }, { easing: "fade" }),
       )
 
       .call(() => {

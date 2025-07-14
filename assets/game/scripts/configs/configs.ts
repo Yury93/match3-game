@@ -1,5 +1,6 @@
 import { TileType } from "../logic/tile-type";
-import {
+
+import type {
   IConstantsConfig,
   IGameLevelsConfig,
   IGlobalGameConfig,
@@ -7,7 +8,6 @@ import {
   IScoreFormula,
   ITableConfig,
   ITileModelsConfig,
-  ScoreFormula,
 } from "./config-types";
 
 /**
