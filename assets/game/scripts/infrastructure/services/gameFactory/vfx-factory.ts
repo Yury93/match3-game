@@ -1,5 +1,5 @@
 import { PREFABS } from "../../../configs/configs";
-import { ITile } from "../../../logic/tile";
+import type { ITile } from "../../../logic/tile";
 import type { IService } from "../serviceLocator";
 
 import type { IAssetProvider } from "./asset-provider";

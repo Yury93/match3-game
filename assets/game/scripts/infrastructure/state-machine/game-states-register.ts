@@ -9,18 +9,18 @@ import { LevelService } from "../services/levels/level-service";
 import { GameLoopState } from "../states/game-loop-state";
 import { MovePlayerValidator } from "../services/move-validator";
 import { ResultState } from "../states/result-state";
+import type {
+  IGlobalGameConfig,
+  IPrefabsConfig,
+  ITableConfig,
+  ITileModelsConfig,
+} from "../../configs/config-types";
 
 import type {
   IGameStates,
   IStateMachine,
   IStateRegister,
 } from "./state-interfaces";
-import {
-  IGlobalGameConfig,
-  IPrefabsConfig,
-  ITableConfig,
-  ITileModelsConfig,
-} from "../../configs/config-types";
 
 export class GameStateRegister implements IStateRegister {
   private _tileModelConfig: ITileModelsConfig[];

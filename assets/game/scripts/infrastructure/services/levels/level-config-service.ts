@@ -1,4 +1,4 @@
-import { IGlobalGameConfig } from "../../../configs/config-types";
+import type { IGlobalGameConfig } from "../../../configs/config-types";
 import type { IService } from "../serviceLocator";
 
 export class LevelConfigService implements IService {

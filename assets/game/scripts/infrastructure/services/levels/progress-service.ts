@@ -1,6 +1,7 @@
-import { ScoreFormula } from "../../../configs/config-types";
+import type { ScoreFormula } from "../../../configs/config-types";
 import type { IService } from "../serviceLocator";
-import { LevelService } from "./level-service";
+
+import type { LevelService } from "./level-service";
 
 export interface IProgressService extends IService {
   currentScore: number;

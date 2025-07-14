@@ -1,10 +1,11 @@
-import {
+import type {
   IPrefabsConfig,
   ITileModelsConfig,
 } from "../../../configs/config-types";
-import { TableCell } from "../../../logic/table-cell";
-import { ITile, Tile } from "../../../logic/tile";
-import { TileType } from "../../../logic/tile-type";
+import type { TableCell } from "../../../logic/table-cell";
+import type { ITile } from "../../../logic/tile";
+import { Tile } from "../../../logic/tile";
+import type { TileType } from "../../../logic/tile-type";
 import type { IService } from "../serviceLocator";
 
 import type { IAssetProvider } from "./asset-provider";

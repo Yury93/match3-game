@@ -1,19 +1,21 @@
 import type { IService } from "../serviceLocator";
-
-import type { IVfxFactory } from "./vfx-factory";
-import type { IAssetProvider } from "./asset-provider";
-import { ITableView, TableView } from "../../../logic/table/table-view";
+import type { ITableView } from "../../../logic/table/table-view";
+import { TableView } from "../../../logic/table/table-view";
 import { TableCell } from "../../../logic/table-cell";
-import { ITile } from "../../../logic/tile";
-import { ITableModel, TableModel } from "../../../logic/table/table-model";
+import type { ITile } from "../../../logic/tile";
+import type { ITableModel } from "../../../logic/table/table-model";
+import { TableModel } from "../../../logic/table/table-model";
 import { UiPanelView } from "../../../ui/ui-panel";
 import { Curtain } from "../../../curtain/curtain";
-import {
+import type {
   IPrefabsConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../../../configs/config-types";
 import { TableController } from "../../../logic/table/table-controller";
+
+import type { IAssetProvider } from "./asset-provider";
+import type { IVfxFactory } from "./vfx-factory";
 
 export interface IGameFactory extends IService {
   loadAssets();

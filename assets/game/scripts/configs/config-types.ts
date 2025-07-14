@@ -1,4 +1,4 @@
-import { TileType } from "../logic/tile-type";
+import type { TileType } from "../logic/tile-type";
 
 /**
  * Конфигурация игрового поля

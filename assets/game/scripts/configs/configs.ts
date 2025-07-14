@@ -1,4 +1,5 @@
 import { TileType } from "../logic/tile-type";
+
 import type {
   IConstantsConfig,
   IGameLevelsConfig,
