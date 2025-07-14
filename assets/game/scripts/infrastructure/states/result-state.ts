@@ -21,21 +21,17 @@ export class ResultState implements IState {
       payload.tableController
     );
 
+    const curtain = this._gameFactory.createCurtain();
     if (payload.result === "win") {
-      const curtain = this._gameFactory.createCurtain();
-      curtain.win(payload.message);
-      curtain.onContinue = () => {
-        () => resultController.clearLevel();
-        this._stateMachine.run(StateNames.CreateContent);
-      };
+      await curtain.win(payload.message);
+      await curtain.waitForClickContinue();
     } else {
-      const curtain = this._gameFactory.createCurtain();
-      curtain.lose(payload.message);
-      curtain.onRestart = () => {
-        () => resultController.clearLevel();
-        this._stateMachine.run(StateNames.CreateContent);
-      };
+      await curtain.lose(payload.message);
+      await curtain.waitForClickRestart();
     }
+    curtain.node.destroy();
+    resultController.clearLevel();
+    this._stateMachine.run(StateNames.CreateContent);
   }
-  stop(): void {}
+  stop() {}
 }
