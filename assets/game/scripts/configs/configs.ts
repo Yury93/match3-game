@@ -65,6 +65,10 @@ export const GAME_LEVELS: IGameLevelsConfig[] = [
 /**
  * Глобальные игровые константы
  * @type {IConstantsConfig}
+ * @param {number} boosterBombR - радиус действия бомбы
+ * @param {number} scoreFormulaIndex - индекс используемой формулы подсчета очков
+ * @param {number} bombTrials - количество доступных бустера "бомб"
+ * @param {number} teleportTrials - количество доступных бустера "телепортов"
  */
 export const CONSTANTS: IConstantsConfig = {
   boosterBombR: 1,
