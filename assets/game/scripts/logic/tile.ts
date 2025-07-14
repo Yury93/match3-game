@@ -3,7 +3,7 @@ import { TileType } from "./tile-type";
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class Tile extends cc.Component implements ITile {
+export class Tile extends cc.Component implements ITile {
   @property
   tileType: TileType = TileType.BLUE;
   @property(cc.Sprite)
@@ -17,7 +17,6 @@ export default class Tile extends cc.Component implements ITile {
     this.nodeTile = this.node;
     this.tileType = TileType;
     this.sprite.spriteFrame = spriteFrame;
-    console.log("init ", `${this.nodeTile} ${this.tileType} ${this.sprite}`);
   }
 
   protected onDestroy(): void {

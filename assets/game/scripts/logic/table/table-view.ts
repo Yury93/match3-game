@@ -1,5 +1,5 @@
-import { TableCell } from "../table-cell";
-import { ITile } from "../tile";
+import type { TableCell } from "../table-cell";
+import type { ITile } from "../tile";
 
 export interface ITableView {
   nodeView: cc.Node;
@@ -14,7 +14,7 @@ export interface ITableView {
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class TableView extends cc.Component implements ITableView {
+export class TableView extends cc.Component implements ITableView {
   @property(cc.Node)
   content: cc.Node = null;
   nodeView: cc.Node = null;
@@ -32,7 +32,7 @@ export default class TableView extends cc.Component implements ITableView {
       cc.scaleTo(0.1, 1.2),
       cc.scaleTo(0.1, 0.9),
       cc.scaleTo(0.1, 1.1),
-      cc.scaleTo(0.1, 1.0)
+      cc.scaleTo(0.1, 1.0),
     );
 
     node.runAction(pulseAction);
@@ -76,7 +76,7 @@ export default class TableView extends cc.Component implements ITableView {
           x: newPos.x,
           y: newPos.y,
         },
-        { easing: "quadOut" }
+        { easing: "quadOut" },
       )
       .start();
   }

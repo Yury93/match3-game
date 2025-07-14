@@ -2,7 +2,7 @@ export class ServiceLocator {
   private static _instance: ServiceLocator = null;
   private _services: Map<Function, any> = new Map();
 
-  public static Container(): ServiceLocator {
+  public static container(): ServiceLocator {
     if (this._instance == null) {
       console.log("start create sl instance");
       this._instance = new ServiceLocator();
@@ -17,7 +17,7 @@ export class ServiceLocator {
   }
 
   public single<TService extends IService>(
-    type?: new (...args: any[]) => TService
+    type?: new (...args: any[]) => TService,
   ): TService {
     const serviceType = type;
     console.log("get service ", serviceType);

@@ -1,10 +1,14 @@
+import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type {
+  ITableController,
+  TableController,
+} from "../table/table-controller";
+import type { ITableModel, TableModel } from "../table/table-model";
+import type { ITile } from "../tile";
+
 import { BasicMechanic } from "./basic-mechanic";
 import { BoosterBombMechanic as BombBoosterMechanic } from "./booster-bomb-mechanic";
-import { IGameMechanic } from "./game-mechanic";
-import { ITableController, TableController } from "../table/table-controller";
-import { ITableModel, TableModel } from "../table/table-model";
-import { ITile } from "../tile";
-import { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
+import type { IGameMechanic } from "./game-mechanic";
 import { TeleportBoosterMechanic } from "./teleport-booster-mechanic";
 
 export interface IMechanicController {
@@ -12,7 +16,7 @@ export interface IMechanicController {
   initMechanics(
     tableController: TableController,
     tableModel: TableModel,
-    mechanic: IGameMechanic[]
+    mechanic: IGameMechanic[],
   );
   getActiveMechanic(): IGameMechanic | null;
   setActiveMechanic(mechanic: IGameMechanic);
@@ -28,7 +32,7 @@ export class MechanicController implements IMechanicController {
   constructor(
     tileFactory: ITileFactory,
     tableController: ITableController,
-    tableModel: ITableModel
+    tableModel: ITableModel,
   ) {
     this.initMechanics(tableController, tableModel, [
       new BasicMechanic(tileFactory),
@@ -40,7 +44,7 @@ export class MechanicController implements IMechanicController {
   initMechanics(
     tableController: ITableController,
     tableModel: ITableModel,
-    mechanics: IGameMechanic[]
+    mechanics: IGameMechanic[],
   ) {
     this._mechanics = mechanics;
     mechanics.forEach((m) => m.init(tableController, tableModel));

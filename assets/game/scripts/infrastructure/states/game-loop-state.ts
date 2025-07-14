@@ -1,12 +1,12 @@
-import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
-import { ProgressController } from "../../logic/progress-controller";
-import { ITableController } from "../../logic/table/table-controller";
-import { ITableModel } from "../../logic/table/table-model";
-import { IUIPanelView } from "../../ui/ui-panel";
-import { UIPanelController } from "../../ui/ui-panel-controller";
-import { IProgressService } from "../services/levels/progress-service";
-import { MovePlayerValidator } from "../services/move-validator";
-import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import type { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
+import type { ProgressController } from "../../logic/progress-controller";
+import type { ITableController } from "../../logic/table/table-controller";
+import type { ITableModel } from "../../logic/table/table-model";
+import type { IUIPanelView } from "../../ui/ui-panel";
+import type { UIPanelController } from "../../ui/ui-panel-controller";
+import type { IProgressService } from "../services/levels/progress-service";
+import type { MovePlayerValidator } from "../services/move-validator";
+import type { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { StateNames } from "../state-machine/state-names";
 
 export class GameLoopState implements IState {
@@ -20,7 +20,7 @@ export class GameLoopState implements IState {
   constructor(
     private _stateMachine: IStateMachine,
     private _progressService: IProgressService,
-    private _movePlayerValidator: MovePlayerValidator
+    private _movePlayerValidator: MovePlayerValidator,
   ) {}
 
   run(payload: {
@@ -98,7 +98,7 @@ export class GameLoopState implements IState {
 
     this._stateMachine.run(StateNames.ResultState, {
       result: results,
-      message: message,
+      message,
       tableController: this._tableController,
     });
   }

@@ -1,4 +1,4 @@
-import { IService } from "../serviceLocator";
+import type { IService } from "../serviceLocator";
 
 export interface IAssetProvider extends IService {
   loadAsset(assetName: string): Promise<any>;
@@ -18,12 +18,11 @@ export class AssetProvider implements IAssetProvider {
     return new Promise((resolve, reject) => {
       cc.resources.load(path, (err, prefab) => {
         if (err) {
-          console.error(`Failed to load asset: ${path}`, err);
+          cc.error(`Failed to load asset: ${path}`, err);
           reject(err);
           return;
         }
         this._assets[path] = prefab;
-        // console.log(`Asset loaded: ${path}`);
         resolve(prefab);
       });
     });
@@ -36,14 +35,13 @@ export class AssetProvider implements IAssetProvider {
       const asset = cc.instantiate(this._assets[assetName]);
       return asset;
     } else {
-      console.error(`Asset not found: ${assetName}`);
+      cc.error(`Asset not found: ${assetName}`);
       return null;
     }
   }
 
   unloadAsset(assetName: string): void {
     if (this._assets[assetName]) {
-      console.log(`Unloading asset: ${assetName}`);
       cc.resources.release(this._assets[assetName]);
       delete this._assets[assetName];
     }

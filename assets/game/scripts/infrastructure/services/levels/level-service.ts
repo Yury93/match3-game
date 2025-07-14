@@ -1,5 +1,6 @@
-import { LevelConfigService } from "./level-config-service";
-import { IService } from "../serviceLocator";
+import type { IService } from "../serviceLocator";
+
+import type { LevelConfigService } from "./level-config-service";
 
 export class LevelService implements IService {
   private _currentLevelId = 0;

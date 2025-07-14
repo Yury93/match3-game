@@ -1,9 +1,10 @@
-import { IVfxFactory } from "../../infrastructure/services/gameFactory/vfx-factory";
-import { IMechanicController } from "../game-mechanic/mechanic-controller";
-import { TableCell } from "../table-cell";
-import { ITile } from "../tile";
-import { ITableModel } from "./table-model";
-import { ITableView } from "./table-view";
+import type { IVfxFactory } from "../../infrastructure/services/gameFactory/vfx-factory";
+import type { IMechanicController } from "../game-mechanic/mechanic-controller";
+import type { TableCell } from "../table-cell";
+import type { ITile } from "../tile";
+
+import type { ITableModel } from "./table-model";
+import type { ITableView } from "./table-view";
 
 export interface ITableController {
   onSwap(tile: ITile);
@@ -36,7 +37,7 @@ export class TableController implements ITableController {
   constructor(
     private _tableView: ITableView,
     private _model: ITableModel,
-    private _vfxFactory: IVfxFactory
+    private _vfxFactory: IVfxFactory,
   ) {
     this.init();
   }
@@ -49,7 +50,7 @@ export class TableController implements ITableController {
   beforeBombAction(tile: ITile, length: number) {
     this._vfxFactory.createVfxMessage(
       tile.nodeTile,
-      `Забудь, что сейчас было +${length}`
+      `Забудь, что сейчас было +${length}`,
     );
   }
 
@@ -107,7 +108,7 @@ export class TableController implements ITableController {
   onSelectTile(tile: ITile) {
     this._vfxFactory.createVfxMessage(
       tile.nodeTile,
-      "сквозь пространство и время"
+      "сквозь пространство и время",
     );
     tile.setActiveHightlight(true);
   }

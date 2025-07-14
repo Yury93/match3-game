@@ -64,7 +64,7 @@ declare namespace cc {
   export function cardinalSplineTo(
     duration: number,
     points: any[],
-    tension: number
+    tension: number,
   ): ActionInterval;
   /**
 	update position of target
@@ -81,7 +81,7 @@ declare namespace cc {
   export function cardinalSplineBy(
     duration: number,
     points: any[],
-    tension: number
+    tension: number,
   ): ActionInterval;
   /**
 	!#en Creates an action with a Cardinal Spline array of points and tension.
@@ -408,7 +408,7 @@ declare namespace cc {
     p0: number,
     p1: number,
     p2: number,
-    p3: number
+    p3: number,
   ): any;
   /**
 	!#en
@@ -689,7 +689,7 @@ declare namespace cc {
 	*/
   export function repeat(
     action: FiniteTimeAction,
-    times: number
+    times: number,
   ): ActionInterval;
   /**
 	!#en Create a acton which repeat forever, as it runs forever, it can't be added into cc.sequence and cc.spawn.
@@ -751,7 +751,7 @@ declare namespace cc {
 	*/
   export function rotateBy(
     duration: number,
-    deltaAngle: number
+    deltaAngle: number,
   ): ActionInterval;
   /**
 	!#en
@@ -773,7 +773,7 @@ declare namespace cc {
   export function moveBy(
     duration: number,
     deltaPos: Vec2 | number,
-    deltaY?: number
+    deltaY?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -794,7 +794,7 @@ declare namespace cc {
   export function moveTo(
     duration: number,
     position: Vec2 | number,
-    y?: number
+    y?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -851,7 +851,7 @@ declare namespace cc {
     position: Vec2 | number,
     y?: number,
     height?: number,
-    jumps?: number
+    jumps?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -876,7 +876,7 @@ declare namespace cc {
     position: Vec2 | number,
     y?: number,
     height?: number,
-    jumps?: number
+    jumps?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -928,7 +928,7 @@ declare namespace cc {
   export function scaleTo(
     duration: number,
     sx: number,
-    sy?: number
+    sy?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -951,7 +951,7 @@ declare namespace cc {
   export function scaleBy(
     duration: number,
     sx: number,
-    sy?: number | void
+    sy?: number | void,
   ): ActionInterval;
   /**
 	!#en Blinks a Node object by modifying it's visible property.
@@ -1023,7 +1023,7 @@ declare namespace cc {
     duration: number,
     red: number,
     green: number,
-    blue: number
+    blue: number,
   ): ActionInterval;
   /**
 	!#en
@@ -1045,7 +1045,7 @@ declare namespace cc {
     duration: number,
     deltaRed: number,
     deltaGreen: number,
-    deltaBlue: number
+    deltaBlue: number,
   ): ActionInterval;
   /**
 	!#en Delays the action a certain amount of seconds.
@@ -1079,7 +1079,7 @@ declare namespace cc {
 	*/
   export function targetedAction(
     target: Node,
-    action: FiniteTimeAction
+    action: FiniteTimeAction,
   ): ActionInterval;
   /**
 	!#en Show the Node.
@@ -1192,7 +1192,7 @@ declare namespace cc {
   export function callFunc(
     selector: Function,
     selectorTarget?: any,
-    data?: any
+    data?: any,
   ): ActionInstant;
   /**
 	
@@ -1261,7 +1261,7 @@ declare namespace cc {
     duration: number,
     dstAngleX: number | Vec3 | Quat,
     dstAngleY?: number,
-    dstAngleZ?: number
+    dstAngleZ?: number,
   ): ActionInterval;
   /**
 	!#en
@@ -1283,7 +1283,7 @@ declare namespace cc {
     duration: number,
     deltaAngleX: number | Vec3,
     deltaAngleY?: number,
-    deltaAngleZ?: number
+    deltaAngleZ?: number,
   ): ActionInterval;
   export var assetManager: AssetManager;
   /** !#en
@@ -1503,7 +1503,7 @@ declare namespace cc {
   export function getMouseEvent(
     location: Vec2,
     pos: Vec2,
-    eventType: number
+    eventType: number,
   ): Event.EventMouse;
   /**
 	
@@ -1577,7 +1577,7 @@ declare namespace cc {
   export function deserialize(
     data: string | any,
     details?: Details,
-    options?: any
+    options?: any,
   ): any;
   /**
 	!#en Clones the object `original` and returns the clone, or instantiate a node from the Prefab.
@@ -1662,7 +1662,7 @@ declare namespace cc {
     m30?: number,
     m31?: number,
     m32?: number,
-    m33?: number
+    m33?: number,
   ): Mat4;
   /**
 	!#en The convenience method to create a new {{#crossLink "Quat"}}cc.Quat{{/crossLink}}.
@@ -1676,7 +1676,7 @@ declare namespace cc {
     x?: number | any,
     y?: number,
     z?: number,
-    w?: number
+    w?: number,
   ): Quat;
   /**
 	!#en
@@ -1762,7 +1762,7 @@ declare namespace cc {
   export function pseudoRandomRange(
     seed: number,
     min: number,
-    max: number
+    max: number,
   ): number;
   /**
 	Returns a pseudo-random integer between min (inclusive) and max (exclusive).
@@ -1773,7 +1773,7 @@ declare namespace cc {
   export function pseudoRandomRangeInt(
     seed: number,
     min: number,
-    max: number
+    max: number,
   ): number;
   /**
 	Returns the next power of two for the value
@@ -2340,7 +2340,7 @@ declare namespace cc {
     blink(
       duration: number,
       times: number,
-      opts?: { progress?: Function; easing?: Function | string }
+      opts?: { progress?: Function; easing?: Function | string },
     ): Tween<T>;
     /**
 		!#en
@@ -2356,7 +2356,7 @@ declare namespace cc {
         progress: Function;
         easing: Function | String;
         onUpdate: Function;
-      }>
+      }>,
     >(duration: number, props: ConstructorType<T>, opts?: OPTS): Tween<T>;
     /**
 		!#en
@@ -2372,7 +2372,7 @@ declare namespace cc {
         progress: Function;
         easing: Function | String;
         onUpdate: Function;
-      }>
+      }>,
     >(duration: number, props: ConstructorType<T>, opts?: OPTS): Tween<T>;
     /**
 		!#en
@@ -3033,7 +3033,7 @@ declare namespace cc {
     runSceneImmediate(
       scene: Scene | SceneAsset,
       onBeforeLoadScene?: Function,
-      onLaunched?: Function
+      onLaunched?: Function,
     ): void;
     /**
 		!#en
@@ -3047,7 +3047,7 @@ declare namespace cc {
     runScene(
       scene: Scene | SceneAsset,
       onBeforeLoadScene?: Function,
-      onLaunched?: Function
+      onLaunched?: Function,
     ): void;
     /**
 		!#en Loads the scene by its name.
@@ -3074,9 +3074,9 @@ declare namespace cc {
       onProgress?: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      onLoaded?: (error: Error) => void
+      onLoaded?: (error: Error) => void,
     ): void;
     /**
 		!#en Resume game logic execution after pause, if the current scene is not paused, nothing will happen.
@@ -3379,7 +3379,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -3399,9 +3399,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en Prepare game.
@@ -3599,7 +3599,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -3621,7 +3621,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -3644,7 +3644,7 @@ declare namespace cc {
       type: string,
       callback?: Function,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): void;
     /**
 		!#en Removes all callbacks previously registered with the same target.
@@ -3687,7 +3687,7 @@ declare namespace cc {
       arg2?: any,
       arg3?: any,
       arg4?: any,
-      arg5?: any
+      arg5?: any,
     ): void;
     /**
 		!#en
@@ -4045,7 +4045,7 @@ declare namespace cc {
 		*/
     convertToNodeSpaceAR<T extends cc.Vec2 | cc.Vec3>(
       worldPoint: T,
-      out?: T
+      out?: T,
     ): T;
     /**
 		!#en
@@ -4063,7 +4063,7 @@ declare namespace cc {
 		*/
     convertToWorldSpaceAR<T extends cc.Vec2 | cc.Vec3>(
       nodePoint: T,
-      out?: T
+      out?: T,
     ): T;
     /**
 		!#en Converts a Point to node (local) space coordinates then add the anchor point position.
@@ -4453,13 +4453,13 @@ declare namespace cc {
       interval: number,
       repeat: number,
       delay: number,
-      paused?: boolean
+      paused?: boolean,
     ): void;
     schedule(
       callback: Function,
       target: any,
       interval: number,
-      paused?: boolean
+      paused?: boolean,
     ): void;
     /**
 		!#en
@@ -4857,7 +4857,7 @@ declare namespace cc {
 		*/
     static createWithSpriteFrames(
       spriteFrames: SpriteFrame[],
-      sample: number
+      sample: number,
     ): AnimationClip;
   }
   /** !#en
@@ -5339,7 +5339,7 @@ declare namespace cc {
       gids: any[],
       beginCol: number,
       beginRow: number,
-      totalCols: number
+      totalCols: number,
     ): void;
     /**
 		!#en
@@ -5364,7 +5364,7 @@ declare namespace cc {
       gid: number,
       posOrX: Vec2 | number,
       flagsOrY: number,
-      flags?: number
+      flags?: number,
     ): void;
     /**
 		!#en
@@ -5988,7 +5988,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -6049,9 +6049,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -6129,7 +6129,7 @@ declare namespace cc {
     initWithSize(
       width?: number,
       height?: number,
-      depthStencilFormat?: number
+      depthStencilFormat?: number,
     ): void;
     /**
 		!#en
@@ -6152,7 +6152,7 @@ declare namespace cc {
       x?: number,
       y?: number,
       w?: number,
-      h?: number
+      h?: number,
     ): Uint8Array;
   }
   /** !#en Class for scene handling.
@@ -6227,7 +6227,7 @@ declare namespace cc {
       rect?: Rect,
       rotated?: boolean,
       offset?: Vec2,
-      originalSize?: Size
+      originalSize?: Size,
     );
     /**
 		!#en Returns whether the texture have been loaded
@@ -6324,7 +6324,7 @@ declare namespace cc {
       rect?: Rect,
       rotated?: boolean,
       offset?: Vec2,
-      originalSize?: Size
+      originalSize?: Size,
     ): boolean;
     /**
 		!#en If a loading scene (or prefab) is marked as `asyncLoadAssets`, all the textures of the SpriteFrame which
@@ -6381,7 +6381,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -6442,9 +6442,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -6547,7 +6547,7 @@ declare namespace cc {
       data: ArrayBufferView,
       pixelFormat: number,
       pixelsWidth: number,
-      pixelsHeight: number
+      pixelsHeight: number,
     ): boolean;
     /**
 		!#en
@@ -6659,7 +6659,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -6720,9 +6720,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -6771,7 +6771,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -6832,9 +6832,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -7052,34 +7052,34 @@ declare namespace cc {
       onProgress: (
         finished: number,
         total: number,
-        item: cc.AssetManager.RequestItem
+        item: cc.AssetManager.RequestItem,
       ) => void,
-      onComplete: (err: Error, data: any) => void
+      onComplete: (err: Error, data: any) => void,
     ): void;
     loadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
       onProgress: (
         finished: number,
         total: number,
-        item: cc.AssetManager.RequestItem
+        item: cc.AssetManager.RequestItem,
       ) => void,
-      onComplete: (err: Error, data: any) => void
+      onComplete: (err: Error, data: any) => void,
     ): void;
     loadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
       options: Record<string, any>,
-      onComplete: (err: Error, data: any) => void
+      onComplete: (err: Error, data: any) => void,
     ): void;
     loadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
-      onComplete: (err: Error, data: any) => void
+      onComplete: (err: Error, data: any) => void,
     ): void;
     loadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
-      options: Record<string, any>
+      options: Record<string, any>,
     ): void;
     loadAny(
-      requests: string | string[] | Record<string, any> | Record<string, any>[]
+      requests: string | string[] | Record<string, any> | Record<string, any>[],
     ): void;
     /**
 		!#en
@@ -7106,34 +7106,34 @@ declare namespace cc {
       onProgress: (
         finished: number,
         total: number,
-        item: cc.AssetManager.RequestItem
+        item: cc.AssetManager.RequestItem,
       ) => void,
-      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void
+      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void,
     ): void;
     preloadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
       onProgress: (
         finished: number,
         total: number,
-        item: cc.AssetManager.RequestItem
+        item: cc.AssetManager.RequestItem,
       ) => void,
-      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void
+      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void,
     ): void;
     preloadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
       options: Record<string, any>,
-      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void
+      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void,
     ): void;
     preloadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
-      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void
+      onComplete: (err: Error, items: cc.AssetManager.RequestItem[]) => void,
     ): void;
     preloadAny(
       requests: string | string[] | Record<string, any> | Record<string, any>[],
-      options: Record<string, any>
+      options: Record<string, any>,
     ): void;
     preloadAny(
-      requests: string | string[] | Record<string, any> | Record<string, any>[]
+      requests: string | string[] | Record<string, any> | Record<string, any>[],
     ): void;
     /**
 		!#en
@@ -7153,7 +7153,7 @@ declare namespace cc {
     postLoadNative(
       asset: cc.Asset,
       options: Record<string, any>,
-      onComplete: (err: Error) => void
+      onComplete: (err: Error) => void,
     ): void;
     postLoadNative(asset: cc.Asset, onComplete: (err: Error) => void): void;
     postLoadNative(asset: cc.Asset, options: Record<string, any>): void;
@@ -7178,15 +7178,15 @@ declare namespace cc {
     loadRemote<T extends cc.Asset>(
       url: string,
       options: Record<string, any>,
-      onComplete: (err: Error, asset: T) => void
+      onComplete: (err: Error, asset: T) => void,
     ): void;
     loadRemote<T extends cc.Asset>(
       url: string,
-      onComplete: (err: Error, asset: T) => void
+      onComplete: (err: Error, asset: T) => void,
     ): void;
     loadRemote<T extends cc.Asset>(
       url: string,
-      options: Record<string, any>
+      options: Record<string, any>,
     ): void;
     loadRemote<T extends cc.Asset>(url: string): void;
     /**
@@ -7207,7 +7207,7 @@ declare namespace cc {
     loadScript(
       url: string | string[],
       options: Record<string, any>,
-      onComplete: (err: Error) => void
+      onComplete: (err: Error) => void,
     ): void;
     loadScript(url: string | string[], onComplete: (err: Error) => void): void;
     loadScript(url: string | string[], options: Record<string, any>): void;
@@ -7230,11 +7230,11 @@ declare namespace cc {
     loadBundle(
       nameOrUrl: string,
       options: Record<string, any>,
-      onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void
+      onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void,
     ): void;
     loadBundle(
       nameOrUrl: string,
-      onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void
+      onComplete: (err: Error, bundle: cc.AssetManager.Bundle) => void,
     ): void;
     loadBundle(nameOrUrl: string, options: Record<string, any>): void;
     loadBundle(nameOrUrl: string): void;
@@ -7282,7 +7282,7 @@ declare namespace cc {
         | string
         | string[]
         | { uuid?: string; url?: string; type?: string },
-      completeCallback?: Function
+      completeCallback?: Function,
     ): void;
     static load(
       resources:
@@ -7292,9 +7292,9 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      completeCallback: Function | null
+      completeCallback: Function | null,
     ): void;
     /**
 		`cc.loader.getXMLHttpRequest` is deprecated, please use `XMLHttpRequest` directly 
@@ -7319,14 +7319,14 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      completeCallback: ((error: Error, resource: any) => void) | null
+      completeCallback: ((error: Error, resource: any) => void) | null,
     ): void;
     static loadRes(
       url: string,
       type: typeof cc.Asset,
-      completeCallback: (error: Error, resource: any) => void
+      completeCallback: (error: Error, resource: any) => void,
     ): void;
     static loadRes(url: string, type: typeof cc.Asset): void;
     static loadRes(
@@ -7334,13 +7334,13 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      completeCallback: ((error: Error, resource: any) => void) | null
+      completeCallback: ((error: Error, resource: any) => void) | null,
     ): void;
     static loadRes(
       url: string,
-      completeCallback: (error: Error, resource: any) => void
+      completeCallback: (error: Error, resource: any) => void,
     ): void;
     static loadRes(url: string): void;
     /**
@@ -7357,14 +7357,14 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      completeCallback: ((error: Error, resource: any[]) => void) | null
+      completeCallback: ((error: Error, resource: any[]) => void) | null,
     ): void;
     static loadResArray(
       url: string[],
       type: typeof cc.Asset,
-      completeCallback: (error: Error, resource: any[]) => void
+      completeCallback: (error: Error, resource: any[]) => void,
     ): void;
     static loadResArray(url: string[], type: typeof cc.Asset): void;
     static loadResArray(
@@ -7372,13 +7372,13 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
-      completeCallback: ((error: Error, resource: any[]) => void) | null
+      completeCallback: ((error: Error, resource: any[]) => void) | null,
     ): void;
     static loadResArray(
       url: string[],
-      completeCallback: (error: Error, resource: any[]) => void
+      completeCallback: (error: Error, resource: any[]) => void,
     ): void;
     static loadResArray(url: string[]): void;
     static loadResArray(url: string[], type: (typeof cc.Asset)[]): void;
@@ -7396,16 +7396,16 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
       completeCallback:
         | ((error: Error, resource: any[], urls: string[]) => void)
-        | null
+        | null,
     ): void;
     static loadResDir(
       url: string,
       type: typeof cc.Asset,
-      completeCallback: (error: Error, resource: any[], urls: string[]) => void
+      completeCallback: (error: Error, resource: any[], urls: string[]) => void,
     ): void;
     static loadResDir(url: string, type: typeof cc.Asset): void;
     static loadResDir(
@@ -7413,15 +7413,15 @@ declare namespace cc {
       progressCallback: (
         completedCount: number,
         totalCount: number,
-        item: any
+        item: any,
       ) => void,
       completeCallback:
         | ((error: Error, resource: any[], urls: string[]) => void)
-        | null
+        | null,
     ): void;
     static loadResDir(
       url: string,
-      completeCallback: (error: Error, resource: any[], urls: string[]) => void
+      completeCallback: (error: Error, resource: any[], urls: string[]) => void,
     ): void;
     static loadResDir(url: string): void;
     /**
@@ -7489,7 +7489,7 @@ declare namespace cc {
 		*/
     static setAutoRelease(
       assetOrUrlOrUuid: Asset | string,
-      autoRelease: boolean
+      autoRelease: boolean,
     ): void;
     /**
 		`cc.loader.setAutoReleaseRecursively` is deprecated, if you want to prevent some asset from auto releasing, please use {{#crossLink "Asset/addRef:method"}}{{/crossLink}} instead
@@ -7498,7 +7498,7 @@ declare namespace cc {
 		*/
     static setAutoReleaseRecursively(
       assetOrUrlOrUuid: Asset | string,
-      autoRelease: boolean
+      autoRelease: boolean,
     ): void;
     /**
 		`cc.loader.isAutoRelease` is deprecated
@@ -7939,7 +7939,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -8000,9 +8000,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -8266,7 +8266,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -8327,9 +8327,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -8404,7 +8404,7 @@ declare namespace cc {
 		*/
     static circleCircle(
       a: { position: Vec2; radius: number },
-      b: { position: Vec2; radius: number }
+      b: { position: Vec2; radius: number },
     ): boolean;
     /**
 		!#en Test polygon and circle
@@ -8414,7 +8414,7 @@ declare namespace cc {
 		*/
     static polygonCircle(
       polygon: Vec2[],
-      circle: { position: Vec2; radius: number }
+      circle: { position: Vec2; radius: number },
     ): boolean;
     /**
 		!#en Test whether the point is in the polygon
@@ -8435,7 +8435,7 @@ declare namespace cc {
       point: Vec2,
       start: Vec2,
       end: Vec2,
-      isSegment: boolean
+      isSegment: boolean,
     ): number;
   }
   /** !#en Polygon Collider.
@@ -8616,19 +8616,19 @@ declare namespace cc {
       type: string,
       callback: (event: Event.EventCustom) => void,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): (event: Event.EventCustom) => void;
     on<T>(
       type: string,
       callback: (event: T) => void,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): (event: T) => void;
     on(
       type: string,
       callback: (type: string, state: cc.AnimationState) => void,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): (type: string, state: cc.AnimationState) => void;
     /**
 		!#en
@@ -8653,7 +8653,7 @@ declare namespace cc {
       type: string,
       callback?: Function,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): void;
     /**
 		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
@@ -8697,9 +8697,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -9161,7 +9161,7 @@ declare namespace cc {
       callback: Function,
       interval?: number,
       repeat?: number,
-      delay?: number
+      delay?: number,
     ): void;
     /**
 		!#en Schedules a callback function that runs only once, with a delay of 0 or larger.
@@ -9834,7 +9834,7 @@ declare namespace cc {
     scrollToOffset(
       offset: Vec2,
       timeInSecond?: number,
-      attenuated?: boolean
+      attenuated?: boolean,
     ): void;
     /**
 		!#en  Get the positive offset value corresponds to the content's top left boundary.
@@ -9863,7 +9863,7 @@ declare namespace cc {
     scrollToPercentHorizontal(
       percent: number,
       timeInSecond?: number,
-      attenuated?: boolean
+      attenuated?: boolean,
     ): void;
     /**
 		!#en Scroll the content to the percent position of ScrollView in any direction.
@@ -9896,7 +9896,7 @@ declare namespace cc {
     scrollToPercentVertical(
       percent: number,
       timeInSecond?: number,
-      attenuated?: boolean
+      attenuated?: boolean,
     ): void;
     /**
 		!#en  Stop auto scroll immediately
@@ -10402,7 +10402,7 @@ declare namespace cc {
       c2x?: number,
       c2y?: number,
       x?: number,
-      y?: number
+      y?: number,
     ): void;
     /**
 		!#en Adds a quadratic Bézier curve to the path
@@ -10429,7 +10429,7 @@ declare namespace cc {
       r?: number,
       startAngle?: number,
       endAngle?: number,
-      counterclockwise?: boolean
+      counterclockwise?: boolean,
     ): void;
     /**
 		!#en Adds an ellipse to the path.
@@ -10578,7 +10578,7 @@ declare namespace cc {
     requestFullScreen(
       element: Element,
       onFullScreenChange: Function,
-      onFullScreenError: Function
+      onFullScreenError: Function,
     ): void;
     /**
 		exit the full mode. 
@@ -11011,7 +11011,7 @@ declare namespace cc {
     setDesignResolutionSize(
       width: number,
       height: number,
-      resolutionPolicy: ResolutionPolicy | number
+      resolutionPolicy: ResolutionPolicy | number,
     ): void;
     /**
 		!#en
@@ -11040,7 +11040,7 @@ declare namespace cc {
     setRealPixelResolution(
       width: number,
       height: number,
-      resolutionPolicy: ResolutionPolicy | number
+      resolutionPolicy: ResolutionPolicy | number,
     ): void;
     /**
 		!#en
@@ -11323,7 +11323,7 @@ declare namespace cc {
       arg2?: any,
       arg3?: any,
       arg4?: any,
-      arg5?: any
+      arg5?: any,
     ): void;
   }
   /** !#en Contains information collected during deserialization
@@ -11383,7 +11383,7 @@ declare namespace cc {
       vertexFormat: gfx.VertexFormat,
       vertexCount: number,
       dynamic?: boolean,
-      index?: boolean
+      index?: boolean,
     ): void;
     /**
 		!#en
@@ -11395,7 +11395,7 @@ declare namespace cc {
 		*/
     setVertices(
       name: string,
-      values: Vec2[] | Vec3[] | Color[] | number[] | Uint8Array | Float32Array
+      values: Vec2[] | Vec3[] | Color[] | number[] | Uint8Array | Float32Array,
     ): void;
     /**
 		!#en
@@ -11409,7 +11409,7 @@ declare namespace cc {
     setIndices(
       indices: number[] | Uint16Array | Uint8Array,
       index?: number,
-      dynamic?: boolean
+      dynamic?: boolean,
     ): void;
     /**
 		!#en
@@ -11448,7 +11448,7 @@ declare namespace cc {
       attributeName: string,
       buffer: ArrayBuffer,
       stride: number,
-      offset: number
+      offset: number,
     ): boolean;
     /**
 		!#en Read the index data of the subgrid into the target array.
@@ -11485,7 +11485,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -11546,9 +11546,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -11952,7 +11952,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -12013,9 +12013,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -12095,7 +12095,7 @@ declare namespace cc {
     onBeginContact(
       contact: PhysicsContact,
       selfCollider: PhysicsCollider,
-      otherCollider: PhysicsCollider
+      otherCollider: PhysicsCollider,
     ): void;
     /**
 		!#en
@@ -12111,7 +12111,7 @@ declare namespace cc {
     onEndContact(
       contact: PhysicsContact,
       selfCollider: PhysicsCollider,
-      otherCollider: PhysicsCollider
+      otherCollider: PhysicsCollider,
     ): void;
     /**
 		!#en
@@ -12135,7 +12135,7 @@ declare namespace cc {
     onPreSolve(
       contact: PhysicsContact,
       selfCollider: PhysicsCollider,
-      otherCollider: PhysicsCollider
+      otherCollider: PhysicsCollider,
     ): void;
     /**
 		!#en
@@ -12153,7 +12153,7 @@ declare namespace cc {
     onPostSolve(
       contact: PhysicsContact,
       selfCollider: PhysicsCollider,
-      otherCollider: PhysicsCollider
+      otherCollider: PhysicsCollider,
     ): void;
     /** !#en
 		Is this a fast moving body that should be prevented from tunneling through
@@ -12473,7 +12473,7 @@ declare namespace cc {
       r?: number,
       g?: number,
       b?: number,
-      a?: number
+      a?: number,
     ): Color;
     /**
 		Converts the hexadecimal formal color into rgb formal. 
@@ -12515,7 +12515,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       a: IColorLike,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转颜色
@@ -12525,7 +12525,7 @@ declare namespace cc {
     static fromArray<Out extends IColorLike>(
       arr: IWritableArrayLike<number>,
       out: Out,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 颜色 RGB 预乘 Alpha 通道
@@ -12806,7 +12806,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       mat: IMat3Like,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转矩阵
@@ -12816,7 +12816,7 @@ declare namespace cc {
     static fromArray<Out extends IMat3Like>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /** !#en Matrix Data
 		!#zh 矩阵数据 */
@@ -12830,7 +12830,7 @@ declare namespace cc {
       m05?: number,
       m06?: number,
       m07?: number,
-      m08?: number
+      m08?: number,
     );
   }
   /** !#en Representation of 4*4 matrix.
@@ -12901,7 +12901,7 @@ declare namespace cc {
     static transform<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
       a: Out,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 在给定矩阵变换基础上加入新位移变换
@@ -12910,7 +12910,7 @@ declare namespace cc {
     static translate<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
       a: Out,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 在给定矩阵变换基础上加入新缩放变换
@@ -12919,7 +12919,7 @@ declare namespace cc {
     static scale<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
       a: Out,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 在给定矩阵变换基础上加入新旋转变换
@@ -12931,7 +12931,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       rad: number,
-      axis: VecLike
+      axis: VecLike,
     ): Out;
     /**
 		!#zh 在给定矩阵变换基础上加入绕 X 轴的旋转变换
@@ -12957,7 +12957,7 @@ declare namespace cc {
 		*/
     static fromTranslation<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 计算缩放矩阵
@@ -12965,7 +12965,7 @@ declare namespace cc {
 		*/
     static fromScaling<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 计算旋转矩阵
@@ -12974,7 +12974,7 @@ declare namespace cc {
     static fromRotation<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
       rad: number,
-      axis: VecLike
+      axis: VecLike,
     ): Out;
     /**
 		!#zh 计算绕 X 轴的旋转矩阵
@@ -12998,7 +12998,7 @@ declare namespace cc {
     static fromRT<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: Out,
       q: Quat,
-      v: VecLike
+      v: VecLike,
     ): Out;
     /**
 		!#zh 提取矩阵的位移信息, 默认矩阵中的变换以 S->R->T 的顺序应用
@@ -13006,7 +13006,7 @@ declare namespace cc {
 		*/
     static getTranslation<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: VecLike,
-      mat: Out
+      mat: Out,
     ): VecLike;
     /**
 		!#zh 提取矩阵的缩放信息, 默认矩阵中的变换以 S->R->T 的顺序应用
@@ -13014,7 +13014,7 @@ declare namespace cc {
 		*/
     static getScaling<Out extends IMat4Like, VecLike extends IVec3Like>(
       out: VecLike,
-      mat: Out
+      mat: Out,
     ): VecLike;
     /**
 		!#zh 提取矩阵的旋转信息, 默认输入矩阵不含有缩放信息，如考虑缩放应使用 `toRTS` 函数。
@@ -13029,7 +13029,7 @@ declare namespace cc {
       mat: Out,
       q: Quat,
       v: VecLike,
-      s: VecLike
+      s: VecLike,
     ): void;
     /**
 		!#zh 根据旋转、位移、缩放信息计算矩阵，以 S->R->T 的顺序应用
@@ -13039,7 +13039,7 @@ declare namespace cc {
       out: Out,
       q: Quat,
       v: VecLike,
-      s: VecLike
+      s: VecLike,
     ): Out;
     /**
 		!#zh 根据指定的旋转、位移、缩放及变换中心信息计算矩阵，以 S->R->T 的顺序应用
@@ -13054,7 +13054,7 @@ declare namespace cc {
       q: Quat,
       v: VecLike,
       s: VecLike,
-      o: VecLike
+      o: VecLike,
     ): Out;
     /**
 		!#zh 根据指定的旋转信息计算矩阵
@@ -13078,7 +13078,7 @@ declare namespace cc {
       bottom: number,
       top: number,
       near: number,
-      far: number
+      far: number,
     ): Out;
     /**
 		!#zh 计算透视投影矩阵
@@ -13093,7 +13093,7 @@ declare namespace cc {
       fovy: number,
       aspect: number,
       near: number,
-      far: number
+      far: number,
     ): Out;
     /**
 		!#zh 计算正交投影矩阵
@@ -13112,7 +13112,7 @@ declare namespace cc {
       bottom: number,
       top: number,
       near: number,
-      far: number
+      far: number,
     ): Out;
     /**
 		!#zh 根据视点计算矩阵，注意 `eye - center` 不能为零向量或与 `up` 向量平行
@@ -13125,7 +13125,7 @@ declare namespace cc {
       out: Out,
       eye: VecLike,
       center: VecLike,
-      up: VecLike
+      up: VecLike,
     ): Out;
     /**
 		!#zh 计算逆转置矩阵
@@ -13149,7 +13149,7 @@ declare namespace cc {
     static multiplyScalar<Out extends IMat4Like>(
       out: Out,
       a: Out,
-      b: number
+      b: number,
     ): Out;
     /**
 		!#zh 逐元素矩阵标量乘加: A + B * scale
@@ -13159,7 +13159,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      scale: number
+      scale: number,
     ): Out;
     /**
 		!#zh 矩阵等价判断
@@ -13173,7 +13173,7 @@ declare namespace cc {
     static equals<Out extends IMat4Like>(
       a: Out,
       b: Out,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#zh 矩阵转数组
@@ -13183,7 +13183,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       mat: IMat4Like,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转矩阵
@@ -13193,7 +13193,7 @@ declare namespace cc {
     static fromArray<Out extends IMat4Like>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /** !#en Matrix Data
 		!#zh 矩阵数据 */
@@ -13221,7 +13221,7 @@ declare namespace cc {
       m30?: number,
       m31?: number,
       m32?: number,
-      m33?: number
+      m33?: number,
     );
     /**
 		!#en clone a Mat4 object
@@ -13377,7 +13377,7 @@ declare namespace cc {
 		*/
     static copy<Out extends IQuatLike, QuatLike extends IQuatLike>(
       out: Out,
-      a: QuatLike
+      a: QuatLike,
     ): Out;
     /**
 		!#zh 设置四元数值
@@ -13388,7 +13388,7 @@ declare namespace cc {
       x: number,
       y: number,
       z: number,
-      w: number
+      w: number,
     ): Out;
     /**
 		!#zh 将目标赋值为单位四元数
@@ -13402,7 +13402,7 @@ declare namespace cc {
     static rotationTo<Out extends IQuatLike, VecLike extends IVec3Like>(
       out: Out,
       a: VecLike,
-      b: VecLike
+      b: VecLike,
     ): Out;
     /**
 		!#zh 获取四元数的旋转轴和旋转弧度
@@ -13412,7 +13412,7 @@ declare namespace cc {
 		*/
     static getAxisAngle<Out extends IQuatLike, VecLike extends IVec3Like>(
       outAxis: VecLike,
-      q: Out
+      q: Out,
     ): number;
     /**
 		!#zh 四元数乘法
@@ -13421,7 +13421,7 @@ declare namespace cc {
     static multiply<
       Out extends IQuatLike,
       QuatLike_1 extends IQuatLike,
-      QuatLike_2 extends IQuatLike
+      QuatLike_2 extends IQuatLike,
     >(out: Out, a: QuatLike_1, b: QuatLike_2): Out;
     /**
 		!#zh 四元数标量乘法
@@ -13430,7 +13430,7 @@ declare namespace cc {
     static multiplyScalar<Out extends IQuatLike>(
       out: Out,
       a: Out,
-      b: number
+      b: number,
     ): Out;
     /**
 		!#zh 四元数乘加：A + B * scale
@@ -13440,7 +13440,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      scale: number
+      scale: number,
     ): Out;
     /**
 		!#zh 绕 X 轴旋转指定四元数
@@ -13470,7 +13470,7 @@ declare namespace cc {
       out: Out,
       rot: Out,
       axis: VecLike,
-      rad: number
+      rad: number,
     ): Out;
     /**
 		!#zh 绕本地空间下指定轴旋转四元数
@@ -13482,7 +13482,7 @@ declare namespace cc {
       out: Out,
       rot: Out,
       axis: VecLike,
-      rad: number
+      rad: number,
     ): Out;
     /**
 		!#zh 根据 xyz 分量计算 w 分量，默认已归一化
@@ -13502,7 +13502,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      t: number
+      t: number,
     ): Out;
     /**
 		!#zh 四元数球面插值
@@ -13511,7 +13511,7 @@ declare namespace cc {
     static slerp<
       Out extends IQuatLike,
       QuatLike_1 extends IQuatLike,
-      QuatLike_2 extends IQuatLike
+      QuatLike_2 extends IQuatLike,
     >(out: Out, a: QuatLike_1, b: QuatLike_2, t: number): Out;
     /**
 		!#zh 带两个控制点的四元数球面插值
@@ -13523,7 +13523,7 @@ declare namespace cc {
       b: Out,
       c: Out,
       d: Out,
-      t: number
+      t: number,
     ): Out;
     /**
 		!#zh 四元数求逆
@@ -13531,7 +13531,7 @@ declare namespace cc {
 		*/
     static invert<Out extends IQuatLike, QuatLike extends IQuatLike>(
       out: Out,
-      a: QuatLike
+      a: QuatLike,
     ): Out;
     /**
 		!#zh 求共轭四元数，对单位四元数与求逆等价，但更高效
@@ -13561,7 +13561,7 @@ declare namespace cc {
       out: Out,
       xAxis: VecLike,
       yAxis: VecLike,
-      zAxis: VecLike
+      zAxis: VecLike,
     ): Out;
     /**
 		!#zh 根据视口的前方向和上方向计算四元数
@@ -13572,7 +13572,7 @@ declare namespace cc {
     static fromViewUp<Out extends IQuatLike>(
       out: Out,
       view: Vec3,
-      up?: Vec3
+      up?: Vec3,
     ): Out;
     /**
 		!#zh 根据旋转轴和旋转弧度计算四元数
@@ -13581,7 +13581,7 @@ declare namespace cc {
     static fromAxisAngle<Out extends IQuatLike, VecLike extends IVec3Like>(
       out: Out,
       axis: VecLike,
-      rad: number
+      rad: number,
     ): Out;
     /**
 		!#zh 根据三维矩阵信息计算四元数，默认输入矩阵不含有缩放信息
@@ -13596,7 +13596,7 @@ declare namespace cc {
       out: Out,
       x: number,
       y: number,
-      z: number
+      z: number,
     ): Out;
     /**
 		!#zh 返回定义此四元数的坐标系 X 轴向量
@@ -13604,7 +13604,7 @@ declare namespace cc {
 		*/
     static toAxisX<Out extends IQuatLike, VecLike extends IVec3Like>(
       out: VecLike,
-      q: Out
+      q: Out,
     ): VecLike;
     /**
 		!#zh 返回定义此四元数的坐标系 Y 轴向量
@@ -13612,7 +13612,7 @@ declare namespace cc {
 		*/
     static toAxisY<Out extends IQuatLike, VecLike extends IVec3Like>(
       out: VecLike,
-      q: Out
+      q: Out,
     ): VecLike;
     /**
 		!#zh 返回定义此四元数的坐标系 Z 轴向量
@@ -13620,7 +13620,7 @@ declare namespace cc {
 		*/
     static toAxisZ<Out extends IQuatLike, VecLike extends IVec3Like>(
       out: VecLike,
-      q: Out
+      q: Out,
     ): VecLike;
     /**
 		!#zh 根据四元数计算欧拉角，返回角度 x, y 在 [-180, 180] 区间内, z 默认在 [-90, 90] 区间内，旋转顺序为 YZX
@@ -13630,7 +13630,7 @@ declare namespace cc {
     static toEuler<Out extends IVec3Like>(
       out: Out,
       q: IQuatLike,
-      outerZ?: boolean
+      outerZ?: boolean,
     ): Out;
     /**
 		!#zh 四元数等价判断
@@ -13644,7 +13644,7 @@ declare namespace cc {
     static equals<Out extends IQuatLike>(
       a: Out,
       b: Out,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#zh 四元数转数组
@@ -13654,7 +13654,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       q: IQuatLike,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转四元数
@@ -13664,7 +13664,7 @@ declare namespace cc {
     static fromArray<Out extends IQuatLike>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     x: number;
     y: number;
@@ -14257,7 +14257,7 @@ declare namespace cc {
     static multiplyScalar<Out extends IVec2Like>(
       out: Out,
       a: Out,
-      b: number
+      b: number,
     ): Out;
     /**
 		!#zh 逐元素向量乘加: A + B * scale 
@@ -14266,7 +14266,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      scale: number
+      scale: number,
     ): Out;
     /**
 		!#zh 求两向量的欧氏距离 
@@ -14301,7 +14301,7 @@ declare namespace cc {
 		*/
     static normalize<Out extends IVec2Like, Vec2Like extends IVec2Like>(
       out: Out,
-      a: Vec2Like
+      a: Vec2Like,
     ): Out;
     /**
 		!#zh 向量点积（数量积） 
@@ -14318,7 +14318,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      t: number
+      t: number,
     ): Out;
     /**
 		!#zh 生成一个在单位圆上均匀分布的随机向量 
@@ -14330,7 +14330,7 @@ declare namespace cc {
     static transformMat3<Out extends IVec2Like, MatLike extends IMat3Like>(
       out: Out,
       a: Out,
-      mat: IMat3Like
+      mat: IMat3Like,
     ): Out;
     /**
 		!#zh 向量与四维矩阵乘法，默认向量第三位为 0，第四位为 1。 
@@ -14338,7 +14338,7 @@ declare namespace cc {
     static transformMat4<Out extends IVec2Like, MatLike extends IMat4Like>(
       out: Out,
       a: Out,
-      mat: MatLike
+      mat: MatLike,
     ): Out;
     /**
 		!#zh 向量等价判断 
@@ -14350,7 +14350,7 @@ declare namespace cc {
     static equals<Out extends IVec2Like>(
       a: Out,
       b: Out,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#zh 排除浮点数误差的向量近似等价判断 
@@ -14362,7 +14362,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       v: IVec2Like,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转向量 
@@ -14370,7 +14370,7 @@ declare namespace cc {
     static fromArray<Out extends IVec2Like>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     x: number;
     y: number;
@@ -14752,7 +14752,7 @@ declare namespace cc {
 		*/
     static copy<Out extends IVec3Like, Vec3Like extends IVec3Like>(
       out: Out,
-      a: Vec3Like
+      a: Vec3Like,
     ): Out;
     /**
 		!#zh 设置向量值
@@ -14762,7 +14762,7 @@ declare namespace cc {
       out: Out,
       x: number,
       y: number,
-      z: number
+      z: number,
     ): Out;
     /**
 		!#zh 逐元素向量加法
@@ -14781,7 +14781,7 @@ declare namespace cc {
     static multiply<
       Out extends IVec3Like,
       Vec3Like_1 extends IVec3Like,
-      Vec3Like_2 extends IVec3Like
+      Vec3Like_2 extends IVec3Like,
     >(out: Out, a: Vec3Like_1, b: Vec3Like_2): Out;
     /**
 		!#zh 逐元素向量除法
@@ -14820,7 +14820,7 @@ declare namespace cc {
     static multiplyScalar<Out extends IVec3Like, Vec3Like extends IVec3Like>(
       out: Out,
       a: Vec3Like,
-      b: number
+      b: number,
     ): Out;
     /**
 		!#zh 逐元素向量乘加: A + B * scale
@@ -14830,7 +14830,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      scale: number
+      scale: number,
     ): Out;
     /**
 		!#zh 求两向量的欧氏距离
@@ -14873,7 +14873,7 @@ declare namespace cc {
 		*/
     static normalize<Out extends IVec3Like, Vec3Like extends IVec3Like>(
       out: Out,
-      a: Vec3Like
+      a: Vec3Like,
     ): Out;
     /**
 		!#zh 向量点积（数量积）
@@ -14887,7 +14887,7 @@ declare namespace cc {
     static cross<
       Out extends IVec3Like,
       Vec3Like_1 extends IVec3Like,
-      Vec3Like_2 extends IVec3Like
+      Vec3Like_2 extends IVec3Like,
     >(out: Out, a: Vec3Like_1, b: Vec3Like_2): Out;
     /**
 		!#zh 逐元素向量线性插值： A + t * (B - A)
@@ -14897,7 +14897,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      t: number
+      t: number,
     ): Out;
     /**
 		!#zh 生成一个在单位球体上均匀分布的随机向量
@@ -14912,7 +14912,7 @@ declare namespace cc {
     static transformMat4<
       Out extends IVec3Like,
       Vec3Like extends IVec3Like,
-      MatLike extends IMat4Like
+      MatLike extends IMat4Like,
     >(out: Out, a: Vec3Like, mat: MatLike): Out;
     /**
 		!#zh 向量与四维矩阵乘法，默认向量第四位为 0。
@@ -14920,7 +14920,7 @@ declare namespace cc {
 		*/
     static transformMat4Normal<
       Out extends IVec3Like,
-      MatLike extends IMat4Like
+      MatLike extends IMat4Like,
     >(out: Out, a: Out, mat: MatLike): Out;
     /**
 		!#zh 向量与三维矩阵乘法
@@ -14929,7 +14929,7 @@ declare namespace cc {
     static transformMat3<Out extends IVec3Like, MatLike extends IMat3Like>(
       out: Out,
       a: Out,
-      mat: MatLike
+      mat: MatLike,
     ): Out;
     /**
 		!#zh 向量仿射变换
@@ -14938,7 +14938,7 @@ declare namespace cc {
     static transformAffine<
       Out extends IVec3Like,
       VecLike extends IVec3Like,
-      MatLike extends IMat4Like
+      MatLike extends IMat4Like,
     >(out: Out, v: VecLike, mat: MatLike): Out;
     /**
 		!#zh 向量四元数乘法
@@ -14947,7 +14947,7 @@ declare namespace cc {
     static transformQuat<
       Out extends IVec3Like,
       VecLike extends IVec3Like,
-      QuatLike extends IQuatLike
+      QuatLike extends IQuatLike,
     >(out: Out, a: VecLike, q: QuatLike): Out;
     /**
 		!#zh 以缩放 -> 旋转 -> 平移顺序变换向量
@@ -14956,7 +14956,7 @@ declare namespace cc {
     static transformRTS<
       Out extends IVec3Like,
       VecLike extends IVec3Like,
-      QuatLike extends IQuatLike
+      QuatLike extends IQuatLike,
     >(out: Out, a: VecLike, r: QuatLike, t: VecLike, s: VecLike): Out;
     /**
 		!#zh 以平移 -> 旋转 -> 缩放顺序逆变换向量
@@ -14965,7 +14965,7 @@ declare namespace cc {
     static transformInverseRTS<
       Out extends IVec3Like,
       VecLike extends IVec3Like,
-      QuatLike extends IQuatLike
+      QuatLike extends IQuatLike,
     >(out: Out, a: VecLike, r: QuatLike, t: VecLike, s: VecLike): Out;
     /**
 		!#zh 绕 X 轴旋转向量指定弧度
@@ -14978,7 +14978,7 @@ declare namespace cc {
       out: Out,
       v: Out,
       o: Out,
-      a: number
+      a: number,
     ): Out;
     /**
 		!#zh 绕 Y 轴旋转向量指定弧度
@@ -14991,7 +14991,7 @@ declare namespace cc {
       out: Out,
       v: Out,
       o: Out,
-      a: number
+      a: number,
     ): Out;
     /**
 		!#zh 绕 Z 轴旋转向量指定弧度
@@ -15004,7 +15004,7 @@ declare namespace cc {
       out: Out,
       v: Out,
       o: Out,
-      a: number
+      a: number,
     ): Out;
     /**
 		!#zh 向量等价判断
@@ -15018,7 +15018,7 @@ declare namespace cc {
     static equals<Out extends IVec3Like>(
       a: Out,
       b: Out,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#zh 求两向量夹角弧度
@@ -15047,7 +15047,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       v: IVec3Like,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转向量
@@ -15057,7 +15057,7 @@ declare namespace cc {
     static fromArray<Out extends IVec3Like>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     x: number;
     y: number;
@@ -15346,7 +15346,7 @@ declare namespace cc {
       x: number,
       y: number,
       z: number,
-      w: number
+      w: number,
     ): Out;
     /**
 		!#zh 逐元素向量加法
@@ -15400,7 +15400,7 @@ declare namespace cc {
     static multiplyScalar<Out extends IVec4Like>(
       out: Out,
       a: Out,
-      b: number
+      b: number,
     ): Out;
     /**
 		!#zh 逐元素向量乘加: A + B * scale
@@ -15410,7 +15410,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      scale: number
+      scale: number,
     ): Out;
     /**
 		!#zh 求两向量的欧氏距离
@@ -15465,7 +15465,7 @@ declare namespace cc {
       out: Out,
       a: Out,
       b: Out,
-      t: number
+      t: number,
     ): Out;
     /**
 		!#zh 生成一个在单位球体上均匀分布的随机向量
@@ -15480,7 +15480,7 @@ declare namespace cc {
     static transformMat4<Out extends IVec4Like, MatLike extends IMat4Like>(
       out: Out,
       a: Out,
-      mat: MatLike
+      mat: MatLike,
     ): Out;
     /**
 		!#zh 向量仿射变换
@@ -15489,7 +15489,7 @@ declare namespace cc {
     static transformAffine<
       Out extends IVec4Like,
       VecLike extends IVec4Like,
-      MatLike extends IMat4Like
+      MatLike extends IMat4Like,
     >(out: Out, v: VecLike, mat: MatLike): Out;
     /**
 		!#zh 向量四元数乘法
@@ -15498,7 +15498,7 @@ declare namespace cc {
     static transformQuat<Out extends IVec4Like, QuatLike extends IQuatLike>(
       out: Out,
       a: Out,
-      q: QuatLike
+      q: QuatLike,
     ): Out;
     /**
 		!#zh 向量等价判断
@@ -15512,7 +15512,7 @@ declare namespace cc {
     static equals<Out extends IVec4Like>(
       a: Out,
       b: Out,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#zh 向量转数组
@@ -15522,7 +15522,7 @@ declare namespace cc {
     static toArray<Out extends IWritableArrayLike<number>>(
       out: Out,
       v: IVec4Like,
-      ofs?: number
+      ofs?: number,
     ): Out;
     /**
 		!#zh 数组转向量
@@ -15532,7 +15532,7 @@ declare namespace cc {
     static fromArray<Out extends IVec4Like>(
       out: Out,
       arr: IWritableArrayLike<number>,
-      ofs?: number
+      ofs?: number,
     ): Out;
     x: number;
     y: number;
@@ -15582,7 +15582,7 @@ declare namespace cc {
       y: number,
       z: number,
       w: number,
-      epsilon?: number
+      epsilon?: number,
     ): boolean;
     /**
 		!#en Check whether strict equals other Vec4
@@ -15969,7 +15969,7 @@ declare namespace cc {
 		*/
     walk(
       prefunc: (target: _BaseNode) => void,
-      postfunc: (target: _BaseNode) => void
+      postfunc: (target: _BaseNode) => void,
     ): void;
     /**
 		!#en
@@ -16166,7 +16166,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -16227,9 +16227,9 @@ declare namespace cc {
         arg2?: any,
         arg3?: any,
         arg4?: any,
-        arg5?: any
+        arg5?: any,
       ) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -16268,7 +16268,7 @@ declare namespace cc {
       c: number,
       d: number,
       tx: number,
-      ty: number
+      ty: number,
     ): AffineTransform;
     /**
 		!#en
@@ -16303,7 +16303,7 @@ declare namespace cc {
     static concat(
       out: AffineTransform,
       t1: AffineTransform,
-      t2: AffineTransform
+      t2: AffineTransform,
     ): AffineTransform;
     /**
 		!#en Get the invert transform of an AffineTransform object.
@@ -16334,7 +16334,7 @@ declare namespace cc {
       out: Vec2,
       point: Vec2 | number,
       transOrY: AffineTransform | number,
-      t?: AffineTransform
+      t?: AffineTransform,
     ): Vec2;
     /**
 		!#en Apply the affine transformation on a size.
@@ -16356,7 +16356,7 @@ declare namespace cc {
     static transformRect(
       out: Rect,
       rect: Rect,
-      anAffineTransform: AffineTransform
+      anAffineTransform: AffineTransform,
     ): Rect;
     /**
 		!#en Apply the affine transformation on a rect, and truns to an Oriented Bounding Box.
@@ -16375,7 +16375,7 @@ declare namespace cc {
       out_tr: Vec2,
       out_br: Vec2,
       rect: Rect,
-      anAffineTransform: AffineTransform
+      anAffineTransform: AffineTransform,
     ): void;
   }
   /** !#en
@@ -16422,7 +16422,7 @@ declare namespace cc {
     static clampf(
       value: number,
       min_inclusive: number,
-      max_inclusive: number
+      max_inclusive: number,
     ): number;
     /**
 		!#en Clamp a value between 0 and 1.
@@ -16787,7 +16787,7 @@ declare namespace cc {
 		*/
     static createWithBuiltin(
       effectName: string,
-      techniqueIndex?: number
+      techniqueIndex?: number,
     ): Material;
     /**
 		!#en Creates a Material.
@@ -16808,7 +16808,7 @@ declare namespace cc {
       name: string,
       val: any,
       passIdx?: number,
-      directly?: boolean
+      directly?: boolean,
     ): void;
     /**
 		!#en Gets the Material property.
@@ -16829,7 +16829,7 @@ declare namespace cc {
       name: string,
       val: boolean | number,
       passIdx?: number,
-      force?: boolean
+      force?: boolean,
     ): void;
     /**
 		!#en Gets the Material define.
@@ -16857,7 +16857,7 @@ declare namespace cc {
       depthTest: boolean,
       depthWrite: boolean,
       depthFunc: number,
-      passIdx: number
+      passIdx: number,
     ): void;
     /**
 		!#en Sets the Material blend states.
@@ -16881,7 +16881,7 @@ declare namespace cc {
       blendSrcAlpha: number,
       blendDstAlpha: number,
       blendColor: number,
-      passIdx: number
+      passIdx: number,
     ): void;
     /**
 		!#en Sets whether enable the stencil test.
@@ -16912,7 +16912,7 @@ declare namespace cc {
       stencilZFailOp: number,
       stencilZPassOp: number,
       stencilWriteMask: number,
-      passIdx: number
+      passIdx: number,
     ): void;
   }
   /** !#en Effect Asset.
@@ -16935,7 +16935,7 @@ declare namespace cc {
 		*/
     static createWithBuiltin(
       materialName: string,
-      owner: cc.RenderComponent
+      owner: cc.RenderComponent,
     ): MaterialVariant | null;
     /**
 		
@@ -16944,7 +16944,7 @@ declare namespace cc {
 		*/
     static create(
       material: Material,
-      owner: cc.RenderComponent
+      owner: cc.RenderComponent,
     ): MaterialVariant | null;
   }
   /** undefined */
@@ -17505,7 +17505,7 @@ declare namespace cc {
     raycastClosest(
       worldRay: geomUtils.Ray,
       options: IRaycastOptions,
-      out: PhysicsRayResult
+      out: PhysicsRayResult,
     ): boolean;
     /**
 		Ray cast against all bodies. The provided callback will be executed for each hit with a RaycastResult as single argument.
@@ -17518,7 +17518,7 @@ declare namespace cc {
       worldRay: geomUtils.Ray,
       options: IRaycastOptions,
       pool: RecyclePool,
-      resultes: PhysicsRayResult[]
+      resultes: PhysicsRayResult[],
     ): boolean;
   }
   /** Physics world interface */
@@ -17712,7 +17712,7 @@ declare namespace cc {
       worldRay: geomUtils.Ray,
       groupIndexOrName: number | string,
       maxDistance: number,
-      queryTrigger: boolean
+      queryTrigger: boolean,
     ): PhysicsRayResult[];
     /**
 		!#en Detect all collision boxes and return the detection result with the shortest ray distance. If not, return null value. Note that the return value is taken from the object pool, so do not save the result reference or modify the result.
@@ -17726,7 +17726,7 @@ declare namespace cc {
       worldRay: geomUtils.Ray,
       groupIndexOrName: number | string,
       maxDistance: number,
-      queryTrigger: boolean
+      queryTrigger: boolean,
     ): PhysicsRayResult;
   }
   /** !#en The color over time module of 3d particle.
@@ -18394,7 +18394,7 @@ declare namespace cc {
       type: string,
       callback: T,
       target?: any,
-      useCapture?: boolean
+      useCapture?: boolean,
     ): T;
     /**
 		!#en
@@ -18440,7 +18440,7 @@ declare namespace cc {
     once(
       type: string,
       callback: (event: ITriggerEvent | ICollisionEvent) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en Checks whether the EventTarget object has any callback registered for a specific type of event.
@@ -19746,7 +19746,7 @@ declare namespace cc {
         pz: number,
         w: number,
         h: number,
-        l: number
+        l: number,
       ): Aabb;
       /**
 			clone a new aabb
@@ -19783,7 +19783,7 @@ declare namespace cc {
         pz: number,
         w: number,
         h: number,
-        l: number
+        l: number,
       ): Aabb;
       center: Vec3;
       halfExtents: Vec3;
@@ -19888,7 +19888,7 @@ declare namespace cc {
         root: Node,
         worldRay: geomUtils.Ray,
         handler: Function,
-        filter: Function
+        filter: Function,
       ): any[];
       /**
 			!#en ray-plane intersect<br/>
@@ -19914,7 +19914,7 @@ declare namespace cc {
       static ray_triangle(
         ray: geomUtils.Ray,
         triangle: geomUtils.Triangle,
-        doubleSided: boolean
+        doubleSided: boolean,
       ): number;
       /**
 			!#en line-triangle intersect<br/>
@@ -19926,7 +19926,7 @@ declare namespace cc {
       static line_triangle(
         line: geomUtils.Line,
         triangle: geomUtils.Triangle,
-        outPt: Vec3
+        outPt: Vec3,
       ): number;
       /**
 			!#en line-quad intersect<br/>
@@ -19946,7 +19946,7 @@ declare namespace cc {
         b: Vec3,
         c: Vec3,
         d: Vec3,
-        outPt: Vec3
+        outPt: Vec3,
       ): number;
       /**
 			!#en ray-sphere intersect<br/>
@@ -20049,7 +20049,7 @@ declare namespace cc {
 			*/
       static sphere_plane(
         sphere: geomUtils.Sphere,
-        plane: geomUtils.Plane
+        plane: geomUtils.Plane,
       ): number;
       /**
 			!#en sphere-frustum intersect, faster but has false positive corner cases<br/>
@@ -20066,7 +20066,7 @@ declare namespace cc {
 			*/
       static sphere_frustum_accurate(
         sphere: geomUtils.Sphere,
-        frustum: Frustum
+        frustum: Frustum,
       ): number;
       /**
 			!#en sphere-sphere intersect<br/>
@@ -20076,7 +20076,7 @@ declare namespace cc {
 			*/
       static sphere_sphere(
         sphere0: geomUtils.Sphere,
-        sphere1: geomUtils.Sphere
+        sphere1: geomUtils.Sphere,
       ): boolean;
       /**
 			!#en sphere-aabb intersect<br/>
@@ -20133,7 +20133,7 @@ declare namespace cc {
         sz: number,
         ex: number,
         ey: number,
-        ez: number
+        ez: number,
       ): Line;
       /**
 			!#en
@@ -20182,7 +20182,7 @@ declare namespace cc {
         sz: number,
         ex: number,
         ey: number,
-        ez: number
+        ez: number,
       ): Line;
       /**
 			!#en
@@ -20260,7 +20260,7 @@ declare namespace cc {
         oy_3: number,
         oz_1: number,
         oz_2: number,
-        oz_3: number
+        oz_3: number,
       ): Obb;
       /**
 			!#en
@@ -20325,7 +20325,7 @@ declare namespace cc {
         oy_3: number,
         oz_1: number,
         oz_2: number,
-        oz_3: number
+        oz_3: number,
       ): Obb;
       /** !#en
 			The center of the local coordinate.
@@ -20513,7 +20513,7 @@ declare namespace cc {
         oz: number,
         dx: number,
         dy: number,
-        dz: number
+        dz: number,
       ): Ray;
       /**
 			!#en
@@ -20562,7 +20562,7 @@ declare namespace cc {
         oz: number,
         dx: number,
         dy: number,
-        dz: number
+        dz: number,
       ): Ray;
       /** !#en
 			Start point.
@@ -20725,7 +20725,7 @@ declare namespace cc {
         bz: number,
         cx: number,
         cy: number,
-        cz: number
+        cz: number,
       ): Triangle;
       /**
 			clone a new triangle
@@ -20769,7 +20769,7 @@ declare namespace cc {
         bz: number,
         cx: number,
         cy: number,
-        cz: number
+        cz: number,
       ): Plane;
       a: Vec3;
       b: Vec3;
@@ -21489,7 +21489,7 @@ declare namespace sp {
 		*/
     getAttachment(
       slotName: string,
-      attachmentName: string
+      attachmentName: string,
     ): sp.spine.Attachment;
     /**
 		!#en
@@ -21507,7 +21507,7 @@ declare namespace sp {
 		@param regionAttachment regionAttachment 
 		*/
     getTextureAtlas(
-      regionAttachment: sp.spine.RegionAttachment | spine.BoundingBoxAttachment
+      regionAttachment: sp.spine.RegionAttachment | spine.BoundingBoxAttachment,
     ): sp.spine.TextureAtlasRegion;
     /**
 		!#en
@@ -21531,7 +21531,7 @@ declare namespace sp {
     setAnimation(
       trackIndex: number,
       name: string,
-      loop: boolean
+      loop: boolean,
     ): sp.spine.TrackEntry;
     /**
 		!#en Adds an animation to be played delay seconds after the current or last queued animation.<br>
@@ -21547,7 +21547,7 @@ declare namespace sp {
       trackIndex: number,
       name: string,
       loop: boolean,
-      delay?: number
+      delay?: number,
     ): sp.spine.TrackEntry;
     /**
 		!#en Find animation with specified name.
@@ -21625,7 +21625,7 @@ declare namespace sp {
 		*/
     setTrackInterruptListener(
       entry: sp.spine.TrackEntry,
-      listener: Function
+      listener: Function,
     ): void;
     /**
 		!#en Set the end event listener for specified TrackEntry.
@@ -21642,7 +21642,7 @@ declare namespace sp {
 		*/
     setTrackDisposeListener(
       entry: sp.spine.TrackEntry,
-      listener: Function
+      listener: Function,
     ): void;
     /**
 		!#en Set the complete event listener for specified TrackEntry.
@@ -21652,7 +21652,7 @@ declare namespace sp {
 		*/
     setTrackCompleteListener(
       entry: sp.spine.TrackEntry,
-      listener: (entry: sp.spine.TrackEntry, loopCount: number) => void
+      listener: (entry: sp.spine.TrackEntry, loopCount: number) => void,
     ): void;
     /**
 		!#en Set the event listener for specified TrackEntry.
@@ -21939,7 +21939,7 @@ declare namespace dragonBones {
 		*/
     playAnimation(
       animName: string,
-      playTimes: number
+      playTimes: number,
     ): dragonBones.AnimationState;
     /**
 		!#en
@@ -22016,7 +22016,7 @@ declare namespace dragonBones {
     addEventListener(
       type: string,
       listener: (event: cc.Event) => void,
-      target?: any
+      target?: any,
     ): void;
     /**
 		!#en
@@ -22241,11 +22241,11 @@ declare namespace cc.AssetManager {
     getDirWithPath(
       path: string,
       type: typeof cc.Asset,
-      out: Array<Record<string, any>>
+      out: Array<Record<string, any>>,
     ): Array<Record<string, any>>;
     getDirWithPath(
       path: string,
-      type: typeof cc.Asset
+      type: typeof cc.Asset,
     ): Array<Record<string, any>>;
     getDirWithPath(path: string): Array<Record<string, any>>;
     /**
@@ -22315,41 +22315,41 @@ declare namespace cc.AssetManager {
       paths: string,
       type: { prototype: T },
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: T) => void
+      onComplete: (error: Error, assets: T) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string[],
       type: { prototype: T },
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: T) => void
+      onComplete: (error: Error, assets: T) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string[],
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string,
       type: { prototype: T },
-      onComplete?: (error: Error, assets: T) => void
+      onComplete?: (error: Error, assets: T) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string[],
       type: { prototype: T },
-      onComplete?: (error: Error, assets: Array<T>) => void
+      onComplete?: (error: Error, assets: Array<T>) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string,
-      onComplete?: (error: Error, assets: T) => void
+      onComplete?: (error: Error, assets: T) => void,
     ): void;
     load<T extends cc.Asset>(
       paths: string[],
-      onComplete?: (error: Error, assets: Array<T>) => void
+      onComplete?: (error: Error, assets: Array<T>) => void,
     ): void;
     /**
 		!#en
@@ -22389,22 +22389,22 @@ declare namespace cc.AssetManager {
       paths: string | string[],
       type: typeof cc.Asset,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preload(
       paths: string | string[],
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preload(
       paths: string | string[],
       type: typeof cc.Asset,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preload(paths: string | string[], type: typeof cc.Asset): void;
     preload(
       paths: string | string[],
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preload(paths: string | string[]): void;
     /**
@@ -22442,22 +22442,22 @@ declare namespace cc.AssetManager {
       dir: string,
       type: { prototype: T },
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     loadDir<T extends cc.Asset>(
       dir: string,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     loadDir<T extends cc.Asset>(
       dir: string,
       type: { prototype: T },
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     loadDir<T extends cc.Asset>(dir: string, type: { prototype: T }): void;
     loadDir<T extends cc.Asset>(
       dir: string,
-      onComplete: (error: Error, assets: Array<T>) => void
+      onComplete: (error: Error, assets: Array<T>) => void,
     ): void;
     loadDir<T extends cc.Asset>(dir: string): void;
     /**
@@ -22496,22 +22496,22 @@ declare namespace cc.AssetManager {
       dir: string,
       type: typeof cc.Asset,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preloadDir(
       dir: string,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preloadDir(
       dir: string,
       type: typeof cc.Asset,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preloadDir(dir: string, type: typeof cc.Asset): void;
     preloadDir(
       dir: string,
-      onComplete: (error: Error, items: RequestItem[]) => void
+      onComplete: (error: Error, items: RequestItem[]) => void,
     ): void;
     preloadDir(dir: string): void;
     /**
@@ -22534,21 +22534,21 @@ declare namespace cc.AssetManager {
       sceneName: string,
       options: Record<string, any>,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void
+      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void,
     ): void;
     loadScene(
       sceneName: string,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void
+      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void,
     ): void;
     loadScene(
       sceneName: string,
       options: Record<string, any>,
-      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void
+      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void,
     ): void;
     loadScene(
       sceneName: string,
-      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void
+      onComplete: (error: Error, sceneAsset: cc.SceneAsset) => void,
     ): void;
     loadScene(sceneName: string, options: Record<string, any>): void;
     loadScene(sceneName: string): void;
@@ -22576,17 +22576,17 @@ declare namespace cc.AssetManager {
       sceneName: string,
       options: Record<string, any>,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error) => void
+      onComplete: (error: Error) => void,
     ): void;
     preloadScene(
       sceneName: string,
       onProgress: (finish: number, total: number, item: RequestItem) => void,
-      onComplete: (error: Error) => void
+      onComplete: (error: Error) => void,
     ): void;
     preloadScene(
       sceneName: string,
       options: Record<string, any>,
-      onComplete: (error: Error) => void
+      onComplete: (error: Error) => void,
     ): void;
     preloadScene(sceneName: string, onComplete: (error: Error) => void): void;
     preloadScene(sceneName: string, options: Record<string, any>): void;
@@ -22981,8 +22981,8 @@ declare namespace cc.AssetManager {
       handler: (
         url: string,
         options: Record<string, any>,
-        onComplete: (err: Error, content: any) => void
-      ) => void
+        onComplete: (err: Error, content: any) => void,
+      ) => void,
     ): void;
     register(
       map: Record<
@@ -22990,9 +22990,9 @@ declare namespace cc.AssetManager {
         (
           url: string,
           options: Record<string, any>,
-          onComplete: (err: Error, content: any) => void
+          onComplete: (err: Error, content: any) => void,
         ) => void
-      >
+      >,
     ): void;
     /**
 		!#en
@@ -23015,7 +23015,7 @@ declare namespace cc.AssetManager {
       url: string,
       type: string,
       options: Record<string, any>,
-      onComplete: (err: Error, content: any) => void
+      onComplete: (err: Error, content: any) => void,
     ): void;
   }
   /** !#en
@@ -23120,7 +23120,7 @@ declare namespace cc.AssetManager {
       pack: string[],
       json: any,
       options: Record<string, any>,
-      onComplete?: (err: Error, content: any) => void
+      onComplete?: (err: Error, content: any) => void,
     ): void;
     /**
 		!#en
@@ -23143,8 +23143,8 @@ declare namespace cc.AssetManager {
         packUuid: string,
         data: any,
         options: Record<string, any>,
-        onComplete: (err: Error, content: any) => void
-      ) => void
+        onComplete: (err: Error, content: any) => void,
+      ) => void,
     ): void;
     register(
       map: Record<
@@ -23153,9 +23153,9 @@ declare namespace cc.AssetManager {
           packUuid: string,
           data: any,
           options: Record<string, any>,
-          onComplete: (err: Error, content: any) => void
+          onComplete: (err: Error, content: any) => void,
         ) => void
-      >
+      >,
     ): void;
     /**
 		!#en
@@ -23181,7 +23181,7 @@ declare namespace cc.AssetManager {
       data: any,
       type: string,
       options: Record<string, any>,
-      onComplete?: (err: Error, data: any) => void
+      onComplete?: (err: Error, data: any) => void,
     ): void;
     /**
 		!#en
@@ -23205,7 +23205,7 @@ declare namespace cc.AssetManager {
     load(
       item: RequestItem,
       options: Record<string, any>,
-      onComplete: (err: Error, data: any) => void
+      onComplete: (err: Error, data: any) => void,
     ): void;
   }
   /** !#en
@@ -23234,8 +23234,8 @@ declare namespace cc.AssetManager {
       handler: (
         file: any,
         options: Record<string, any>,
-        onComplete: (err: Error, data: any) => void
-      ) => void
+        onComplete: (err: Error, data: any) => void,
+      ) => void,
     ): void;
     register(
       map: Record<
@@ -23243,9 +23243,9 @@ declare namespace cc.AssetManager {
         (
           file: any,
           options: Record<string, any>,
-          onComplete: (err: Error, data: any) => void
+          onComplete: (err: Error, data: any) => void,
         ) => void
-      >
+      >,
     ): void;
     /**
 		!#en
@@ -23271,7 +23271,7 @@ declare namespace cc.AssetManager {
       file: any,
       type: string,
       options: Record<string, any>,
-      onComplete: (err: Error, content: any) => void
+      onComplete: (err: Error, content: any) => void,
     ): void;
   }
   /** !#en
@@ -23328,7 +23328,7 @@ declare namespace cc.AssetManager {
 		*/
     constructor(
       name: string,
-      funcs: Array<(task: Task, done?: (err: Error) => void) => void>
+      funcs: Array<(task: Task, done?: (err: Error) => void) => void>,
     );
     /**
 		!#en
@@ -23350,7 +23350,7 @@ declare namespace cc.AssetManager {
 		*/
     insert(
       func: (task: Task, callback?: (err: Error) => void) => void,
-      index: number
+      index: number,
     ): Pipeline;
     /**
 		!#en
@@ -23370,7 +23370,7 @@ declare namespace cc.AssetManager {
 		``` 
 		*/
     append(
-      func: (task: Task, callback?: (err: Error) => void) => void
+      func: (task: Task, callback?: (err: Error) => void) => void,
     ): Pipeline;
     /**
 		!#en
@@ -23649,7 +23649,7 @@ declare namespace cc.AssetManager {
       param1?: any,
       param2?: any,
       param3?: any,
-      param4?: any
+      param4?: any,
     ): void;
     /**
 		!#en
@@ -23707,7 +23707,7 @@ declare namespace cc.geomUtils {
   export function pt_point_plane(
     out: cc.Vec3,
     point: cc.Vec3,
-    plane: cc.Plane
+    plane: cc.Plane,
   ): cc.Vec3;
   /**
 	!#en
@@ -23721,7 +23721,7 @@ declare namespace cc.geomUtils {
   export function pt_point_aabb(
     out: cc.Vec3,
     point: cc.Vec3,
-    aabb: cc.Aabb
+    aabb: cc.Aabb,
   ): cc.Vec3;
   /**
 	!#en
@@ -23735,7 +23735,7 @@ declare namespace cc.geomUtils {
   export function pt_point_obb(
     out: cc.Vec3,
     point: cc.Vec3,
-    obb: cc.Obb
+    obb: cc.Obb,
   ): cc.Vec3;
 }
 
@@ -23888,7 +23888,7 @@ declare namespace cc._decorator {
       | cc.ValueType
       | number
       | string
-      | boolean
+      | boolean,
   ): Function;
   export function property(_target: Object, _key: any, _desc?: any): void;
   /**
@@ -23932,7 +23932,7 @@ declare namespace cc._decorator {
 	``` 
 	*/
   export function requireComponent(
-    requiredComponent: typeof cc.Component
+    requiredComponent: typeof cc.Component,
   ): Function;
   /**
 	!#en
@@ -24144,7 +24144,7 @@ declare namespace cc.js {
 	*/
   export function isChildClassOf(
     subclass: Function,
-    superclass: Function
+    superclass: Function,
   ): boolean;
   /**
 	Removes all enumerable properties from object
@@ -24176,7 +24176,7 @@ declare namespace cc.js {
     prop: string,
     value: any,
     writable?: boolean,
-    enumerable?: boolean
+    enumerable?: boolean,
   ): void;
   /**
 	Define get set accessor, just help to call Object.defineProperty(...)
@@ -24193,7 +24193,7 @@ declare namespace cc.js {
     getter: Function,
     setter?: Function,
     enumerable?: boolean,
-    configurable?: boolean
+    configurable?: boolean,
   ): void;
   /**
 	Define get accessor, just help to call Object.defineProperty(...)
@@ -24208,7 +24208,7 @@ declare namespace cc.js {
     prop: string,
     getter: Function,
     enumerable?: boolean,
-    configurable?: boolean
+    configurable?: boolean,
   ): void;
   /**
 	Define set accessor, just help to call Object.defineProperty(...)
@@ -24223,7 +24223,7 @@ declare namespace cc.js {
     prop: string,
     setter: Function,
     enumerable?: boolean,
-    configurable?: boolean
+    configurable?: boolean,
   ): void;
   /**
 	Get class name of the object, if object is just a {} (and which class named 'Object'), it will return "".
@@ -24267,7 +24267,7 @@ declare namespace cc.js {
     obj: any,
     obsoleted: string,
     newExpr: string,
-    writable?: boolean
+    writable?: boolean,
   ): void;
   /**
 	Defines all polyfill fields for obsoleted codes corresponding to the enumerable properties of props.
@@ -24280,7 +24280,7 @@ declare namespace cc.js {
     obj: any,
     objName: any,
     props: any,
-    writable?: boolean
+    writable?: boolean,
   ): void;
   /**
 	A string tool to construct a string with format string.
@@ -24433,7 +24433,7 @@ declare namespace cc.primitive {
       widthSegments: number;
       heightSegments: number;
       lengthSegments: number;
-    }
+    },
   ): cc.VertexData;
   /**
 	!#en Create cone vertex data
@@ -24450,7 +24450,7 @@ declare namespace cc.primitive {
       heightSegments: number;
       capped: boolean;
       arc: number;
-    }
+    },
   ): cc.VertexData;
   /**
 	!#en Create cylinder vertex data
@@ -24469,7 +24469,7 @@ declare namespace cc.primitive {
       heightSegments: number;
       capped: boolean;
       arc: number;
-    }
+    },
   ): cc.VertexData;
   /**
 	!#en Create plane vertex data
@@ -24481,7 +24481,7 @@ declare namespace cc.primitive {
   export function plane(
     width: number,
     length: number,
-    opts: { widthSegments: number; lengthSegments: number }
+    opts: { widthSegments: number; lengthSegments: number },
   ): cc.VertexData;
   /**
 	!#en Create quad vertex data
@@ -24496,7 +24496,7 @@ declare namespace cc.primitive {
 	*/
   export function sphere(
     radius: number,
-    opts: { segments: number }
+    opts: { segments: number },
   ): cc.VertexData;
   /**
 	!#en Create torus vertex data
@@ -24508,7 +24508,7 @@ declare namespace cc.primitive {
   export function torus(
     radius: number,
     tube: number,
-    opts: { radialSegments: number; tubularSegments: number; arc: number }
+    opts: { radialSegments: number; tubularSegments: number; arc: number },
   ): cc.VertexData;
   /**
 	!#en Create capsule vertex data
@@ -24527,7 +24527,7 @@ declare namespace cc.primitive {
       heightSegments: number;
       capped: boolean;
       arc: number;
-    }
+    },
   ): cc.VertexData;
   /**
 	!#en Create polyhedron vertex data
@@ -24539,7 +24539,7 @@ declare namespace cc.primitive {
   export function polyhedron(
     type: cc.primitive.PolyhedronType,
     Size: number,
-    opts: { sizeX: number; sizeY: number; sizeZ: number }
+    opts: { sizeX: number; sizeY: number; sizeZ: number },
   ): cc.VertexData;
 }
 /** Running in the editor. */
@@ -24667,7 +24667,7 @@ declare namespace dragonBones {
       frameIntBytesLength: number,
       frameFloatBytesLength: number,
       frameBytesLength: number,
-      timelineBytesLength: number
+      timelineBytesLength: number,
     ): void;
   };
 }
@@ -24990,7 +24990,7 @@ declare namespace dragonBones {
      */
     static setMaxCount(
       objectConstructor: typeof BaseObject | null,
-      maxCount: number
+      maxCount: number,
     ): void;
     /**
      * - Clear the cached instances of a specify object pool.
@@ -25170,7 +25170,7 @@ declare namespace dragonBones {
       c?: number,
       d?: number,
       tx?: number,
-      ty?: number
+      ty?: number,
     );
     toString(): string;
     /**
@@ -25243,7 +25243,7 @@ declare namespace dragonBones {
         x: number;
         y: number;
       },
-      delta?: boolean
+      delta?: boolean,
     ): void;
     /**
      * @private
@@ -25255,7 +25255,7 @@ declare namespace dragonBones {
         width: number;
         height: number;
       },
-      delta?: boolean
+      delta?: boolean,
     ): void;
   }
 }
@@ -25396,7 +25396,7 @@ declare namespace dragonBones {
       skew?: number,
       rotation?: number,
       scaleX?: number,
-      scaleY?: number
+      scaleY?: number,
     );
     toString(): string;
     /**
@@ -25469,7 +25469,7 @@ declare namespace dragonBones {
       alphaOffset?: number,
       redOffset?: number,
       greenOffset?: number,
-      blueOffset?: number
+      blueOffset?: number,
     );
     copyFrom(value: ColorTransform): void;
     identity(): void;
@@ -26164,7 +26164,7 @@ declare namespace dragonBones {
     getCacheFrame(
       globalTransformMatrix: Matrix,
       transform: Transform,
-      arrayOffset: number
+      arrayOffset: number,
     ): void;
     /**
      * @internal
@@ -26246,7 +26246,7 @@ declare namespace dragonBones {
     getMesh(
       skinName: string,
       slotName: string,
-      meshName: string
+      meshName: string,
     ): MeshDisplayData | null;
     /**
      * - Get a specific animation data.
@@ -26792,7 +26792,7 @@ declare namespace dragonBones {
       normalRadians: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
   }
   /**
@@ -26834,7 +26834,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
     /**
      * @inheritDoc
@@ -26864,7 +26864,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
   }
   /**
@@ -26902,7 +26902,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
     /**
      * @inheritDoc
@@ -26932,7 +26932,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
   }
   /**
@@ -26967,7 +26967,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
     /**
      * @private
@@ -27020,7 +27020,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
   }
 }
@@ -27210,7 +27210,7 @@ declare namespace dragonBones {
      */
     addConstraintTimeline(
       constraint: ConstraintData,
-      timeline: TimelineData
+      timeline: TimelineData,
     ): void;
     /**
      * @private
@@ -27890,7 +27890,7 @@ declare namespace dragonBones {
      */
     _sortZOrder(
       slotIndices: Array<number> | Int16Array | null,
-      offset: number
+      offset: number,
     ): void;
     /**
      * @internal
@@ -27946,7 +27946,7 @@ declare namespace dragonBones {
       armatureData: ArmatureData,
       proxy: IArmatureProxy,
       display: any,
-      dragonBones: DragonBones
+      dragonBones: DragonBones,
     ): void;
     /**
      * @inheritDoc
@@ -28036,7 +28036,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): Slot | null;
     /**
      * - Get a specific bone.
@@ -28312,7 +28312,7 @@ declare namespace dragonBones {
     addEventListener(
       type: EventStringType,
       listener: Function,
-      target: any
+      target: any,
     ): void;
     /**
      * - Deprecated, please refer to {@link #eventDispatcher}.
@@ -28327,7 +28327,7 @@ declare namespace dragonBones {
     removeEventListener(
       type: EventStringType,
       listener: Function,
-      target: any
+      target: any,
     ): void;
     /**
      * - Deprecated, please refer to {@link #cacheFrameRate}.
@@ -28828,7 +28828,7 @@ declare namespace dragonBones {
       cY,
       transform,
       matrix,
-      isDown
+      isDown,
     );
     private _updateVertices();
     /**
@@ -29170,7 +29170,7 @@ declare namespace dragonBones {
       slotData: SlotData,
       displayDatas: Array<DisplayData | null> | null,
       rawDisplay: any,
-      meshDisplay: any
+      meshDisplay: any,
     ): void;
     /**
      * @internal
@@ -29250,7 +29250,7 @@ declare namespace dragonBones {
       normalRadians?: {
         x: number;
         y: number;
-      } | null
+      } | null,
     ): number;
     /**
      * - Forces the slot to update the state of the display object in the next frame.
@@ -29890,7 +29890,7 @@ declare namespace dragonBones {
      */
     play(
       animationName?: string | null,
-      playTimes?: number
+      playTimes?: number,
     ): AnimationState | null;
     /**
      * - Fade in a specific animation.
@@ -29932,7 +29932,7 @@ declare namespace dragonBones {
       playTimes?: number,
       layer?: number,
       group?: string | null,
-      fadeOutMode?: AnimationFadeOutMode
+      fadeOutMode?: AnimationFadeOutMode,
     ): AnimationState | null;
     /**
      * - Play a specific animation from the specific time.
@@ -29955,7 +29955,7 @@ declare namespace dragonBones {
     gotoAndPlayByTime(
       animationName: string,
       time?: number,
-      playTimes?: number
+      playTimes?: number,
     ): AnimationState | null;
     /**
      * - Play a specific animation from the specific frame.
@@ -29978,7 +29978,7 @@ declare namespace dragonBones {
     gotoAndPlayByFrame(
       animationName: string,
       frame?: number,
-      playTimes?: number
+      playTimes?: number,
     ): AnimationState | null;
     /**
      * - Play a specific animation from the specific progress.
@@ -30001,7 +30001,7 @@ declare namespace dragonBones {
     gotoAndPlayByProgress(
       animationName: string,
       progress?: number,
-      playTimes?: number
+      playTimes?: number,
     ): AnimationState | null;
     /**
      * - Stop a specific animation at the specific time.
@@ -30021,7 +30021,7 @@ declare namespace dragonBones {
      */
     gotoAndStopByTime(
       animationName: string,
-      time?: number
+      time?: number,
     ): AnimationState | null;
     /**
      * - Stop a specific animation at the specific frame.
@@ -30041,7 +30041,7 @@ declare namespace dragonBones {
      */
     gotoAndStopByFrame(
       animationName: string,
-      frame?: number
+      frame?: number,
     ): AnimationState | null;
     /**
      * - Stop a specific animation at the specific progress.
@@ -30061,7 +30061,7 @@ declare namespace dragonBones {
      */
     gotoAndStopByProgress(
       animationName: string,
-      progress?: number
+      progress?: number,
     ): AnimationState | null;
     /**
      * - Get a specific animation state.
@@ -30220,7 +30220,7 @@ declare namespace dragonBones {
       group?: string | null,
       fadeOutMode?: AnimationFadeOutMode,
       pauseFadeOut?: boolean,
-      pauseFadeIn?: boolean
+      pauseFadeIn?: boolean,
     ): AnimationState | null;
     /**
      * - Deprecated, please refer to {@link #gotoAndStopByTime()}.
@@ -30526,7 +30526,7 @@ declare namespace dragonBones {
     init(
       armature: Armature,
       animationData: AnimationData,
-      animationConfig: AnimationConfig
+      animationConfig: AnimationConfig,
     ): void;
     /**
      * @internal
@@ -30820,7 +30820,7 @@ declare namespace dragonBones {
     init(
       armature: Armature,
       animationState: AnimationState,
-      timelineData: TimelineData | null
+      timelineData: TimelineData | null,
     ): void;
     fadeOut(): void;
     update(passedTime: number): void;
@@ -30971,7 +30971,7 @@ declare namespace dragonBones {
     init(
       armature: Armature,
       animationState: AnimationState,
-      timelineData: TimelineData | null
+      timelineData: TimelineData | null,
     ): void;
     blend(state: number): void;
   }
@@ -31020,7 +31020,7 @@ declare namespace dragonBones {
     init(
       armature: Armature,
       animationState: AnimationState,
-      timelineData: TimelineData | null
+      timelineData: TimelineData | null,
     ): void;
     fadeOut(): void;
     update(passedTime: number): void;
@@ -31389,7 +31389,7 @@ declare namespace dragonBones {
     addDBEventListener(
       type: EventStringType,
       listener: Function,
-      thisObject: any
+      thisObject: any,
     ): void;
     /**
      * - Removes a listener from the object.
@@ -31410,7 +31410,7 @@ declare namespace dragonBones {
     removeDBEventListener(
       type: EventStringType,
       listener: Function,
-      thisObject: any
+      thisObject: any,
     ): void;
     /**
      * - Deprecated, please refer to {@link #hasDBEventListener()}.
@@ -31447,7 +31447,7 @@ declare namespace dragonBones {
     removeEvent(
       type: EventStringType,
       listener: Function,
-      thisObject: any
+      thisObject: any,
     ): void;
   }
 }
@@ -31602,12 +31602,12 @@ declare namespace dragonBones {
     protected static _getBlendMode(value: string): BlendMode;
     abstract parseDragonBonesData(
       rawData: any,
-      scale: number
+      scale: number,
     ): DragonBonesData | null;
     abstract parseTextureAtlasData(
       rawData: any,
       textureAtlasData: TextureAtlasData,
-      scale: number
+      scale: number,
     ): boolean;
     /**
      * - Deprecated, please refer to {@link dragonBones.BaseFactory#parsetTextureAtlasData()}.
@@ -31664,17 +31664,17 @@ declare namespace dragonBones {
     protected static _getBoolean(
       rawData: any,
       key: string,
-      defaultValue: boolean
+      defaultValue: boolean,
     ): boolean;
     protected static _getNumber(
       rawData: any,
       key: string,
-      defaultValue: number
+      defaultValue: number,
     ): number;
     protected static _getString(
       rawData: any,
       key: string,
-      defaultValue: string
+      defaultValue: string,
     ): string;
     protected _rawTextureAtlasIndex: number;
     protected readonly _rawBones: Array<BoneData>;
@@ -31737,91 +31737,91 @@ declare namespace dragonBones {
       frameParser: (
         rawData: any,
         frameStart: number,
-        frameCount: number
-      ) => number
+        frameCount: number,
+      ) => number,
     ): TimelineData | null;
     protected _parseBoneTimeline(rawData: any): void;
     protected _parseSlotTimeline(rawData: any): void;
     protected _parseFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseTweenFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseActionFrame(
       frame: ActionFrame,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseZOrderFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseBoneAllFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseBoneTranslateFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseBoneRotateFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseBoneScaleFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseSurfaceFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseSlotDisplayFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseSlotColorFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseSlotFFDFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseIKConstraintFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseAnimationFrame(
       rawData: any,
       frameStart: number,
-      frameCount: number
+      frameCount: number,
     ): number;
     protected _parseActionData(
       rawData: any,
       type: ActionType,
       bone: BoneData | null,
-      slot: SlotData | null
+      slot: SlotData | null,
     ): Array<ActionData>;
     protected _parseTransform(
       rawData: any,
       transform: Transform,
-      scale: number
+      scale: number,
     ): void;
     protected _parseColorTransform(rawData: any, color: ColorTransform): void;
     protected _parseArray(rawData: any): void;
@@ -31830,7 +31830,7 @@ declare namespace dragonBones {
     parseTextureAtlasData(
       rawData: any,
       textureAtlasData: TextureAtlasData,
-      scale?: number
+      scale?: number,
     ): boolean;
     private static _objectDataParserInstance;
     /**
@@ -32006,7 +32006,7 @@ declare namespace dragonBones {
      */
     protected _getTextureData(
       textureAtlasName: string,
-      textureName: string
+      textureName: string,
     ): TextureData | null;
     /**
      * @private
@@ -32016,21 +32016,21 @@ declare namespace dragonBones {
       dragonBonesName: string,
       armatureName: string,
       skinName: string,
-      textureAtlasName: string
+      textureAtlasName: string,
     ): boolean;
     /**
      * @private
      */
     protected _buildBones(
       dataPackage: BuildArmaturePackage,
-      armature: Armature
+      armature: Armature,
     ): void;
     /**
      * @private
      */
     protected _buildSlots(
       dataPackage: BuildArmaturePackage,
-      armature: Armature
+      armature: Armature,
     ): void;
     /**
      * @private
@@ -32038,7 +32038,7 @@ declare namespace dragonBones {
     protected _buildChildArmature(
       dataPackage: BuildArmaturePackage | null,
       slot: Slot,
-      displayData: DisplayData
+      displayData: DisplayData,
     ): Armature | null;
     /**
      * @private
@@ -32047,20 +32047,20 @@ declare namespace dragonBones {
       dataPackage: BuildArmaturePackage | null,
       displayData: DisplayData,
       rawDisplayData: DisplayData | null,
-      slot: Slot
+      slot: Slot,
     ): any;
     /**
      * @private
      */
     protected abstract _buildTextureAtlasData(
       textureAtlasData: TextureAtlasData | null,
-      textureAtlas: any
+      textureAtlas: any,
     ): TextureAtlasData;
     /**
      * @private
      */
     protected abstract _buildArmature(
-      dataPackage: BuildArmaturePackage
+      dataPackage: BuildArmaturePackage,
     ): Armature;
     /**
      * @private
@@ -32069,7 +32069,7 @@ declare namespace dragonBones {
       dataPackage: BuildArmaturePackage,
       slotData: SlotData,
       displays: Array<DisplayData | null> | null,
-      armature: Armature
+      armature: Armature,
     ): Slot;
     /**
      * - Parse the raw data to a DragonBonesData instance and cache it to the factory.
@@ -32100,7 +32100,7 @@ declare namespace dragonBones {
     parseDragonBonesData(
       rawData: any,
       name?: string | null,
-      scale?: number
+      scale?: number,
     ): DragonBonesData | null;
     /**
      * - Parse the raw texture atlas data and the texture atlas object to a TextureAtlasData instance and cache it to the factory.
@@ -32134,7 +32134,7 @@ declare namespace dragonBones {
       rawData: any,
       textureAtlas: any,
       name?: string | null,
-      scale?: number
+      scale?: number,
     ): TextureAtlasData;
     /**
      * @private
@@ -32294,7 +32294,7 @@ declare namespace dragonBones {
      */
     getArmatureData(
       name: string,
-      dragonBonesName?: string
+      dragonBonesName?: string,
     ): ArmatureData | null;
     /**
      * - Clear all cached DragonBonesData instances and TextureAtlasData instances.
@@ -32347,7 +32347,7 @@ declare namespace dragonBones {
       armatureName: string,
       dragonBonesName?: string,
       skinName?: string,
-      textureAtlasName?: string
+      textureAtlasName?: string,
     ): Armature | null;
     /**
      * @private
@@ -32355,7 +32355,7 @@ declare namespace dragonBones {
     replaceDisplay(
       slot: Slot,
       displayData: DisplayData,
-      displayIndex?: number
+      displayIndex?: number,
     ): void;
     /**
      * - Replaces the current display data for a particular slot with a specific display data.
@@ -32397,7 +32397,7 @@ declare namespace dragonBones {
       slotName: string,
       displayName: string,
       slot: Slot,
-      displayIndex?: number
+      displayIndex?: number,
     ): boolean;
     /**
      * @private
@@ -32406,7 +32406,7 @@ declare namespace dragonBones {
       dragonBonesName: string | null,
       armatureName: string,
       slotName: string,
-      slot: Slot
+      slot: Slot,
     ): boolean;
     /**
      * - Share specific skin data with specific armature.
@@ -32450,7 +32450,7 @@ declare namespace dragonBones {
       armature: Armature,
       skin: SkinData,
       isOverride?: boolean,
-      exclude?: Array<string> | null
+      exclude?: Array<string> | null,
     ): boolean;
     /**
      * - Replaces the existing animation data for a specific armature with the animation data for the specific armature data.
@@ -32493,7 +32493,7 @@ declare namespace dragonBones {
     replaceAnimation(
       armature: Armature,
       armatureData: ArmatureData,
-      isOverride?: boolean
+      isOverride?: boolean,
     ): boolean;
     /**
      * @private
@@ -32531,7 +32531,7 @@ declare namespace dragonBones {
     changeSkin(
       armature: Armature,
       skin: SkinData,
-      exclude?: Array<string> | null
+      exclude?: Array<string> | null,
     ): boolean;
     /**
      * - Deprecated, please refer to {@link #replaceAnimation}.
@@ -32548,7 +32548,7 @@ declare namespace dragonBones {
       fromArmatreName: string,
       fromSkinName?: string,
       fromDragonBonesDataName?: string,
-      replaceOriginalAnimation?: boolean
+      replaceOriginalAnimation?: boolean,
     ): boolean;
   }
   /**
@@ -32580,17 +32580,17 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
     static binarySearch(
       values: ArrayLike<number>,
       target: number,
-      step?: number
+      step?: number,
     ): number;
     static linearSearch(
       values: ArrayLike<number>,
       target: number,
-      step: number
+      step: number,
     ): number;
   }
   interface Timeline {
@@ -32601,7 +32601,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
     getPropertyId(): number;
   }
@@ -32649,7 +32649,7 @@ declare namespace sp.spine {
       cx1: number,
       cy1: number,
       cx2: number,
-      cy2: number
+      cy2: number,
     ): void;
     getCurvePercent(frameIndex: number, percent: number): number;
     abstract apply(
@@ -32659,7 +32659,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class RotateTimeline extends CurveTimeline {
@@ -32679,7 +32679,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class TranslateTimeline extends CurveTimeline {
@@ -32701,7 +32701,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class ScaleTimeline extends TranslateTimeline {
@@ -32714,7 +32714,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class ShearTimeline extends TranslateTimeline {
@@ -32727,7 +32727,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class ColorTimeline extends CurveTimeline {
@@ -32751,7 +32751,7 @@ declare namespace sp.spine {
       r: number,
       g: number,
       b: number,
-      a: number
+      a: number,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -32760,7 +32760,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class TwoColorTimeline extends CurveTimeline {
@@ -32793,7 +32793,7 @@ declare namespace sp.spine {
       a: number,
       r2: number,
       g2: number,
-      b2: number
+      b2: number,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -32802,7 +32802,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class AttachmentTimeline implements Timeline {
@@ -32820,7 +32820,7 @@ declare namespace sp.spine {
       events: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class DeformTimeline extends CurveTimeline {
@@ -32833,7 +32833,7 @@ declare namespace sp.spine {
     setFrame(
       frameIndex: number,
       time: number,
-      vertices: ArrayLike<number>
+      vertices: ArrayLike<number>,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -32842,7 +32842,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class EventTimeline implements Timeline {
@@ -32859,7 +32859,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class DrawOrderTimeline implements Timeline {
@@ -32876,7 +32876,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class IkConstraintTimeline extends CurveTimeline {
@@ -32903,7 +32903,7 @@ declare namespace sp.spine {
       softness: number,
       bendDirection: number,
       compress: boolean,
-      stretch: boolean
+      stretch: boolean,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -32912,7 +32912,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class TransformConstraintTimeline extends CurveTimeline {
@@ -32936,7 +32936,7 @@ declare namespace sp.spine {
       rotateMix: number,
       translateMix: number,
       scaleMix: number,
-      shearMix: number
+      shearMix: number,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -32945,7 +32945,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class PathConstraintPositionTimeline extends CurveTimeline {
@@ -32965,7 +32965,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class PathConstraintSpacingTimeline extends PathConstraintPositionTimeline {
@@ -32978,7 +32978,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
   class PathConstraintMixTimeline extends CurveTimeline {
@@ -32996,7 +32996,7 @@ declare namespace sp.spine {
       frameIndex: number,
       time: number,
       rotateMix: number,
-      translateMix: number
+      translateMix: number,
     ): void;
     apply(
       skeleton: Skeleton,
@@ -33005,7 +33005,7 @@ declare namespace sp.spine {
       firedEvents: Array<Event>,
       alpha: number,
       blend: MixBlend,
-      direction: MixDirection
+      direction: MixDirection,
     ): void;
   }
 }
@@ -33033,7 +33033,7 @@ declare namespace sp.spine {
     applyMixingFrom(
       to: TrackEntry,
       skeleton: Skeleton,
-      blend: MixBlend
+      blend: MixBlend,
     ): number;
     applyRotateTimeline(
       timeline: Timeline,
@@ -33043,7 +33043,7 @@ declare namespace sp.spine {
       blend: MixBlend,
       timelinesRotation: Array<number>,
       i: number,
-      firstFrame: boolean
+      firstFrame: boolean,
     ): void;
     queueEvents(entry: TrackEntry, animationTime: number): void;
     clearTracks(): void;
@@ -33052,30 +33052,30 @@ declare namespace sp.spine {
     setAnimation(
       trackIndex: number,
       animationName: string,
-      loop: boolean
+      loop: boolean,
     ): TrackEntry;
     setAnimationWith(
       trackIndex: number,
       animation: Animation,
-      loop: boolean
+      loop: boolean,
     ): TrackEntry;
     addAnimation(
       trackIndex: number,
       animationName: string,
       loop: boolean,
-      delay: number
+      delay: number,
     ): TrackEntry;
     addAnimationWith(
       trackIndex: number,
       animation: Animation,
       loop: boolean,
-      delay: number
+      delay: number,
     ): TrackEntry;
     setEmptyAnimation(trackIndex: number, mixDuration: number): TrackEntry;
     addEmptyAnimation(
       trackIndex: number,
       mixDuration: number,
-      delay: number
+      delay: number,
     ): TrackEntry;
     setEmptyAnimations(mixDuration: number): void;
     expandToIndex(index: number): TrackEntry;
@@ -33083,7 +33083,7 @@ declare namespace sp.spine {
       trackIndex: number,
       animation: Animation,
       loop: boolean,
-      last: TrackEntry
+      last: TrackEntry,
     ): TrackEntry;
     disposeNext(entry: TrackEntry): void;
     _animationsChanged(): void;
@@ -33192,35 +33192,35 @@ declare namespace sp.spine {
     private loaded;
     constructor(
       textureLoader: (image: HTMLImageElement) => any,
-      pathPrefix?: string
+      pathPrefix?: string,
     );
     private static downloadText;
     private static downloadBinary;
     loadBinary(
       path: string,
       success?: (path: string, binary: Uint8Array) => void,
-      error?: (path: string, error: string) => void
+      error?: (path: string, error: string) => void,
     ): void;
     loadText(
       path: string,
       success?: (path: string, text: string) => void,
-      error?: (path: string, error: string) => void
+      error?: (path: string, error: string) => void,
     ): void;
     loadTexture(
       path: string,
       success?: (path: string, image: HTMLImageElement) => void,
-      error?: (path: string, error: string) => void
+      error?: (path: string, error: string) => void,
     ): void;
     loadTextureData(
       path: string,
       data: string,
       success?: (path: string, image: HTMLImageElement) => void,
-      error?: (path: string, error: string) => void
+      error?: (path: string, error: string) => void,
     ): void;
     loadTextureAtlas(
       path: string,
       success?: (path: string, atlas: TextureAtlas) => void,
-      error?: (path: string, error: string) => void
+      error?: (path: string, error: string) => void,
     ): void;
     get(path: string): any;
     remove(path: string): void;
@@ -33240,7 +33240,7 @@ declare namespace sp.spine {
     newRegionAttachment(
       skin: Skin,
       name: string,
-      path: string
+      path: string,
     ): RegionAttachment;
     newMeshAttachment(skin: Skin, name: string, path: string): MeshAttachment;
     newBoundingBoxAttachment(skin: Skin, name: string): BoundingBoxAttachment;
@@ -33297,7 +33297,7 @@ declare namespace sp.spine {
       scaleX: number,
       scaleY: number,
       shearX: number,
-      shearY: number
+      shearY: number,
     ): void;
     setToSetupPose(): void;
     getWorldRotationX(): number;
@@ -33392,7 +33392,7 @@ declare namespace sp.spine {
       compress: boolean,
       stretch: boolean,
       uniform: boolean,
-      alpha: number
+      alpha: number,
     ): void;
     apply2(
       parent: Bone,
@@ -33402,7 +33402,7 @@ declare namespace sp.spine {
       bendDir: number,
       stretch: boolean,
       softness: number,
-      alpha: number
+      alpha: number,
     ): void;
   }
 }
@@ -33448,21 +33448,21 @@ declare namespace sp.spine {
       spacesCount: number,
       tangents: boolean,
       percentPosition: boolean,
-      percentSpacing: boolean
+      percentSpacing: boolean,
     ): number[];
     addBeforePosition(
       p: number,
       temp: Array<number>,
       i: number,
       out: Array<number>,
-      o: number
+      o: number,
     ): void;
     addAfterPosition(
       p: number,
       temp: Array<number>,
       i: number,
       out: Array<number>,
-      o: number
+      o: number,
     ): void;
     addCurvePosition(
       p: number,
@@ -33476,7 +33476,7 @@ declare namespace sp.spine {
       y2: number,
       out: Array<number>,
       o: number,
-      tangents: boolean
+      tangents: boolean,
     ): void;
   }
 }
@@ -33523,7 +33523,7 @@ declare namespace sp.spine {
     loadTexture(
       clientId: string,
       textureLoader: (image: HTMLImageElement) => any,
-      path: string
+      path: string,
     ): void;
     get(clientId: string, path: string): any;
     private updateClientAssets;
@@ -33559,11 +33559,11 @@ declare namespace sp.spine {
     sortPathConstraintAttachment(
       skin: Skin,
       slotIndex: number,
-      slotBone: Bone
+      slotBone: Bone,
     ): void;
     sortPathConstraintAttachmentWith(
       attachment: Attachment,
-      slotBone: Bone
+      slotBone: Bone,
     ): void;
     sortBone(bone: Bone): void;
     sortReset(bones: Array<Bone>): void;
@@ -33627,7 +33627,7 @@ declare namespace sp.spine {
       cx1: number,
       cy1: number,
       cx2: number,
-      cy2: number
+      cy2: number,
     ): void;
   }
 }
@@ -33647,27 +33647,27 @@ declare namespace sp.spine {
       x1: number,
       y1: number,
       x2: number,
-      y2: number
+      y2: number,
     ): boolean;
     aabbIntersectsSkeleton(bounds: SkeletonBounds): boolean;
     containsPoint(x: number, y: number): BoundingBoxAttachment;
     containsPointPolygon(
       polygon: ArrayLike<number>,
       x: number,
-      y: number
+      y: number,
     ): boolean;
     intersectsSegment(
       x1: number,
       y1: number,
       x2: number,
-      y2: number
+      y2: number,
     ): BoundingBoxAttachment;
     intersectsSegmentPolygon(
       polygon: ArrayLike<number>,
       x1: number,
       y1: number,
       x2: number,
-      y2: number
+      y2: number,
     ): boolean;
     getPolygon(boundingBox: BoundingBoxAttachment): ArrayLike<number>;
     getWidth(): number;
@@ -33696,7 +33696,7 @@ declare namespace sp.spine {
       uvs: ArrayLike<number>,
       light: Color,
       dark: Color,
-      twoColor: boolean
+      twoColor: boolean,
     ): void;
     clip(
       x1: number,
@@ -33706,7 +33706,7 @@ declare namespace sp.spine {
       x3: number,
       y3: number,
       clippingArea: Array<number>,
-      output: Array<number>
+      output: Array<number>,
     ): boolean;
     static makeClockwise(polygon: ArrayLike<number>): void;
   }
@@ -33757,12 +33757,12 @@ declare namespace sp.spine {
       skin: Skin,
       slotIndex: number,
       name: string,
-      skeletonData: SkeletonData
+      skeletonData: SkeletonData,
     ): Attachment;
     readVertices(
       map: any,
       attachment: VertexAttachment,
-      verticesLength: number
+      verticesLength: number,
     ): void;
     readAnimation(map: any, name: string, skeletonData: SkeletonData): void;
     readCurve(map: any, timeline: CurveTimeline, frameIndex: number): void;
@@ -33790,7 +33790,7 @@ declare namespace sp.spine {
     setAttachment(
       slotIndex: number,
       name: string,
-      attachment: Attachment
+      attachment: Attachment,
     ): void;
     addSkin(skin: Skin): void;
     copySkin(skin: Skin): void;
@@ -33799,7 +33799,7 @@ declare namespace sp.spine {
     getAttachments(): Array<SkinEntry>;
     getAttachmentsForSlot(
       slotIndex: number,
-      attachments: Array<SkinEntry>
+      attachments: Array<SkinEntry>,
     ): void;
     clear(): void;
     attachAll(skeleton: Skeleton, oldSkin: Skin): void;
@@ -33842,7 +33842,7 @@ declare namespace sp.spine {
     getImage(): HTMLImageElement;
     abstract setFilters(
       minFilter: TextureFilter,
-      magFilter: TextureFilter
+      magFilter: TextureFilter,
     ): void;
     abstract setWraps(uWrap: TextureWrap, vWrap: TextureWrap): void;
     abstract dispose(): void;
@@ -33965,7 +33965,7 @@ declare namespace sp.spine {
     triangulate(verticesArray: ArrayLike<number>): Array<number>;
     decompose(
       verticesArray: Array<number>,
-      triangles: Array<number>
+      triangles: Array<number>,
     ): Array<Array<number>>;
     private static isConcave;
     private static positiveArea;
@@ -34050,17 +34050,17 @@ declare namespace sp.spine {
       sourceStart: number,
       dest: ArrayLike<T>,
       destStart: number,
-      numElements: number
+      numElements: number,
     ): void;
     static setArraySize<T>(
       array: Array<T>,
       size: number,
-      value?: any
+      value?: any,
     ): Array<T>;
     static ensureArrayCapacity<T>(
       array: Array<T>,
       size: number,
-      value?: any
+      value?: any,
     ): Array<T>;
     static newArray<T>(size: number, defaultValue: T): Array<T>;
     static newFloatArray(size: number): ArrayLike<number>;
@@ -34071,7 +34071,7 @@ declare namespace sp.spine {
     static contains<T>(
       array: Array<T>,
       element: T,
-      identity?: boolean
+      identity?: boolean,
     ): boolean;
   }
   class DebugUtils {
@@ -34150,7 +34150,7 @@ declare namespace sp.spine {
       count: number,
       worldVertices: ArrayLike<number>,
       offset: number,
-      stride: number
+      stride: number,
     ): void;
     copyTo(attachment: VertexAttachment): void;
   }
@@ -34160,7 +34160,7 @@ declare namespace sp.spine {
     newRegionAttachment(
       skin: Skin,
       name: string,
-      path: string
+      path: string,
     ): RegionAttachment;
     newMeshAttachment(skin: Skin, name: string, path: string): MeshAttachment;
     newBoundingBoxAttachment(skin: Skin, name: string): BoundingBoxAttachment;
@@ -34302,7 +34302,7 @@ declare namespace sp.spine {
       bone: Bone,
       worldVertices: ArrayLike<number>,
       offset: number,
-      stride: number
+      stride: number,
     ): void;
     copy(): Attachment;
   }
@@ -34378,7 +34378,7 @@ declare namespace jsb {
     createDownloadFileTask(
       requestURL: string,
       storagePath: string,
-      identifier?: string
+      identifier?: string,
     ): DownloaderTask;
 
     setOnFileTaskSuccess(onSucceed: (task: DownloaderTask) => void): void;
@@ -34388,8 +34388,8 @@ declare namespace jsb {
         task: DownloaderTask,
         bytesReceived: number,
         totalBytesReceived: number,
-        totalBytesExpected: number
-      ) => void
+        totalBytesExpected: number,
+      ) => void,
     ): void;
 
     setOnTaskError(
@@ -34397,8 +34397,8 @@ declare namespace jsb {
         task: DownloaderTask,
         errorCode: number,
         errorCodeInternal: number,
-        errorStr: string
-      ) => void
+        errorStr: string,
+      ) => void,
     ): void;
   }
 
@@ -34450,7 +34450,7 @@ declare namespace jsb {
       assetId?: string,
       message?: string,
       curleCode?: number,
-      curlmCode?: number
+      curlmCode?: number,
     );
     getAssetsManagerEx(): AssetsManager;
     isResuming(): boolean;
@@ -34492,7 +34492,7 @@ declare namespace jsb {
     constructor(
       manifestUrl: string,
       storagePath: string,
-      versionCompareHandle?: (versionA: string, versionB: string) => number
+      versionCompareHandle?: (versionA: string, versionB: string) => number,
     );
     static create(manifestUrl: string, storagePath: string): AssetsManager;
 
@@ -34525,13 +34525,13 @@ declare namespace jsb {
      * if the return value smaller than 0, versionA is smaller than B.
      */
     setVersionCompareHandle(
-      versionCompareHandle?: (versionA: string, versionB: string) => number
+      versionCompareHandle?: (versionA: string, versionB: string) => number,
     ): void;
     /**
      * Setup the verification callback, Return true if the verification passed, otherwise return false
      */
     setVerifyCallback(
-      verifyCallback: (path: string, asset: ManifestAsset) => boolean
+      verifyCallback: (path: string, asset: ManifestAsset) => boolean,
     ): void;
     setEventCallback(eventCallback: (event: EventAssetsManager) => void): void;
   }
@@ -34726,7 +34726,7 @@ declare namespace jsb {
      */
     export function getValueMapFromData(
       filedata: string,
-      filesize: number
+      filesize: number,
     ): any;
     /**
      *  Removes a directory.
@@ -34764,7 +34764,7 @@ declare namespace jsb {
      */
     export function writeStringToFile(
       dataStr: string,
-      fullPath: string
+      fullPath: string,
     ): boolean;
     /**
      *  Sets the array that contains the search order of the resources.
@@ -34776,7 +34776,7 @@ declare namespace jsb {
      *  @lua NA
      */
     export function setSearchResolutionsOrder(
-      searchResolutionsOrder: Array<string>
+      searchResolutionsOrder: Array<string>,
     ): void;
     /**
      * Append search order of the resources.
@@ -34786,7 +34786,7 @@ declare namespace jsb {
      */
     export function addSearchResolutionsOrder(
       order: string,
-      front: boolean
+      front: boolean,
     ): void;
     /**
      * Add search path.
@@ -34803,7 +34803,7 @@ declare namespace jsb {
      */
     export function writeValueVectorToFile(
       vecData: Array<any>,
-      fullPath: string
+      fullPath: string,
     ): boolean;
     /**
      *  Checks whether a file exists.
@@ -34828,7 +34828,7 @@ declare namespace jsb {
      */
     export function fullPathFromRelativeFile(
       filename: string,
-      relativeFile: string
+      relativeFile: string,
     ): string;
     /**
      * Windows fopen can't support UTF-8 filename
@@ -34885,7 +34885,7 @@ declare namespace jsb {
      */
     export function listFilesRecursively(
       dirPath: string,
-      files: Array<string>
+      files: Array<string>,
     ): void;
     /**
      *  Gets the writable path.

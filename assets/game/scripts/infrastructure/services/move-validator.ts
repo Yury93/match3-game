@@ -1,5 +1,6 @@
-import { IService } from "./serviceLocator";
-import { ITableModel } from "../../logic/table/table-model";
+import type { ITableModel } from "../../logic/table/table-model";
+
+import type { IService } from "./serviceLocator";
 
 export class MovePlayerValidator implements IService {
   hasPossibleMoves(model: ITableModel): boolean {
@@ -38,7 +39,7 @@ export class MovePlayerValidator implements IService {
     col: number,
     row: number,
     maxCol: number,
-    maxRow: number
+    maxRow: number,
   ): boolean {
     return col >= 0 && col < maxCol && row >= 0 && row < maxRow;
   }

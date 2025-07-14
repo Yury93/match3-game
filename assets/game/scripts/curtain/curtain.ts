@@ -1,11 +1,11 @@
 const { ccclass, property } = cc._decorator;
-///TODO: надо будет мне отделить фейд с кнопками и шторку
+// /TODO: надо будет мне отделить фейд с кнопками и шторку
 interface ICurtainView {
   win(message: string): Promise<void>;
   lose(message: string): Promise<void>;
 }
 @ccclass
-export default class Curtain extends cc.Component implements ICurtainView {
+export class Curtain extends cc.Component implements ICurtainView {
   @property(cc.Label)
   resultLabel: cc.Label = null;
   @property(cc.Button)
@@ -39,12 +39,10 @@ export default class Curtain extends cc.Component implements ICurtainView {
     return await this.showResult(this.restartButton, message);
   }
   async waitForClickRestart(): Promise<void> {
-    console.log("calback restart = ", this._onClickContinue);
     return this._restartPromise;
   }
 
   async waitForClickContinue(): Promise<void> {
-    console.log("callback continue = ", this._onClickContinue);
     return this._continuePromise;
   }
   private async showResult(button: cc.Button, message: string): Promise<void> {
@@ -116,24 +114,24 @@ export default class Curtain extends cc.Component implements ICurtainView {
     this.restartButton.node.on(
       cc.Node.EventType.TOUCH_END,
       this.clickRestart,
-      this
+      this,
     );
     this.continueButton.node.on(
       cc.Node.EventType.TOUCH_END,
       this.clickContinue,
-      this
+      this,
     );
   }
   private unsubscribeButtonEvents() {
     this.restartButton.node.off(
       cc.Node.EventType.TOUCH_END,
       this.clickRestart,
-      this
+      this,
     );
     this.continueButton.node.off(
       cc.Node.EventType.TOUCH_END,
       this.clickContinue,
-      this
+      this,
     );
   }
 

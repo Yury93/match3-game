@@ -1,15 +1,15 @@
 import { ResultLevelController } from "../../logic/result-level-controller";
-import { ITableController } from "../../logic/table/table-controller";
-import { IGameFactory } from "../services/gameFactory/game-factory";
-import { IProgressService } from "../services/levels/progress-service";
-import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import type { ITableController } from "../../logic/table/table-controller";
+import type { IGameFactory } from "../services/gameFactory/game-factory";
+import type { IProgressService } from "../services/levels/progress-service";
+import type { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { StateNames } from "../state-machine/state-names";
 
 export class ResultState implements IState {
   constructor(
     private _stateMachine: IStateMachine,
     private _gameFactory: IGameFactory,
-    private _progressServer: IProgressService
+    private _progressServer: IProgressService,
   ) {}
   async run(payload: {
     result: string;
@@ -18,7 +18,7 @@ export class ResultState implements IState {
   }): Promise<void> {
     const resultController = new ResultLevelController(
       this._progressServer,
-      payload.tableController
+      payload.tableController,
     );
 
     const curtain = this._gameFactory.createCurtain();

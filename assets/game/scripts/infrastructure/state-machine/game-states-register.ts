@@ -1,21 +1,26 @@
+import type { ServiceLocator } from "../services/serviceLocator";
+import { InitializeState } from "../states/initialize-state";
+import { CreateContentState } from "../states/create-content-state";
+import { GameFactory } from "../services/gameFactory/game-factory";
+import { TileFactory } from "../services/gameFactory/tile-factory";
+import { VfxFactory } from "../services/gameFactory/vfx-factory";
+import { ProgressService } from "../services/levels/progress-service";
+import { LevelService } from "../services/levels/level-service";
+import { GameLoopState } from "../states/game-loop-state";
+import { MovePlayerValidator } from "../services/move-validator";
+import { ResultState } from "../states/result-state";
+
+import type {
+  IGameStates,
+  IStateMachine,
+  IStateRegister,
+} from "./state-interfaces";
 import {
   IGlobalGameConfig,
   IPrefabsConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../../configs/config-types";
-import { GameFactory } from "../services/gameFactory/game-factory";
-import { TileFactory } from "../services/gameFactory/tile-factory";
-import { VfxFactory } from "../services/gameFactory/vfx-factory";
-import { LevelService } from "../services/levels/level-service";
-import { ProgressService } from "../services/levels/progress-service";
-import { MovePlayerValidator } from "../services/move-validator";
-import { ServiceLocator } from "../services/serviceLocator";
-import { CreateContentState } from "../states/create-content-state";
-import { GameLoopState } from "../states/game-loop-state";
-import { InitializeState } from "../states/initialize-state";
-import { ResultState } from "../states/result-state";
-import { IGameStates, IStateMachine, IStateRegister } from "./state-interfaces";
 
 export class GameStateRegister implements IStateRegister {
   private _tileModelConfig: ITileModelsConfig[];
@@ -41,12 +46,13 @@ export class GameStateRegister implements IStateRegister {
     const { serviceLocator, stateMachine } = params;
     const states: IGameStates = {
       InitializeState: new InitializeState({
-        stateMachine: stateMachine,
+        stateMachine,
         serviceLocator,
         tileModelsConfig: this._tileModelConfig,
         prefabsConfig: this._prefabsConfig,
         gameConfig: this._gameConfig,
         tableConfig: this._tableConfig,
+        tilesModelConfig: this._tileModelConfig,
       }),
       CreateContentState: new CreateContentState(
         stateMachine,
@@ -54,21 +60,21 @@ export class GameStateRegister implements IStateRegister {
         serviceLocator.single(TileFactory),
         serviceLocator.single(VfxFactory),
         serviceLocator.single(ProgressService),
-        serviceLocator.single(LevelService)
+        serviceLocator.single(LevelService),
       ),
       GameLoopState: new GameLoopState(
         stateMachine,
         serviceLocator.single(ProgressService),
-        serviceLocator.single(MovePlayerValidator)
+        serviceLocator.single(MovePlayerValidator),
       ),
       ResultState: new ResultState(
         stateMachine,
         serviceLocator.single(GameFactory),
-        serviceLocator.single(ProgressService)
+        serviceLocator.single(ProgressService),
       ),
     };
 
-    console.log("States registered:", Object.keys(states));
+    cc.log("States registered:", Object.keys(states));
     return states;
   }
 }

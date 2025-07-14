@@ -38,7 +38,7 @@ export abstract class AbstractMechanic implements IGameMechanic {
               this.tableModel.setTile(col, k, null);
               this.tableModel.onMoveTileAction(
                 tileTarget,
-                this.tableModel.getCell(col, row).getPosition()
+                this.tableModel.getCell(col, row).getPosition(),
               );
               this.tableModel.getCell(col, row).setFree(false);
               this.tableModel.getCell(col, k).setFree(true);

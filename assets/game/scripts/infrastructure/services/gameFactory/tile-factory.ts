@@ -1,10 +1,13 @@
-
-import { IPrefabsConfig, ITileModelsConfig } from "../../../configs/config-types";
+import {
+  IPrefabsConfig,
+  ITileModelsConfig,
+} from "../../../configs/config-types";
 import { TableCell } from "../../../logic/table-cell";
-import Tile, { ITile } from "../../../logic/tile";
+import { ITile, Tile } from "../../../logic/tile";
 import { TileType } from "../../../logic/tile-type";
-import { IService } from "../serviceLocator";
-import { IAssetProvider } from "./asset-provider";
+import type { IService } from "../serviceLocator";
+
+import type { IAssetProvider } from "./asset-provider";
 
 export interface ITileFactory extends IService {
   createTiles(cells: TableCell[][]): ITile[][];
@@ -12,7 +15,7 @@ export interface ITileFactory extends IService {
   createTile(
     tileType: TileType,
     spriteFrame: cc.SpriteFrame,
-    tileCell: TableCell
+    tileCell: TableCell,
   ): ITile;
   createRandomTile(cell: TableCell): ITile;
 }
@@ -20,7 +23,11 @@ export class TileFactory implements ITileFactory {
   private _assetProvider: IAssetProvider;
   private _tileModels: ITileModelsConfig[];
   private _prefabs: IPrefabsConfig;
-  constructor(params: { assetProvider: IAssetProvider, tileModelsConfig: ITileModelsConfig[], prefabsConfig: IPrefabsConfig }) {
+  constructor(params: {
+    assetProvider: IAssetProvider;
+    tileModelsConfig: ITileModelsConfig[];
+    prefabsConfig: IPrefabsConfig;
+  }) {
     this._assetProvider = params.assetProvider;
     this._tileModels = params.tileModelsConfig;
     this._prefabs = params.prefabsConfig;
@@ -44,7 +51,7 @@ export class TileFactory implements ITileFactory {
             tileModel.tileType,
             tileModel.sprite,
 
-            cell
+            cell,
           );
           cell.setFree(false);
           tiles[col][row] = tile;
@@ -67,14 +74,14 @@ export class TileFactory implements ITileFactory {
     const spriteFrame = new cc.SpriteFrame();
     spriteFrame.setTexture(texture);
 
-    const tileModel = { tileType: tileType, sprite: spriteFrame };
+    const tileModel = { tileType, sprite: spriteFrame };
     return tileModel;
   }
 
   createTile(
     tileType: TileType,
     spriteFrame: cc.SpriteFrame,
-    tileCell: TableCell
+    tileCell: TableCell,
   ): Tile {
     try {
       const tile: Tile = this._assetProvider

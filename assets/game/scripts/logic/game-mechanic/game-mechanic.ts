@@ -1,7 +1,8 @@
-import { ITableController } from "../table/table-controller";
-import { ITableModel } from "../table/table-model";
-import { ITile } from "../tile";
-import { MechanicType } from "./mechanic-types";
+import type { ITableController } from "../table/table-controller";
+import type { ITableModel } from "../table/table-model";
+import type { ITile } from "../tile";
+
+import type { MechanicType } from "./mechanic-types";
 
 export interface IGameMechanic {
   mechanicType: MechanicType;

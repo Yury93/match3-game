@@ -3,7 +3,7 @@ export class TableCell {
     private _collumn: number,
     private _line: number,
     private _position: cc.Vec2,
-    private _free: boolean
+    private _free: boolean,
   ) {}
 
   getCollumn() {

@@ -1,11 +1,14 @@
-import { IProgressService } from "../infrastructure/services/levels/progress-service";
-import { LevelService } from "../infrastructure/services/levels/level-service";
+import type { LevelService } from "../infrastructure/services/levels/level-service";
+import type { IProgressService } from "../infrastructure/services/levels/progress-service";
 
 export class ProgressController {
   onWinEvent: () => void;
   onLoseEvent: () => void;
 
-  constructor(public progress: IProgressService, public levels: LevelService) {}
+  constructor(
+    public progress: IProgressService,
+    public levels: LevelService,
+  ) {}
 
   getWinScoreThreshold(): number {
     return this.levels.getCurrentLevel().winScoreThreshold;
