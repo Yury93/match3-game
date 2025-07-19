@@ -94,7 +94,7 @@ export class TileFactory implements ITileFactory {
       tile.Init(tileType, spriteFrame);
       return tile;
     } catch (error) {
-      console.error("Failed to create table:", error);
+      cc.error("Failed to create table:", error);
     }
   }
 }

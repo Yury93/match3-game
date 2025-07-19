@@ -84,13 +84,15 @@ export class UIPanelController {
     }
   }
 
-  private onClickTile(tile: ITile): void {}
+  private onClickTile(tile: ITile): void {
+    cc.log("add effect ui-panel-controller on clickTile", tile);
+  }
 
   private setActiveBomb() {
     const bombMechanic =
       this._mechanicService.getMechanicByType(BoosterBombMechanic);
     if (!bombMechanic) {
-      console.error("bombMechanic is undefined");
+      cc.error("bombMechanic is undefined");
       return;
     }
     this._mechanicService.setActiveMechanic(bombMechanic);

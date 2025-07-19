@@ -1,16 +1,15 @@
 import type { IService } from "../serviceLocator";
 
 export interface IAssetProvider extends IService {
-  loadAsset(assetName: string): Promise<any>;
-  instantiateAsset(assetName: string): any;
+  loadAsset(assetName: string): Promise<cc.Asset>;
+  instantiateAsset(assetName: string);
   unloadAsset(assetName: string): void;
   getAsset(assetName: string);
 }
 export class AssetProvider implements IAssetProvider {
-  private _assets: Record<string, any> = {};
+  private _assets: Record<string, cc.Asset> = {};
 
-  async loadAsset(path: string): Promise<any> {
-    // console.log(`Loading asset: ${path}`);
+  async loadAsset(path: string): Promise<cc.Asset> {
     if (this._assets[path]) {
       return this._assets[path];
     }
@@ -27,10 +26,10 @@ export class AssetProvider implements IAssetProvider {
       });
     });
   }
-  getAsset(assetName: string): any {
+  getAsset(assetName: string) {
     return this._assets[assetName];
   }
-  instantiateAsset(assetName: string): any {
+  instantiateAsset(assetName: string) {
     if (this._assets[assetName]) {
       const asset = cc.instantiate(this._assets[assetName]);
       return asset;
@@ -42,7 +41,7 @@ export class AssetProvider implements IAssetProvider {
 
   unloadAsset(assetName: string): void {
     if (this._assets[assetName]) {
-      cc.resources.release(this._assets[assetName]);
+      cc.resources.release(assetName);
       delete this._assets[assetName];
     }
   }

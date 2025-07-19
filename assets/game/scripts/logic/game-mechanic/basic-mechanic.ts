@@ -32,12 +32,6 @@ export class BasicMechanic extends AbstractMechanic {
   private findConnectedTiles(startTile: ITile): ITile[] {
     if (!startTile || !this.tableController) return [];
 
-    console.log(
-      "startTile: ",
-      startTile,
-      `/tileSprite ${startTile.sprite} / tile node: ${startTile.nodeTile}`,
-    );
-
     const tileCount = this.tableModel.getTileCount();
     const visited = new Set<ITile>();
     const stack = [startTile];

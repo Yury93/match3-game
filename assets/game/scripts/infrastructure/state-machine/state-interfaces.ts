@@ -3,11 +3,11 @@ import type { ServiceLocator } from "../services/serviceLocator";
 export interface IStateMachine {
   currentState: IState | null;
 
-  run(stateName: string, payload?: any): void;
+  run(stateName: string, payload?: unknown): void;
 }
 
 export interface IState {
-  run(payload?: any): void;
+  run(payload?: unknown): void;
   stop(): void;
 }
 export interface IGameStates {

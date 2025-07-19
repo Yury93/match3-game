@@ -15,7 +15,7 @@ export class StateMachine implements IStateMachine {
       stateMachine: this,
     });
   }
-  run(stateName: string, payload?: any): void {
+  run(stateName: string, payload?: unknown): void {
     const state = this._states[stateName];
 
     if (!state) {

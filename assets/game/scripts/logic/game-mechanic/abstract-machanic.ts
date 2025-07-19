@@ -25,7 +25,7 @@ export abstract class AbstractMechanic implements IGameMechanic {
     throw new Error("Method not implemented.");
   }
   onTileClick(tile: ITile): boolean {
-    throw new Error("Method not implemented.");
+    throw new Error(`Method not implemented -> onTileClick(${tile})`);
   }
   protected dropTiles() {
     const { columns, rows } = this.tableModel.getTileCount();

@@ -107,7 +107,7 @@ export class GlobalGameConfig implements IGlobalGameConfig {
   getLevel(id: number) {
     const level = GAME_LEVELS.find((level) => level.id === id);
     if (!level) {
-      console.error(`Level with id ${id} not found return 0 level`);
+      cc.error(`Level with id ${id} not found return 0 level`);
       return GAME_LEVELS[0];
     }
     return level;
@@ -132,8 +132,9 @@ export const PREFABS: IPrefabsConfig = {
   curtainPrefab: "curtain/Curtain",
   labelPrefab: "table/label",
   getAll() {
-    const { getAll, ...prefabs } = this;
-    return Object.values(prefabs);
+    return Object.values(this).filter(
+      (value) => typeof value === "string",
+    ) as string[];
   },
 };
 

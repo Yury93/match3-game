@@ -74,7 +74,6 @@ export class TableController implements ITableController {
 
     this._model.onClearModelAction = (tile) => this.onClearTile(tile);
     this.onFalseBurnedAction = (tile) => {
-      console.log("sprite: ", tile.sprite);
       this._vfxFactory.createVfxMessage(tile.nodeTile, "неуязвимая плитка!");
       this._tableView.showFalseBurnMessage(tile);
     };
@@ -126,7 +125,7 @@ export class TableController implements ITableController {
       }
     }
   }
-  onFalseBurned(tile: ITile) {}
+  onFalseBurned() {}
   onTurnEnd() {
     if (this.onEndTurnAction) this.onEndTurnAction();
   }
