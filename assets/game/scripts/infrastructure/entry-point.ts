@@ -12,7 +12,6 @@ export class EntryPoint extends cc.Component {
   protected onLoad(): void {
     this._game = new Game({
       serviceLocator: ServiceLocator.container(),
-      tileModelConfig: TILE_MODELS,
       prefabsConfig: PREFABS,
       gameConfig: GAME_CONFIG,
       tableConfig: TABLE,
