@@ -1,3 +1,4 @@
+import type { IConstantsConfig } from "../../configs/config-types";
 import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import type {
   ITableController,
@@ -33,10 +34,11 @@ export class MechanicController implements IMechanicController {
     tileFactory: ITileFactory,
     tableController: ITableController,
     tableModel: ITableModel,
+    constantsConfig: IConstantsConfig,
   ) {
     this.initMechanics(tableController, tableModel, [
       new BasicMechanic(tileFactory),
-      new BombBoosterMechanic(tileFactory),
+      new BombBoosterMechanic(tileFactory, constantsConfig),
       new TeleportBoosterMechanic(tileFactory),
     ]);
   }

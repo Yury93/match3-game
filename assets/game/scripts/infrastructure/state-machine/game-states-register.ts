@@ -10,6 +10,7 @@ import { GameLoopState } from "../states/game-loop-state";
 import { MovePlayerValidator } from "../services/move-validator";
 import { ResultState } from "../states/result-state";
 import type {
+  IConstantsConfig,
   IGlobalGameConfig,
   IPrefabsConfig,
   ITableConfig,
@@ -27,17 +28,26 @@ export class GameStateRegister implements IStateRegister {
   private _prefabsConfig: IPrefabsConfig;
   private _gameConfig: IGlobalGameConfig;
   private _tableConfig: ITableConfig[];
+  private _constantsConfig: IConstantsConfig;
   constructor(params: {
     tilesModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];
+    constantsConfig: IConstantsConfig;
   }) {
-    const { tilesModelConfig, prefabsConfig, gameConfig, tableConfig } = params;
+    const {
+      tilesModelConfig,
+      prefabsConfig,
+      gameConfig,
+      tableConfig,
+      constantsConfig: constantsConfig,
+    } = params;
     this._gameConfig = gameConfig;
     this._tileModelConfig = tilesModelConfig;
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
+    this._constantsConfig = constantsConfig;
   }
   registerStates(params: {
     serviceLocator: ServiceLocator;
@@ -61,6 +71,7 @@ export class GameStateRegister implements IStateRegister {
         serviceLocator.single(VfxFactory),
         serviceLocator.single(ProgressService),
         serviceLocator.single(LevelService),
+        this._constantsConfig,
       ),
       GameLoopState: new GameLoopState(
         stateMachine,

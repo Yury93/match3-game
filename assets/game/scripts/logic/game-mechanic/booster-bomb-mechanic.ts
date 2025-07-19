@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../../configs/configs";
+import type { IConstantsConfig } from "../../configs/config-types";
 import type { ITileFactory } from "../../infrastructure/services/gameFactory/tile-factory";
 import type { ITile } from "../tile";
 
@@ -6,9 +6,10 @@ import { AbstractMechanic } from "./abstract-machanic";
 import { MechanicType } from "./mechanic-types";
 
 export class BoosterBombMechanic extends AbstractMechanic {
-  private readonly RADIUS = CONSTANTS.boosterBombR;
-  constructor(tileFactory: ITileFactory) {
+  private readonly RADIUS: number;
+  constructor(tileFactory: ITileFactory, constantsConfig: IConstantsConfig) {
     super(tileFactory);
+    this.RADIUS = constantsConfig.boosterBombR;
     this.mechanicType = MechanicType.BombBoster;
   }
 

@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../../configs/configs";
+import type { IConstantsConfig } from "../../configs/config-types";
 import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
 import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { ProgressController } from "../../logic/progress-controller";
@@ -29,6 +29,7 @@ export class CreateContentState implements IState {
     private _vfxFactory: IVfxFactory,
     private _progressService: IProgressService,
     private _levelService: LevelService,
+    private _constantsConfig: IConstantsConfig,
   ) {}
   async run(): Promise<void> {
     cc.log("run create content state");
@@ -118,11 +119,15 @@ export class CreateContentState implements IState {
       this._tilesFactory,
       tableController,
       tableModel,
+      this._constantsConfig,
     );
   }
 
   private createBoosterHandler(): BoosterHandler {
-    return new BoosterHandler(CONSTANTS.bombTrials, CONSTANTS.teleportTrials);
+    return new BoosterHandler(
+      this._constantsConfig.bombTrials,
+      this._constantsConfig.teleportTrials,
+    );
   }
 
   private createProgressController(): ProgressController {
