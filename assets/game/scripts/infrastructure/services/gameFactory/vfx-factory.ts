@@ -59,7 +59,7 @@ export class VfxFactory implements IVfxFactory {
       bombEffect.setPosition(localPos);
       return bombEffect;
     } catch (error) {
-      console.error("Failed to create bomb:", error);
+      cc.error("Failed to create bomb:", error);
     }
   }
 }

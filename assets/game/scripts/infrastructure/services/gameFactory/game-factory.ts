@@ -62,18 +62,15 @@ export class GameFactory implements IGameFactory {
   }
 
   createTableView(): TableView {
-    // try {
-    console.log("Loading table prefab: ", this._prefabsConfig.tablePrefab);
-    console.log("Prefab path:", this._prefabsConfig.tablePrefab);
-    console.log("AssetProvider:", this._assetProvider);
-    const prefab = this.instantiateOnCanvas(
-      this._prefabsConfig.tablePrefab,
-      TableView,
-    );
-    return prefab;
-    // } catch (error) {
-    //   console.error("Failed to create table:", error);
-    // }
+    try {
+      const prefab = this.instantiateOnCanvas(
+        this._prefabsConfig.tablePrefab,
+        TableView,
+      );
+      return prefab;
+    } catch (error) {
+      cc.error("Failed to create table:", error);
+    }
   }
   createUiPanelView(): UiPanelView {
     try {
@@ -82,7 +79,7 @@ export class GameFactory implements IGameFactory {
         UiPanelView,
       );
     } catch (error) {
-      console.error("Failed to create UI panel:", error);
+      cc.error("Failed to create UI panel:", error);
     }
   }
   createCurtain() {
@@ -96,7 +93,7 @@ export class GameFactory implements IGameFactory {
       curtain.node.setPosition(0, 0);
       return curtain;
     } catch (error) {
-      console.error("Failed to create curtain:", error);
+      cc.error("Failed to create curtain:", error);
     }
   }
   createTableController(
@@ -116,7 +113,7 @@ export class GameFactory implements IGameFactory {
     return tableModel;
   }
 
-  createTableCells(content: cc.Node): TableCell[][] {
+  createTableCells(): TableCell[][] {
     const grid: TableCell[][] = [];
     const id = Math.floor(Math.random() * this._tableConfig.length);
     const tableConfig = this._tableConfig[id];
@@ -146,14 +143,8 @@ export class GameFactory implements IGameFactory {
     prefabPath: string,
     component: { new (): T },
   ): T {
-    console.log("get director ");
     const director = cc.director.getScene().getChildByName("Canvas");
-    console.log(
-      "Loading prefab: ",
-      prefabPath + " on canvas ",
-      "/assetProvider: ",
-      this._assetProvider,
-    );
+
     const instance: T = this._assetProvider
       .instantiateAsset(prefabPath)
       .getComponent(component);

@@ -52,7 +52,6 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     );
     this.setBombButtonActive(true);
     this.setTeleportButtonActive(true);
-    console.log("init ui panel view");
   }
   updateScore(currentScore: number) {
     this.scoreLabel.string = `${currentScore}/${this._winScore}`;
@@ -63,7 +62,6 @@ export class UiPanelView extends cc.Component implements IUIPanelView {
     this.animateLabel(this.stepsLabel, 0.5);
   }
   updateBombCount(count: number) {
-    console.log("update bomb count ", this.countBombLabel);
     this.countBombLabel.string = count.toString();
     this.animateLabel(this.countBombLabel, 0.5);
   }

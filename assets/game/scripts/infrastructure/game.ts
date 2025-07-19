@@ -15,7 +15,6 @@ export class Game {
 
   constructor(params: {
     serviceLocator: ServiceLocator;
-    tileModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];

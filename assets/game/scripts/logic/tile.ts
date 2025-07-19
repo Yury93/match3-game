@@ -19,9 +19,7 @@ export class Tile extends cc.Component implements ITile {
     this.sprite.spriteFrame = spriteFrame;
   }
 
-  protected onDestroy(): void {
-    console.log("destroy ", `${this.nodeTile} ${this.tileType} ${this.sprite}`);
-  }
+  protected onDestroy(): void {}
   addListener(callback: (tile: ITile) => void) {
     this.touchHandler = callback;
     this.sprite.node.on(cc.Node.EventType.TOUCH_END, this.touchHandler, this);

@@ -55,7 +55,7 @@ export class MechanicController implements IMechanicController {
     }
   }
   setActiveMechanic(mechanic: IGameMechanic) {
-    console.log("set active mechanic : ", mechanic);
+    cc.log("set active mechanic : ", mechanic);
     this._activeMechanic = mechanic;
   }
   getActiveMechanic(): IGameMechanic | null {

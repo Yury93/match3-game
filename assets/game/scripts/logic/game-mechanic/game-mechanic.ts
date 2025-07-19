@@ -9,5 +9,5 @@ export interface IGameMechanic {
   init(tableController: ITableController, tableModel: ITableModel);
   onTurnEnd(): void;
   onTileClick(tile: ITile): boolean;
-  dispatchUseMechanicEvent(mechanicType: MechanicType, data: any);
+  dispatchUseMechanicEvent(mechanicType: MechanicType, data: unknown);
 }

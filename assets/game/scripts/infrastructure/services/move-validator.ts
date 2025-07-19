@@ -24,14 +24,13 @@ export class MovePlayerValidator implements IService {
           if (this.isValidPosition(neighbor.x, neighbor.y, columns, rows)) {
             const neighborTile = tiles[neighbor.x][neighbor.y];
             if (neighborTile && neighborTile.tileType === tile.tileType) {
-              console.log(`Found possible move for ${tile.tileType}`);
               return true;
             }
           }
         }
       }
     }
-    console.log("No possible moves found");
+    cc.log("No possible moves found");
     return false;
   }
 

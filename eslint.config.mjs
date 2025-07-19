@@ -8,8 +8,8 @@ import importPlugin from "eslint-plugin-import";
 const recommendedRules = {
   "@typescript-eslint/consistent-type-imports": "warn",
   "@typescript-eslint/consistent-type-definitions": ["warn", "interface"],
-  "@typescript-eslint/no-unused-vars": "warn",
-  "@typescript-eslint/no-explicit-any": "warn",
+  "@typescript-eslint/no-unused-vars": "error",
+  "@typescript-eslint/no-explicit-any": "error",
   "@typescript-eslint/ban-ts-comment": "warn",
   "@typescript-eslint/no-floating-promises": "warn",
   "import/no-extraneous-dependencies": [

@@ -28,14 +28,14 @@ export class GameStateRegister implements IStateRegister {
   private _gameConfig: IGlobalGameConfig;
   private _tableConfig: ITableConfig[];
   constructor(params: {
-    tileModelConfig: ITileModelsConfig[];
+    tilesModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];
   }) {
-    const { tileModelConfig, prefabsConfig, gameConfig, tableConfig } = params;
+    const { tilesModelConfig, prefabsConfig, gameConfig, tableConfig } = params;
     this._gameConfig = gameConfig;
-    this._tileModelConfig = tileModelConfig;
+    this._tileModelConfig = tilesModelConfig;
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
   }
