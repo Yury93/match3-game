@@ -61,7 +61,7 @@ export class BoosterHandler implements IMechanicObserver {
     return this._teleportTrials;
   }
 
-  destroy() {
+  unsubscribes() {
     MechanicEventSystem.unsubscribe(this);
     this.updateCallbacks = [];
   }
