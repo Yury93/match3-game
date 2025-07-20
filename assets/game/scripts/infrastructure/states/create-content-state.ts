@@ -22,15 +22,39 @@ export class CreateContentState implements IState {
   private _uiPanelView: IUIPanelView = null;
   private _isLoadAssets: boolean = false;
 
-  constructor(
-    private _stateMachine: IStateMachine,
-    private _gameFactory: IGameFactory,
-    private _tilesFactory: ITileFactory,
-    private _vfxFactory: IVfxFactory,
-    private _progressService: IProgressService,
-    private _levelService: LevelService,
-    private _constantsConfig: IConstantsConfig,
-  ) {}
+  private _stateMachine: IStateMachine;
+  private _gameFactory: IGameFactory;
+  private _tilesFactory: ITileFactory = null;
+  private _vfxFactory: IVfxFactory = null;
+  private _progressService: IProgressService = null;
+  private _levelService: LevelService = null;
+  private _constantsConfig: IConstantsConfig = null;
+  constructor(params: {
+    stateMachine: IStateMachine;
+    gameFactory: IGameFactory;
+    tilesFactory: ITileFactory;
+    vfxFactory: IVfxFactory;
+    progressService: IProgressService;
+    levelService: LevelService;
+    constantsConfig: IConstantsConfig;
+  }) {
+    const {
+      stateMachine,
+      gameFactory,
+      tilesFactory,
+      vfxFactory,
+      progressService,
+      levelService,
+      constantsConfig,
+    } = params;
+    this._stateMachine = stateMachine;
+    this._gameFactory = gameFactory;
+    this._tilesFactory = tilesFactory;
+    this._vfxFactory = vfxFactory;
+    this._progressService = progressService;
+    this._levelService = levelService;
+    this._constantsConfig = constantsConfig;
+  }
   async run(): Promise<void> {
     cc.log("run create content state");
     if (!this._isLoadAssets) {

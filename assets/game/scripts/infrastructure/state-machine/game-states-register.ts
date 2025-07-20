@@ -64,15 +64,15 @@ export class GameStateRegister implements IStateRegister {
         tableConfig: this._tableConfig,
         tilesModelConfig: this._tileModelConfig,
       }),
-      CreateContentState: new CreateContentState(
+      CreateContentState: new CreateContentState({
         stateMachine,
-        serviceLocator.single(GameFactory),
-        serviceLocator.single(TileFactory),
-        serviceLocator.single(VfxFactory),
-        serviceLocator.single(ProgressService),
-        serviceLocator.single(LevelService),
-        this._constantsConfig,
-      ),
+        gameFactory: serviceLocator.single(GameFactory),
+        tilesFactory: serviceLocator.single(TileFactory),
+        vfxFactory: serviceLocator.single(VfxFactory),
+        progressService: serviceLocator.single(ProgressService),
+        levelService: serviceLocator.single(LevelService),
+        constantsConfig: this._constantsConfig,
+      }),
       GameLoopState: new GameLoopState(
         stateMachine,
         serviceLocator.single(ProgressService),
