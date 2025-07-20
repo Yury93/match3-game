@@ -1,4 +1,4 @@
-import { PREFABS } from "../../../configs/configs";
+import type { IPrefabsConfig } from "../../../configs/config-types";
 import type { ITile } from "../../../logic/tile";
 import type { IService } from "../serviceLocator";
 
@@ -9,12 +9,15 @@ export interface IVfxFactory extends IService {
   createVfxBomb(tile: ITile);
 }
 export class VfxFactory implements IVfxFactory {
-  constructor(private _assetProvider: IAssetProvider) {}
+  constructor(
+    private _assetProvider: IAssetProvider,
+    private _prefabsConfig: IPrefabsConfig,
+  ) {}
   createVfxMessage(node: cc.Node, text: string): cc.Node {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
       const label = this._assetProvider
-        .instantiateAsset(PREFABS.labelPrefab)
+        .instantiateAsset(this._prefabsConfig.labelPrefab)
         .getComponent(cc.Label);
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
@@ -49,7 +52,7 @@ export class VfxFactory implements IVfxFactory {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
       const bombEffect = this._assetProvider.instantiateAsset(
-        PREFABS.bombEffectPrefab,
+        this._prefabsConfig.bombEffectPrefab,
       );
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));

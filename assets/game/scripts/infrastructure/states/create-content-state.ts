@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../../configs/configs";
+import type { IConstantsConfig } from "../../configs/config-types";
 import { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
 import { MechanicController } from "../../logic/game-mechanic/mechanic-controller";
 import { ProgressController } from "../../logic/progress-controller";
@@ -22,14 +22,39 @@ export class CreateContentState implements IState {
   private _uiPanelView: IUIPanelView = null;
   private _isLoadAssets: boolean = false;
 
-  constructor(
-    private _stateMachine: IStateMachine,
-    private _gameFactory: IGameFactory,
-    private _tilesFactory: ITileFactory,
-    private _vfxFactory: IVfxFactory,
-    private _progressService: IProgressService,
-    private _levelService: LevelService,
-  ) {}
+  private _stateMachine: IStateMachine;
+  private _gameFactory: IGameFactory;
+  private _tilesFactory: ITileFactory = null;
+  private _vfxFactory: IVfxFactory = null;
+  private _progressService: IProgressService = null;
+  private _levelService: LevelService = null;
+  private _constantsConfig: IConstantsConfig = null;
+  constructor(params: {
+    stateMachine: IStateMachine;
+    gameFactory: IGameFactory;
+    tilesFactory: ITileFactory;
+    vfxFactory: IVfxFactory;
+    progressService: IProgressService;
+    levelService: LevelService;
+    constantsConfig: IConstantsConfig;
+  }) {
+    const {
+      stateMachine,
+      gameFactory,
+      tilesFactory,
+      vfxFactory,
+      progressService,
+      levelService,
+      constantsConfig,
+    } = params;
+    this._stateMachine = stateMachine;
+    this._gameFactory = gameFactory;
+    this._tilesFactory = tilesFactory;
+    this._vfxFactory = vfxFactory;
+    this._progressService = progressService;
+    this._levelService = levelService;
+    this._constantsConfig = constantsConfig;
+  }
   async run(): Promise<void> {
     cc.log("run create content state");
     if (!this._isLoadAssets) {
@@ -118,11 +143,15 @@ export class CreateContentState implements IState {
       this._tilesFactory,
       tableController,
       tableModel,
+      this._constantsConfig,
     );
   }
 
   private createBoosterHandler(): BoosterHandler {
-    return new BoosterHandler(CONSTANTS.bombTrials, CONSTANTS.teleportTrials);
+    return new BoosterHandler(
+      this._constantsConfig.bombTrials,
+      this._constantsConfig.teleportTrials,
+    );
   }
 
   private createProgressController(): ProgressController {

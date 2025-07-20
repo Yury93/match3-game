@@ -1,4 +1,10 @@
-import { GAME_CONFIG, PREFABS, TABLE, TILE_MODELS } from "../configs/configs";
+import {
+  CONSTANTS,
+  GAME_CONFIG,
+  PREFABS,
+  TABLE,
+  TILE_MODELS,
+} from "../configs/configs";
 
 import { Game } from "./game";
 import { ServiceLocator } from "./services/serviceLocator";
@@ -16,6 +22,7 @@ export class EntryPoint extends cc.Component {
       gameConfig: GAME_CONFIG,
       tableConfig: TABLE,
       tilesModelConfig: TILE_MODELS,
+      constantsConfig: CONSTANTS,
     });
   }
 }

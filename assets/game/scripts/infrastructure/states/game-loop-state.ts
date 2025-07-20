@@ -41,33 +41,33 @@ export class GameLoopState implements IState {
 
     this.tryResolveMoves();
 
-    this._tableController.onBurnAction = (groupSize: number) => {
-      this._progressService.nextStep(groupSize);
-      this._uiPanelController.updateScore();
-      this._progressController.checkProgress();
-      this.tryResolveMoves();
-    };
-
-    this._tableController.onEndTurnAction = () => {
-      this.tryResolveMoves();
-    };
-
-    this._tableController.onFalseBurned = (tile) => {
-      if (this._boosterHandler.getBombTrials() > 0) {
-        this._uiPanelController.summonClickBomb();
-      }
-      if (!this._isResultShown && !this.hasBoosterTrials()) {
-        this._progressController.checkProgress();
-      }
-      this._tableController.onFalseBurnedAction(tile);
-      this.tryResolveMoves();
-    };
+    this._tableController.onBurnAction = this.handleBurnAction.bind(this);
+    this._tableController.onEndTurnAction = this.tryResolveMoves.bind(this);
+    this._tableController.onFalseBurned = this.handleFalseBurned.bind(this);
 
     this._progressController.onWinEvent = () =>
       this.handleGameEnd("win", "Успех!");
 
     this._progressController.onLoseEvent = () =>
       this.handleGameEnd("lose", "Закончились\n шаги...");
+  }
+
+  private handleBurnAction(groupSize: number): void {
+    this._progressService.nextStep(groupSize);
+    this._uiPanelController.updateScore();
+    this._progressController.checkProgress();
+    this.tryResolveMoves();
+  }
+
+  private handleFalseBurned(tile): void {
+    if (this._boosterHandler.getBombTrials() > 0) {
+      this._uiPanelController.summonClickBomb();
+    }
+    if (!this._isResultShown && !this.hasBoosterTrials()) {
+      this._progressController.checkProgress();
+    }
+    this._tableController.onFalseBurnedAction(tile);
+    this.tryResolveMoves();
   }
 
   private hasBoosterTrials(): boolean {
@@ -91,7 +91,7 @@ export class GameLoopState implements IState {
   private handleGameEnd(results: string, message: string): void {
     this._tableController.onBurnAction = null;
     this._tableController.onFalseBurned = null;
-    this._boosterHandler.destroy();
+    this._boosterHandler.unsubscribes();
     this._isResultShown = true;
     this._tableController.removeClickTileListeners();
     this._uiPanelController.removeBoosterListeners();

@@ -54,7 +54,7 @@ export class InitializeState implements IState {
       tileModelsConfig,
       prefabsConfig,
     });
-    const vfxFactory = new VfxFactory(assetProvider);
+    const vfxFactory = new VfxFactory(assetProvider, prefabsConfig);
     const levelConfigService = new LevelConfigService(gameConfig);
     const levelService = new LevelService(levelConfigService);
     const progressService = new ProgressService(

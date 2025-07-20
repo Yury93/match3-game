@@ -1,4 +1,5 @@
 import type {
+  IConstantsConfig,
   IGlobalGameConfig,
   IPrefabsConfig,
   ITableConfig,
@@ -19,6 +20,7 @@ export class Game {
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
+    constantsConfig: IConstantsConfig;
   }) {
     const { serviceLocator, ...configs } = params;
     this._stateMachine = new StateMachine({
