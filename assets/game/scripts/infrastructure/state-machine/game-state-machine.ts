@@ -15,7 +15,7 @@ export class StateMachine implements IStateMachine {
       stateMachine: this,
     });
   }
-  run(stateName: string, payload?: unknown): void {
+  async run(stateName: string, payload?: unknown) {
     const state = this._states[stateName];
 
     if (!state) {
@@ -27,7 +27,7 @@ export class StateMachine implements IStateMachine {
       return;
     }
 
-    this.currentState?.stop();
+    await this.currentState?.stop();
     this.currentState = state;
     state.run(payload);
   }

@@ -1,13 +1,15 @@
 import type {
   IGlobalGameConfig,
   IPrefabsConfig,
+  IPrefabsMenuConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../../configs/config-types";
-import { AssetProvider } from "../services/gameFactory/asset-provider";
-import { GameFactory } from "../services/gameFactory/game-factory";
-import { TileFactory } from "../services/gameFactory/tile-factory";
-import { VfxFactory } from "../services/gameFactory/vfx-factory";
+import { AssetProvider } from "../services/asset-provider";
+import { GameFactory } from "../services/factories/game-factory";
+import { MenuFactory } from "../services/factories/menu-factory";
+import { TileFactory } from "../services/factories/tile-factory";
+import { VfxFactory } from "../services/factories/vfx-factory";
 import { LevelConfigService } from "../services/levels/level-config-service";
 import { LevelService } from "../services/levels/level-service";
 import { ProgressService } from "../services/levels/progress-service";
@@ -27,6 +29,7 @@ export class InitializeState implements IState {
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
+    prefabsMenuConfig: IPrefabsMenuConfig;
   }) {
     cc.log("run RegisterDependecies");
     const {
@@ -37,11 +40,11 @@ export class InitializeState implements IState {
       gameConfig,
       tableConfig,
       tilesModelConfig,
+      prefabsMenuConfig,
     } = params;
 
     this._serviceLocator = serviceLocator;
     this._stateMachine = stateMachine;
-    cc.log("InitializeState params ", tileModelsConfig);
     const assetProvider = new AssetProvider();
     const gameFactory = new GameFactory({
       assetProvider,
@@ -49,6 +52,11 @@ export class InitializeState implements IState {
       tableConfig,
       tilesModelConfig,
     });
+    const menuFactory = new MenuFactory({
+      assetProvider,
+      prefabsMenuConfig,
+    });
+    cc.log("MenuFactory created ", tileModelsConfig);
     const tileFactory = new TileFactory({
       assetProvider,
       tileModelsConfig,
@@ -64,6 +72,8 @@ export class InitializeState implements IState {
     const movePlayerValidator = new MovePlayerValidator();
 
     this._serviceLocator.registerSingle(assetProvider);
+    this._serviceLocator.registerSingle(menuFactory);
+    cc.log("MenuFactory registered ", tileModelsConfig);
     this._serviceLocator.registerSingle(gameFactory);
     this._serviceLocator.registerSingle(tileFactory);
     this._serviceLocator.registerSingle(vfxFactory);
@@ -74,7 +84,7 @@ export class InitializeState implements IState {
     this._serviceLocator.registerSingle(progressService);
   }
   run(): void {
-    this._stateMachine.run(StateNames.CreateContent);
+    this._stateMachine.run(StateNames.CreateMenuState);
   }
 
   stop(): void {

@@ -1,6 +1,6 @@
-import { ResultLevelController } from "../../logic/result-level-controller";
-import type { ITableController } from "../../logic/table/table-controller";
-import type { IGameFactory } from "../services/gameFactory/game-factory";
+import { ResultLevelController } from "../../game-logic/result-level-controller";
+import type { ITableController } from "../../game-logic/table/table-controller";
+import type { IGameFactory } from "../services/factories/game-factory";
 import type { IProgressService } from "../services/levels/progress-service";
 import type { IState, IStateMachine } from "../state-machine/state-interfaces";
 import { StateNames } from "../state-machine/state-names";

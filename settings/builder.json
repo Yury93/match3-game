@@ -1,7 +1,7 @@
 {
   "title": "match-3",
   "packageName": "org.cocos2d.demo",
-  "startScene": "36d130fa-9af7-48ef-b5dd-69d0e5e3c01b",
+  "startScene": "f375b91c-048f-408d-8fcf-bc49334ca765",
   "excludeScenes": [],
   "orientation": {
     "landscapeRight": true,

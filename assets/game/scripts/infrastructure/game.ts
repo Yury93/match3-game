@@ -2,6 +2,7 @@ import type {
   IConstantsConfig,
   IGlobalGameConfig,
   IPrefabsConfig,
+  IPrefabsMenuConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../configs/config-types";
@@ -21,6 +22,7 @@ export class Game {
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
     constantsConfig: IConstantsConfig;
+    prefabsMenuConfig: IPrefabsMenuConfig;
   }) {
     const { serviceLocator, ...configs } = params;
     this._stateMachine = new StateMachine({
