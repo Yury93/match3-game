@@ -23,7 +23,7 @@ export class Curtain extends cc.Component implements ICurtainView {
     const promiceShow = new Promise<void>((resolve) => {
       cc.tween(this.curtainSprite.node)
         .to(0.5, { x: 0 }, { easing: "quadOut" })
-        .delay(0.3)
+        .delay(0.6)
         .call(() => {
           resolve();
         })
@@ -36,8 +36,8 @@ export class Curtain extends cc.Component implements ICurtainView {
     this.showFade(false);
     const promiseHide = new Promise<void>((resolve) => {
       cc.tween(this.curtainSprite.node)
-        .to(0.5, { x: this._startPosCurtain.x }, { easing: "quadOut" })
-        .delay(0.3)
+        .to(0.6, { x: this._startPosCurtain.x }, { easing: "quadOut" })
+
         .call(() => {
           resolve();
           this.node.destroy();
