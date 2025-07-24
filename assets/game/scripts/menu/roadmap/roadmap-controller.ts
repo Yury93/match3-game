@@ -22,8 +22,9 @@ export class RoadmapController implements IRoadmapController {
     roadmap.onClickPlay = () => this.onClickPlayButton();
   }
   onClickPlayButton() {
-    cc.director.loadScene("game", () => {
-      this._stateMachine.run(StateNames.CreateLevelContentState);
+    this._stateMachine.run(StateNames.LoadSceneState, {
+      sceneName: "game",
+      stateName: StateNames.CreateLevelContentState,
     });
   }
 }

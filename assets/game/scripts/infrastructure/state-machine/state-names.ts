@@ -5,4 +5,5 @@ export enum StateNames {
   CreateLevelContentState = "CreateLevelContentState",
   GameLoop = "GameLoopState",
   ResultState = "ResultState",
+  LoadSceneState = "LoadSceneState",
 }

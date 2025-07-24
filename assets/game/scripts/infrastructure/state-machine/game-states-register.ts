@@ -12,6 +12,7 @@ import { ResultState } from "../states/result-state";
 import type {
   IConstantsConfig,
   IGlobalGameConfig,
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   IPrefabsMenuConfig,
   ITableConfig,
@@ -26,6 +27,7 @@ import type {
   IStateMachine,
   IStateRegister,
 } from "./state-interfaces";
+import { LoadSceneState } from "../states/load-scene-state";
 
 export class GameStateRegister implements IStateRegister {
   private _tileModelConfig: ITileModelsConfig[];
@@ -34,7 +36,7 @@ export class GameStateRegister implements IStateRegister {
   private _tableConfig: ITableConfig[];
   private _constantsConfig: IConstantsConfig;
   private _prefabsMenuConfig: IPrefabsMenuConfig;
-
+  private _persistentsPrefabsConfig: IPersistentPrefabsConfig;
   constructor(params: {
     tilesModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
@@ -42,6 +44,7 @@ export class GameStateRegister implements IStateRegister {
     tableConfig: ITableConfig[];
     constantsConfig: IConstantsConfig;
     prefabsMenuConfig: IPrefabsMenuConfig;
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     const {
       tilesModelConfig,
@@ -50,6 +53,7 @@ export class GameStateRegister implements IStateRegister {
       tableConfig,
       constantsConfig,
       prefabsMenuConfig,
+      persistentsPrefabsConfig,
     } = params;
     this._gameConfig = gameConfig;
     this._tileModelConfig = tilesModelConfig;
@@ -57,6 +61,7 @@ export class GameStateRegister implements IStateRegister {
     this._tableConfig = tableConfig;
     this._constantsConfig = constantsConfig;
     this._prefabsMenuConfig = prefabsMenuConfig;
+    this._persistentsPrefabsConfig = persistentsPrefabsConfig;
   }
   registerStates(params: {
     serviceLocator: ServiceLocator;
@@ -73,6 +78,7 @@ export class GameStateRegister implements IStateRegister {
         tableConfig: this._tableConfig,
         tilesModelConfig: this._tileModelConfig,
         prefabsMenuConfig: this._prefabsMenuConfig,
+        persistentsPrefabsConfig: this._persistentsPrefabsConfig,
       }),
       CreateMenuState: new CreateMenuState({
         stateMachine,
@@ -97,8 +103,11 @@ export class GameStateRegister implements IStateRegister {
       ResultState: new ResultState(
         stateMachine,
         serviceLocator.single(GameFactory),
-        serviceLocator.single(ProgressGameService),
       ),
+      LoadSceneState: new LoadSceneState({
+        gameFactory: serviceLocator.single(GameFactory),
+        stateMachine,
+      }),
     };
 
     cc.log("States registered:", Object.keys(states));

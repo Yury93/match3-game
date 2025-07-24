@@ -1,6 +1,7 @@
 import type { IService } from "../serviceLocator";
 import { Curtain } from "../../../curtain/curtain";
 import type {
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   ITableConfig,
   ITileModelsConfig,
@@ -42,20 +43,28 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
   private _prefabsConfig: IPrefabsConfig;
   private _tableConfig: ITableConfig[];
   private _tilesModelConfig: ITileModelsConfig[];
+  private _persistentPrefabsConfig: IPersistentPrefabsConfig;
   constructor(params: {
     assetProvider: IAssetProvider;
     prefabsConfig: IPrefabsConfig;
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     super(params.assetProvider);
-    const { assetProvider, prefabsConfig, tableConfig, tilesModelConfig } =
-      params;
+    const {
+      assetProvider,
+      prefabsConfig,
+      tableConfig,
+      tilesModelConfig,
+      persistentsPrefabsConfig,
+    } = params;
 
     this._assetProvider = assetProvider;
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
     this._tilesModelConfig = tilesModelConfig;
+    this._persistentPrefabsConfig = persistentsPrefabsConfig;
   }
   createUIResultView(): IResultLevelView {
     try {
@@ -104,7 +113,7 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
     try {
       const director = cc.director.getScene().getChildByName("EntryPoint");
       const curtain: Curtain = this._assetProvider
-        .instantiateAsset(this._prefabsConfig.curtainPrefab)
+        .instantiateAsset(this._persistentPrefabsConfig.curtainPrefab)
         .getComponent(Curtain);
 
       curtain.node.setParent(director);

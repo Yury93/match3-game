@@ -1,15 +1,25 @@
 import { IGameFactory } from "../services/factories/game-factory";
-import { IState } from "../state-machine/state-interfaces";
+import { IState, IStateMachine } from "../state-machine/state-interfaces";
+import { StateNames } from "../state-machine/state-names";
 
 export class LoadSceneState implements IState {
   private _gameFactory: IGameFactory;
-  constructor(params: { gameFactory: IGameFactory }) {
+  private _stateMachine: IStateMachine;
+  constructor(params: {
+    gameFactory: IGameFactory;
+    stateMachine: IStateMachine;
+  }) {
     this._gameFactory = params.gameFactory;
+    this._stateMachine = params.stateMachine;
   }
-  async run(payload?: string) {
-    await cc.director.loadScene(payload);
+  async run(payload: { sceneName: string; stateName: StateNames }) {
+    const { sceneName, stateName } = payload;
+    const curtain = this._gameFactory.createCurtain();
+    await curtain.showCurtain();
+    await cc.director.loadScene(sceneName, async () => {
+      await this._stateMachine.run(stateName);
+      await curtain.hideCurtain();
+    });
   }
-  stop(): void {
-    throw new Error("Method not implemented.");
-  }
+  stop(): void {}
 }

@@ -1,5 +1,6 @@
 import type {
   IGlobalGameConfig,
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   IPrefabsMenuConfig,
   ITableConfig,
@@ -29,6 +30,7 @@ export class InitializeState implements IState {
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
     prefabsMenuConfig: IPrefabsMenuConfig;
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     cc.log("run RegisterDependecies");
     const {
@@ -40,6 +42,7 @@ export class InitializeState implements IState {
       tableConfig,
       tilesModelConfig,
       prefabsMenuConfig,
+      persistentsPrefabsConfig,
     } = params;
 
     this._serviceLocator = serviceLocator;
@@ -51,10 +54,12 @@ export class InitializeState implements IState {
       prefabsConfig,
       tableConfig,
       tilesModelConfig,
+      persistentsPrefabsConfig,
     });
     const menuFactory = new MenuFactory({
       assetProvider,
       prefabsMenuConfig,
+      persistentsPrefabsConfig,
       levelService,
     });
     cc.log("MenuFactory created ", tileModelsConfig);

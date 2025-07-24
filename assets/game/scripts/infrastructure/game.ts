@@ -1,6 +1,7 @@
 import type {
   IConstantsConfig,
   IGlobalGameConfig,
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   IPrefabsMenuConfig,
   ITableConfig,
@@ -23,6 +24,7 @@ export class Game {
     tilesModelConfig: ITileModelsConfig[];
     constantsConfig: IConstantsConfig;
     prefabsMenuConfig: IPrefabsMenuConfig;
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     const { serviceLocator, ...configs } = params;
     this._stateMachine = new StateMachine({

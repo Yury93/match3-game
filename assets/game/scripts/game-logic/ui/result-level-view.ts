@@ -29,7 +29,6 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     this._restartPromise = new Promise<void>((resolve) => {
       this._onClickRestart = resolve;
     });
-    cc.game.addPersistRootNode(this.node);
   }
   async win(message: string): Promise<void> {
     return await this.showResult(this.continueButton, message);
@@ -110,7 +109,7 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     if (this.fadeSprite && this.fadeSprite.node) {
       cc.Tween.stopAllByTarget(this.fadeSprite.node);
     }
-    cc.game.removePersistRootNode(this.node);
+
     this.destroy();
   }
 }
