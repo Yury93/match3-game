@@ -54,6 +54,7 @@ export interface IPrefabsConfig {
   tilePrefab: string;
   curtainPrefab: string;
   labelPrefab: string;
+  resultLevelView: string;
   getAll(): string[];
 }
 

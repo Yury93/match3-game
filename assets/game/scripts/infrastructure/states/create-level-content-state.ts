@@ -1,7 +1,7 @@
 import type { IConstantsConfig } from "../../configs/config-types";
 import { BoosterHandler } from "../../game-logic/game-mechanic/booster-handler";
 import { MechanicController } from "../../game-logic/game-mechanic/mechanic-controller";
-import { ProgressController } from "../../game-logic/progress-controller";
+import { ProgressLevelController } from "../../game-logic/progress-level-controller";
 import type { TableCell } from "../../game-logic/table-cell";
 import type { ITableController } from "../../game-logic/table/table-controller";
 import type { ITableModel } from "../../game-logic/table/table-model";
@@ -140,14 +140,17 @@ export class CreateLevelContentState implements IState {
     );
   }
 
-  private createProgressController(): ProgressController {
-    return new ProgressController(this._progressService, this._levelService);
+  private createProgressController(): ProgressLevelController {
+    return new ProgressLevelController(
+      this._progressService,
+      this._levelService,
+    );
   }
 
   private createUIPanelController(
     mechanicController: MechanicController,
     boosterHandler: BoosterHandler,
-    progressController: ProgressController,
+    progressController: ProgressLevelController,
   ): UIPanelController {
     return new UIPanelController(
       progressController,
@@ -162,7 +165,7 @@ export class CreateLevelContentState implements IState {
     tableModel: ITableModel,
     tableController: ITableController,
     boosterHandler: BoosterHandler,
-    progressController: ProgressController,
+    progressController: ProgressLevelController,
     uiPanelController: UIPanelController,
   ) {
     this._stateMachine.run(StateNames.GameLoop, {

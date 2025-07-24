@@ -17,6 +17,10 @@ import { TableController } from "../../../game-logic/table/table-controller";
 
 import type { IVfxFactory } from "./vfx-factory";
 import { AbstractFactory } from "./abstract-factory";
+import {
+  IResultLevelView,
+  ResultLevelView,
+} from "../../../game-logic/ui/result-level-view";
 
 export interface IGameFactory extends IService {
   createTableView(): TableView;
@@ -29,6 +33,7 @@ export interface IGameFactory extends IService {
   );
   createUiPanelView(): UiPanelView;
   createCurtain(): Curtain;
+  createUIResultView(): IResultLevelView;
   loadAssets();
   cleanUp();
 }
@@ -51,6 +56,17 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
     this._tilesModelConfig = tilesModelConfig;
+  }
+  createUIResultView(): IResultLevelView {
+    try {
+      const prefab = this.instantiateOnCanvas<ResultLevelView>(
+        this._prefabsConfig.resultLevelView,
+        ResultLevelView,
+      );
+      return prefab;
+    } catch (error) {
+      cc.error("Failed to create ResultLevelView:", error);
+    }
   }
 
   async loadAssets() {

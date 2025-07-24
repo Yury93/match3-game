@@ -70,7 +70,6 @@ export class InitializeState implements IState {
 
     this._serviceLocator.registerSingle(assetProvider);
     this._serviceLocator.registerSingle(menuFactory);
-    cc.log("MenuFactory registered ", tileModelsConfig);
     this._serviceLocator.registerSingle(gameFactory);
     this._serviceLocator.registerSingle(tileFactory);
     this._serviceLocator.registerSingle(vfxFactory);

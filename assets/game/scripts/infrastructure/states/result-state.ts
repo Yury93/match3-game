@@ -20,21 +20,23 @@ export class ResultState implements IState {
       this._progressServer,
       payload.tableController,
     );
-
-    const curtain = this._gameFactory.createCurtain();
+    /// TODO: создавать фейд с кнопкой а не шторку
+    const resultView = this._gameFactory.createUIResultView();
+    /// TODO: по клику переходить в состояние загрузки сцены, где должна вызываться шторка
     if (payload.result === "win") {
-      await curtain.win(payload.message);
-      await curtain.waitForClickContinue();
+      await resultView.win(payload.message);
+      await resultView.waitForClickContinue();
     } else {
-      await curtain.lose(payload.message);
-      await curtain.waitForClickRestart();
+      await resultView.lose(payload.message);
+      await resultView.waitForClickRestart();
     }
 
     resultController.clearLevel();
+    /// TODO: после загрузки сцены переходить в новое состояние и затем скрывать шторку
     await cc.director.loadScene("menu", async () => {
       await this._stateMachine.run(StateNames.CreateMenuState);
 
-      await curtain.hideCurtain();
+      // await curtain.hideCurtain();
       // curtain.destroyGo();
     });
   }

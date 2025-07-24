@@ -1,7 +1,7 @@
 import type { LevelService } from "../infrastructure/services/levels/level-service";
 import type { IProgressService } from "../infrastructure/services/levels/progress-service";
 
-export class ProgressController {
+export class ProgressLevelController {
   onWinEvent: () => void;
   onLoseEvent: () => void;
 

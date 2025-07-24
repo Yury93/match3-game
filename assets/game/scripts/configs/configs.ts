@@ -191,6 +191,7 @@ const PREFABS: IPrefabsGameConfig = {
   tilePrefab: "tiles/TilePrefab",
   curtainPrefab: "curtain/Curtain",
   labelPrefab: "table/label",
+  resultLevelView: "result-level-view/ResultLevelView",
   getAll(): string[] {
     return getAll(this);
   },

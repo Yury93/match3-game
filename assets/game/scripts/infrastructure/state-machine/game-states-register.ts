@@ -34,6 +34,7 @@ export class GameStateRegister implements IStateRegister {
   private _tableConfig: ITableConfig[];
   private _constantsConfig: IConstantsConfig;
   private _prefabsMenuConfig: IPrefabsMenuConfig;
+
   constructor(params: {
     tilesModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
@@ -76,6 +77,7 @@ export class GameStateRegister implements IStateRegister {
       CreateMenuState: new CreateMenuState({
         stateMachine,
         menuFactory: serviceLocator.single(MenuFactory),
+        levelService: serviceLocator.single(LevelService),
       }),
       MenuState: new MenuState({ stateMachine }),
       CreateLevelContentState: new CreateLevelContentState({
