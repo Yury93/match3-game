@@ -1,4 +1,4 @@
-import type { ITableModel } from "../../logic/table/table-model";
+import type { ITableModel } from "../../game-logic/table/table-model";
 
 import type { IService } from "./serviceLocator";
 

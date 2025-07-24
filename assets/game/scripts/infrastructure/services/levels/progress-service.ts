@@ -1,4 +1,3 @@
-import type { ScoreFormula } from "../../../configs/config-types";
 import type { IService } from "../serviceLocator";
 
 import type { LevelService } from "./level-service";
@@ -14,15 +13,12 @@ export interface IProgressService extends IService {
   nextStep(groupSize: number);
 }
 
-export class ProgressService implements IProgressService {
+export class ProgressGameService implements IProgressService {
   currentScore = 0;
   remainingSteps: number;
   isGameOver = false;
 
-  constructor(
-    private _levelService: LevelService,
-    private _scoreFormula: ScoreFormula,
-  ) {
+  constructor(private _levelService: LevelService) {
     this.resetLevel();
   }
 
@@ -43,7 +39,7 @@ export class ProgressService implements IProgressService {
 
   nextStep(groupSize: number) {
     if (groupSize > 1) {
-      this.currentScore += this._scoreFormula(groupSize);
+      this.currentScore += this._levelService.getScoreFormula()(groupSize);
     }
     this.remainingSteps--;
 

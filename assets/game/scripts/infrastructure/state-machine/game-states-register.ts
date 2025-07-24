@@ -1,10 +1,10 @@
 import type { ServiceLocator } from "../services/serviceLocator";
 import { InitializeState } from "../states/initialize-state";
-import { CreateContentState } from "../states/create-content-state";
-import { GameFactory } from "../services/gameFactory/game-factory";
-import { TileFactory } from "../services/gameFactory/tile-factory";
-import { VfxFactory } from "../services/gameFactory/vfx-factory";
-import { ProgressService } from "../services/levels/progress-service";
+import { CreateLevelContentState } from "../states/create-level-content-state";
+import { GameFactory } from "../services/factories/game-factory";
+import { TileFactory } from "../services/factories/tile-factory";
+import { VfxFactory } from "../services/factories/vfx-factory";
+import { ProgressGameService } from "../services/levels/progress-service";
 import { LevelService } from "../services/levels/level-service";
 import { GameLoopState } from "../states/game-loop-state";
 import { MovePlayerValidator } from "../services/move-validator";
@@ -13,9 +13,13 @@ import type {
   IConstantsConfig,
   IGlobalGameConfig,
   IPrefabsConfig,
+  IPrefabsMenuConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../../configs/config-types";
+import { CreateMenuState } from "../states/create-menu-state";
+import { MenuState } from "../states/menu-state";
+import { MenuFactory } from "../services/factories/menu-factory";
 
 import type {
   IGameStates,
@@ -29,25 +33,29 @@ export class GameStateRegister implements IStateRegister {
   private _gameConfig: IGlobalGameConfig;
   private _tableConfig: ITableConfig[];
   private _constantsConfig: IConstantsConfig;
+  private _prefabsMenuConfig: IPrefabsMenuConfig;
   constructor(params: {
     tilesModelConfig: ITileModelsConfig[];
     prefabsConfig: IPrefabsConfig;
     gameConfig: IGlobalGameConfig;
     tableConfig: ITableConfig[];
     constantsConfig: IConstantsConfig;
+    prefabsMenuConfig: IPrefabsMenuConfig;
   }) {
     const {
       tilesModelConfig,
       prefabsConfig,
       gameConfig,
       tableConfig,
-      constantsConfig: constantsConfig,
+      constantsConfig,
+      prefabsMenuConfig,
     } = params;
     this._gameConfig = gameConfig;
     this._tileModelConfig = tilesModelConfig;
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
     this._constantsConfig = constantsConfig;
+    this._prefabsMenuConfig = prefabsMenuConfig;
   }
   registerStates(params: {
     serviceLocator: ServiceLocator;
@@ -63,25 +71,31 @@ export class GameStateRegister implements IStateRegister {
         gameConfig: this._gameConfig,
         tableConfig: this._tableConfig,
         tilesModelConfig: this._tileModelConfig,
+        prefabsMenuConfig: this._prefabsMenuConfig,
       }),
-      CreateContentState: new CreateContentState({
+      CreateMenuState: new CreateMenuState({
+        stateMachine,
+        menuFactory: serviceLocator.single(MenuFactory),
+      }),
+      MenuState: new MenuState({ stateMachine }),
+      CreateLevelContentState: new CreateLevelContentState({
         stateMachine,
         gameFactory: serviceLocator.single(GameFactory),
         tilesFactory: serviceLocator.single(TileFactory),
         vfxFactory: serviceLocator.single(VfxFactory),
-        progressService: serviceLocator.single(ProgressService),
+        progressService: serviceLocator.single(ProgressGameService),
         levelService: serviceLocator.single(LevelService),
         constantsConfig: this._constantsConfig,
       }),
       GameLoopState: new GameLoopState(
         stateMachine,
-        serviceLocator.single(ProgressService),
+        serviceLocator.single(ProgressGameService),
         serviceLocator.single(MovePlayerValidator),
       ),
       ResultState: new ResultState(
         stateMachine,
         serviceLocator.single(GameFactory),
-        serviceLocator.single(ProgressService),
+        serviceLocator.single(ProgressGameService),
       ),
     };
 

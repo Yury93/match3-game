@@ -1,6 +1,8 @@
 export enum StateNames {
   Initialize = "InitializeState",
-  CreateContent = "CreateContentState",
+  CreateMenuState = "CreateMenuState",
+  MenuState = "MenuState",
+  CreateLevelContentState = "CreateLevelContentState",
   GameLoop = "GameLoopState",
   ResultState = "ResultState",
 }

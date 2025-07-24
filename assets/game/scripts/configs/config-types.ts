@@ -1,4 +1,4 @@
-import type { TileType } from "../logic/tile-type";
+import type { TileType } from "../game-logic/tile-type";
 
 /**
  * Конфигурация игрового поля
@@ -39,7 +39,7 @@ export interface IConstantsConfig {
 }
 
 /**
- * Пути к игровым префабам
+ * Пути к игровым префабам в игре
  * @property tablePrefab - префаб игрового поля
  * @property uIPanelPrefab - префаб UI панели
  * @property bombEffectPrefab - префаб эффекта взрыва(бустер бомба)
@@ -54,9 +54,19 @@ export interface IPrefabsConfig {
   tilePrefab: string;
   curtainPrefab: string;
   labelPrefab: string;
-  getAll();
+  getAll(): string[];
 }
 
+/**
+ * Пути к игровым префабам в меню
+ * @property roadmapPrefab - префаб роадмапа
+ */
+export interface IPrefabsMenuConfig {
+  map: { id: number; roadmapPrefabPath: string }[];
+  getRoadmapPrefabById(roadmapId: number): string;
+
+  getAll(): string[];
+}
 /**
  * Конфигурация визуального представления плиток
  * @property path - путь к ассету плитки
@@ -90,4 +100,5 @@ export interface IScoreFormula {
 export interface IGlobalGameConfig {
   getScoreFormula(): ScoreFormula;
   getLevel(id: number): IGameLevelsConfig;
+  getConditionNextMap(idLevel: number): boolean;
 }

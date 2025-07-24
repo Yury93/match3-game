@@ -1,0 +1,35 @@
+import type { IAssetLoader, IAssetProvider } from "../asset-provider";
+import type { IService } from "../serviceLocator";
+
+export interface IUIFactory extends IService, IAssetLoader {
+  createRoadmap();
+  createRoadmapPoint();
+  createPath();
+}
+export class UIFactory implements IUIFactory {
+  private _assetProvider: IAssetProvider;
+  private _uiFactory: IUIFactory;
+  constructor(params: {
+    assetProvider: IAssetProvider;
+    uiFactory: IUIFactory;
+  }) {
+    this._assetProvider = params.assetProvider;
+    this._uiFactory = params.uiFactory;
+  }
+  loadAssets() {
+    throw new Error("Method not implemented.");
+  }
+  cleanUp() {
+    throw new Error("Method not implemented.");
+  }
+
+  createRoadmap() {
+    throw new Error("Method not implemented.");
+  }
+  createRoadmapPoint() {
+    throw new Error("Method not implemented.");
+  }
+  createPath() {
+    throw new Error("Method not implemented.");
+  }
+}

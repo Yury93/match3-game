@@ -1,9 +1,9 @@
-import type { BoosterHandler } from "../../logic/game-mechanic/booster-handler";
-import type { ProgressController } from "../../logic/progress-controller";
-import type { ITableController } from "../../logic/table/table-controller";
-import type { ITableModel } from "../../logic/table/table-model";
-import type { IUIPanelView } from "../../ui/ui-panel";
-import type { UIPanelController } from "../../ui/ui-panel-controller";
+import type { BoosterHandler } from "../../game-logic/game-mechanic/booster-handler";
+import type { ProgressController } from "../../game-logic/progress-controller";
+import type { ITableController } from "../../game-logic/table/table-controller";
+import type { ITableModel } from "../../game-logic/table/table-model";
+import type { IUIPanelView } from "../../game-logic/ui/ui-panel";
+import type { UIPanelController } from "../../game-logic/ui/ui-panel-controller";
 import type { IProgressService } from "../services/levels/progress-service";
 import type { MovePlayerValidator } from "../services/move-validator";
 import type { IState, IStateMachine } from "../state-machine/state-interfaces";
@@ -11,11 +11,11 @@ import { StateNames } from "../state-machine/state-names";
 
 export class GameLoopState implements IState {
   private _isResultShown = false;
-  private _tableModel!: ITableModel;
-  private _tableController!: ITableController;
-  private _boosterHandler!: BoosterHandler;
-  private _uiPanelController!: UIPanelController;
-  private _progressController!: ProgressController;
+  private _tableModel: ITableModel;
+  private _tableController: ITableController;
+  private _boosterHandler: BoosterHandler;
+  private _uiPanelController: UIPanelController;
+  private _progressController: ProgressController;
 
   constructor(
     private _stateMachine: IStateMachine,

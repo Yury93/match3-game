@@ -30,6 +30,7 @@ export class Curtain extends cc.Component implements ICurtainView {
     this._restartPromise = new Promise<void>((resolve) => {
       this._onClickRestart = resolve;
     });
+    cc.game.addPersistRootNode(this.node);
   }
   async win(message: string): Promise<void> {
     return await this.showResult(this.continueButton, message);
@@ -75,7 +76,6 @@ export class Curtain extends cc.Component implements ICurtainView {
     this.showFade(false);
     this.resultLabel.node.active = false;
     buttonToDeactivate.active = false;
-    await this.hideCurtain();
   }
   private showFade(fade: boolean) {
     if (fade) {
@@ -97,7 +97,7 @@ export class Curtain extends cc.Component implements ICurtainView {
     });
     return promiceShow;
   }
-  private hideCurtain(): Promise<void> {
+  hideCurtain(): Promise<void> {
     cc.Tween.stopAllByTarget(this.curtainSprite.node);
 
     const promiseHide = new Promise<void>((resolve) => {
@@ -135,12 +135,14 @@ export class Curtain extends cc.Component implements ICurtainView {
     );
   }
 
-  protected onDestroy(): void {
+  destroyGo(): void {
     if (this.curtainSprite && this.curtainSprite.node) {
       cc.Tween.stopAllByTarget(this.curtainSprite.node);
     }
     if (this.fadeSprite && this.fadeSprite.node) {
       cc.Tween.stopAllByTarget(this.fadeSprite.node);
     }
+    cc.game.removePersistRootNode(this.node);
+    this.destroy();
   }
 }
