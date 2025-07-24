@@ -3,7 +3,8 @@ import type {
   ITileModelsConfig,
 } from "../../../configs/config-types";
 import type { TableCell } from "../../../game-logic/table-cell";
-import type { ITile, Tile } from "../../../game-logic/tile";
+import type { ITile } from "../../../game-logic/tile";
+import { Tile } from "../../../game-logic/tile";
 import type { TileType } from "../../../game-logic/tile-type";
 import type { IAssetProvider } from "../asset-provider";
 import type { IService } from "../serviceLocator";
@@ -81,15 +82,14 @@ export class TileFactory implements ITileFactory {
     tileType: TileType,
     spriteFrame: cc.SpriteFrame,
     tileCell: TableCell,
-  ): Tile {
+  ): ITile {
     try {
-      const tile: Tile = this._assetProvider.instantiateAsset<Tile>(
-        this._prefabs.tilePrefab,
-      );
+      const tile: Tile = this._assetProvider
+        .instantiateAsset(this._prefabs.tilePrefab)
+        .getComponent(Tile);
 
-      tile.node.setPosition(tileCell.getPosition());
+      tile.Init(tileType, spriteFrame, tileCell.getPosition());
 
-      tile.Init(tileType, spriteFrame);
       return tile;
     } catch (error) {
       cc.error("Failed to create table:", error);

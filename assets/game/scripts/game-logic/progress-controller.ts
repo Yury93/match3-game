@@ -31,7 +31,7 @@ export class ProgressController {
   }
 
   onLose() {
-    this.levels.reset();
+    this.levels.resetProgress();
     this.progress.resetLevel();
   }
   checkProgress() {

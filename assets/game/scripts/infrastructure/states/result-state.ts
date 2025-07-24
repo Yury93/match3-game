@@ -29,9 +29,14 @@ export class ResultState implements IState {
       await curtain.lose(payload.message);
       await curtain.waitForClickRestart();
     }
-    curtain.node.destroy();
+
     resultController.clearLevel();
-    this._stateMachine.run(StateNames.CreateContent);
+    await cc.director.loadScene("menu", async () => {
+      await this._stateMachine.run(StateNames.CreateMenuState);
+
+      await curtain.hideCurtain();
+      // curtain.destroyGo();
+    });
   }
   stop() {}
 }

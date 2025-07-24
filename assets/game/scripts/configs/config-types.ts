@@ -62,7 +62,9 @@ export interface IPrefabsConfig {
  * @property roadmapPrefab - префаб роадмапа
  */
 export interface IPrefabsMenuConfig {
-  roadmapPrefab: string;
+  map: { id: number; roadmapPrefabPath: string }[];
+  getRoadmapPrefabById(roadmapId: number): string;
+
   getAll(): string[];
 }
 /**
@@ -98,4 +100,5 @@ export interface IScoreFormula {
 export interface IGlobalGameConfig {
   getScoreFormula(): ScoreFormula;
   getLevel(id: number): IGameLevelsConfig;
+  getConditionNextMap(idLevel: number): boolean;
 }

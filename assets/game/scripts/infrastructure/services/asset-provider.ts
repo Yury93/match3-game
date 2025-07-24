@@ -3,10 +3,14 @@ import type { IService } from "./serviceLocator";
 export interface IAssetLoader {
   loadAssets(): Promise<void>;
   cleanUp();
+  handleAssets(
+    path: string[],
+    action: (path: string) => Promise<cc.Asset> | void,
+  ): Promise<void>;
 }
 export interface IAssetProvider extends IService {
   loadAsset(assetName: string): Promise<cc.Asset>;
-  instantiateAsset<T>(assetName: string): T;
+  instantiateAsset(assetName: string);
   unloadAsset(assetName: string): void;
   getAsset(assetName: string);
 }
@@ -33,10 +37,10 @@ export class AssetProvider implements IAssetProvider {
   getAsset(assetName: string) {
     return this._assets[assetName];
   }
-  instantiateAsset<T>(assetName: string): T {
+  instantiateAsset(assetName: string) {
     if (this._assets[assetName]) {
       const asset = cc.instantiate(this._assets[assetName]);
-      return asset as T;
+      return asset;
     } else {
       cc.error(`Asset not found: ${assetName}`);
       return null;

@@ -10,9 +10,8 @@ import { GameFactory } from "../services/factories/game-factory";
 import { MenuFactory } from "../services/factories/menu-factory";
 import { TileFactory } from "../services/factories/tile-factory";
 import { VfxFactory } from "../services/factories/vfx-factory";
-import { LevelConfigService } from "../services/levels/level-config-service";
 import { LevelService } from "../services/levels/level-service";
-import { ProgressService } from "../services/levels/progress-service";
+import { ProgressGameService } from "../services/levels/progress-service";
 import { MovePlayerValidator } from "../services/move-validator";
 import type { ServiceLocator } from "../services/serviceLocator";
 import type { IState, IStateMachine } from "../state-machine/state-interfaces";
@@ -46,6 +45,7 @@ export class InitializeState implements IState {
     this._serviceLocator = serviceLocator;
     this._stateMachine = stateMachine;
     const assetProvider = new AssetProvider();
+    const levelService = new LevelService(gameConfig);
     const gameFactory = new GameFactory({
       assetProvider,
       prefabsConfig,
@@ -55,6 +55,7 @@ export class InitializeState implements IState {
     const menuFactory = new MenuFactory({
       assetProvider,
       prefabsMenuConfig,
+      levelService,
     });
     cc.log("MenuFactory created ", tileModelsConfig);
     const tileFactory = new TileFactory({
@@ -63,12 +64,8 @@ export class InitializeState implements IState {
       prefabsConfig,
     });
     const vfxFactory = new VfxFactory(assetProvider, prefabsConfig);
-    const levelConfigService = new LevelConfigService(gameConfig);
-    const levelService = new LevelService(levelConfigService);
-    const progressService = new ProgressService(
-      levelService,
-      levelConfigService.getScoreFormula(),
-    );
+
+    const progressService = new ProgressGameService(levelService);
     const movePlayerValidator = new MovePlayerValidator();
 
     this._serviceLocator.registerSingle(assetProvider);
@@ -79,7 +76,6 @@ export class InitializeState implements IState {
     this._serviceLocator.registerSingle(vfxFactory);
     this._serviceLocator.registerSingle(progressService);
     this._serviceLocator.registerSingle(movePlayerValidator);
-    this._serviceLocator.registerSingle(levelConfigService);
     this._serviceLocator.registerSingle(levelService);
     this._serviceLocator.registerSingle(progressService);
   }

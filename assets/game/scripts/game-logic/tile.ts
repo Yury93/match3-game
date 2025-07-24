@@ -13,10 +13,11 @@ export class Tile extends cc.Component implements ITile {
   nodeTile: cc.Node = null;
   touchHandler: (tile: ITile) => void;
 
-  Init(TileType: TileType, spriteFrame: cc.SpriteFrame) {
+  Init(TileType: TileType, spriteFrame: cc.SpriteFrame, pos: cc.Vec2) {
     this.nodeTile = this.node;
     this.tileType = TileType;
     this.sprite.spriteFrame = spriteFrame;
+    this.node.setPosition(pos);
   }
 
   protected onDestroy(): void {}
@@ -43,7 +44,7 @@ export interface ITile {
   sprite: cc.Sprite;
   nodeTile: cc.Node;
   touchHandler: (tile: ITile) => void;
-  Init(tileType: TileType, spriteFrame: cc.SpriteFrame);
+  Init(tileType: TileType, spriteFrame: cc.SpriteFrame, pos: cc.Vec2);
   addListener(callback: (tile: ITile) => void);
   removeListener();
   destroyTile();

@@ -1,26 +1,24 @@
 import type { IService } from "../serviceLocator";
-import type { Curtain } from "../../../curtain/curtain";
+import { Curtain } from "../../../curtain/curtain";
 import type {
   IPrefabsConfig,
   ITableConfig,
   ITileModelsConfig,
 } from "../../../configs/config-types";
-import type { IAssetLoader, IAssetProvider } from "../asset-provider";
-import type {
-  ITableView,
-  TableView,
-} from "../../../game-logic/table/table-view";
+import type { IAssetProvider } from "../asset-provider";
+import type { ITableView } from "../../../game-logic/table/table-view";
+import { TableView } from "../../../game-logic/table/table-view";
 import { TableCell } from "../../../game-logic/table-cell";
 import type { ITile } from "../../../game-logic/tile";
 import type { ITableModel } from "../../../game-logic/table/table-model";
 import { TableModel } from "../../../game-logic/table/table-model";
-import type { UiPanelView } from "../../../game-logic/ui/ui-panel";
+import { UiPanelView } from "../../../game-logic/ui/ui-panel";
 import { TableController } from "../../../game-logic/table/table-controller";
 
 import type { IVfxFactory } from "./vfx-factory";
 import { AbstractFactory } from "./abstract-factory";
 
-export interface IGameFactory extends IService, IAssetLoader {
+export interface IGameFactory extends IService {
   createTableView(): TableView;
   createTableCells(content: cc.Node): TableCell[][];
   createTableModel(tableCell: TableCell[][], tiles: ITile[][]): TableModel;
@@ -31,6 +29,8 @@ export interface IGameFactory extends IService, IAssetLoader {
   );
   createUiPanelView(): UiPanelView;
   createCurtain(): Curtain;
+  loadAssets();
+  cleanUp();
 }
 
 export class GameFactory extends AbstractFactory implements IGameFactory {
@@ -67,6 +67,7 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
     try {
       const prefab = this.instantiateOnCanvas<TableView>(
         this._prefabsConfig.tablePrefab,
+        TableView,
       );
       return prefab;
     } catch (error) {
@@ -75,17 +76,20 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
   }
   createUiPanelView(): UiPanelView {
     try {
-      return this.instantiateOnCanvas(this._prefabsConfig.uIPanelPrefab);
+      return this.instantiateOnCanvas<UiPanelView>(
+        this._prefabsConfig.uIPanelPrefab,
+        UiPanelView,
+      );
     } catch (error) {
       cc.error("Failed to create UI panel:", error);
     }
   }
   createCurtain() {
     try {
-      const director = cc.director.getScene().getChildByName("Canvas");
-      const curtain: Curtain = this._assetProvider.instantiateAsset<Curtain>(
-        this._prefabsConfig.curtainPrefab,
-      );
+      const director = cc.director.getScene().getChildByName("EntryPoint");
+      const curtain: Curtain = this._assetProvider
+        .instantiateAsset(this._prefabsConfig.curtainPrefab)
+        .getComponent(Curtain);
 
       curtain.node.setParent(director);
       curtain.node.setPosition(0, 0);

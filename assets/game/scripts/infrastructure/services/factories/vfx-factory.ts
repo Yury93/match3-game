@@ -15,9 +15,9 @@ export class VfxFactory implements IVfxFactory {
   createVfxMessage(node: cc.Node, text: string): cc.Node {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
-      const label = this._assetProvider.instantiateAsset<cc.Label>(
-        this._prefabsConfig.labelPrefab,
-      );
+      const label = this._assetProvider
+        .instantiateAsset(this._prefabsConfig.labelPrefab)
+        .getComponent(cc.Label);
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
       const localPos = director.convertToNodeSpaceAR(worldPos);
@@ -50,15 +50,15 @@ export class VfxFactory implements IVfxFactory {
   private createBombEffect(node: cc.Node) {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
-      const bombEffect = this._assetProvider.instantiateAsset<cc.Node>(
-        this._prefabsConfig.bombEffectPrefab,
-      );
+      const bombEffect = this._assetProvider
+        .instantiateAsset(this._prefabsConfig.bombEffectPrefab)
+        .getComponent(cc.Component);
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
       const localPos = director.convertToNodeSpaceAR(worldPos);
 
-      bombEffect.setParent(director);
-      bombEffect.setPosition(localPos);
+      bombEffect.node.setParent(director);
+      bombEffect.node.setPosition(localPos);
       return bombEffect;
     } catch (error) {
       cc.error("Failed to create bomb:", error);

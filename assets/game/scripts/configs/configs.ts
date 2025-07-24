@@ -15,7 +15,7 @@ import type {
  * Конфигурации игровых полей разных размеров
  * @type {ITableConfig[]}
  */
-export const TABLE: ITableConfig[] = [
+const TABLE: ITableConfig[] = [
   // { // для теста ситуации, когда невозможно сжечь группу
   //   column: 2,
   //   lines: 2,
@@ -41,7 +41,7 @@ export const TABLE: ITableConfig[] = [
  * @param {number} winScoreThreshold - минимальное количество очков для успеха
  * @param {Object} mapCoordinates - позиция на карте
  */
-export const GAME_LEVELS: IGameLevelsConfig[] = [
+const GAME_LEVELS: IGameLevelsConfig[] = [
   {
     id: 0,
     maxSteps: 15,
@@ -124,7 +124,7 @@ export const GAME_LEVELS: IGameLevelsConfig[] = [
  * @param {number} bombTrials - количество доступных бустера "бомб"
  * @param {number} teleportTrials - количество доступных бустера "телепортов"
  */
-export const CONSTANTS: IConstantsConfig = {
+const CONSTANTS: IConstantsConfig = {
   boosterBombR: 1,
   scoreFormulaIndex: 1,
   bombTrials: 3,
@@ -135,7 +135,7 @@ export const CONSTANTS: IConstantsConfig = {
  * Доступные формулы расчета очков
  * @type {IScoreFormula[]}
  */
-export const SCORE_FORMULAS: IScoreFormula[] = [
+const SCORE_FORMULAS: IScoreFormula[] = [
   { formula: (groupSize: number) => groupSize * groupSize * 5 }, // Квадратичная формула
   { formula: (groupSize: number) => groupSize }, // Линейная формула
 ];
@@ -144,7 +144,13 @@ export const SCORE_FORMULAS: IScoreFormula[] = [
  * Класс глобальной конфигурации игры
  * @implements {IGlobalGameConfig}
  */
-export class GlobalGameConfig implements IGlobalGameConfig {
+class GlobalGameConfig implements IGlobalGameConfig {
+  getConditionNextMap(idLevel: number): boolean {
+    if (idLevel % 10 === 0) {
+      return true; // Условие для уровней, кратных 10
+    }
+    return false; // Для остальных уровней
+  }
   /**
    * Возвращает текущую формулу расчета очков
    * @returns {ScoreFormula}
@@ -172,13 +178,13 @@ export class GlobalGameConfig implements IGlobalGameConfig {
  * Глобальная конфигурация
  * @type {IGlobalGameConfig}
  */
-export const GAME_CONFIG: IGlobalGameConfig = new GlobalGameConfig();
+const GAME_CONFIG: IGlobalGameConfig = new GlobalGameConfig();
 
 /**
  * Пути к префабам
  * @type {IPrefabsGameConfig}
  */
-export const PREFABS: IPrefabsGameConfig = {
+const PREFABS: IPrefabsGameConfig = {
   tablePrefab: "table/Table",
   uIPanelPrefab: "table/UI",
   bombEffectPrefab: "table/ExplosionEffect",
@@ -190,10 +196,20 @@ export const PREFABS: IPrefabsGameConfig = {
   },
 };
 
-export const PREFABS_MENU: IPrefabsMenuConfig = {
-  roadmapPrefab: "menu/Roadmap",
+const PREFABS_MENU: IPrefabsMenuConfig = {
+  map: [{ id: 0, roadmapPrefabPath: "menu/Roadmap" }],
   getAll(): string[] {
     return getAll(this);
+  },
+  getRoadmapPrefabById(roadmapId: number): string {
+    const roadmap = this.map.find((item) => item.id === roadmapId);
+    if (!roadmap) {
+      cc.error(`Roadmap with id ${roadmapId} not found`);
+      if (this.map.length - 1 < roadmapId) {
+        return this.map[0].roadmapPrefabPath;
+      }
+    }
+    return roadmap.roadmapPrefabPath;
   },
 };
 function getAll(context: unknown) {
@@ -206,10 +222,20 @@ function getAll(context: unknown) {
  * Модели плиток
  * @type {ITileModelsConfig[]}
  */
-export const TILE_MODELS: ITileModelsConfig[] = [
+const TILE_MODELS: ITileModelsConfig[] = [
   { path: "tiles/block_blue", type: TileType.BLUE },
   { path: "tiles/block_green", type: TileType.GREEN },
   { path: "tiles/block_purpure", type: TileType.PURPLE },
   { path: "tiles/block_red", type: TileType.RED },
   { path: "tiles/block_yellow", type: TileType.YELLOW },
 ];
+export const CONFIGS = {
+  TABLE,
+  TILE_MODELS,
+  PREFABS,
+  PREFABS_MENU,
+  GAME_LEVELS,
+  CONSTANTS,
+  SCORE_FORMULAS,
+  GAME_CONFIG,
+};

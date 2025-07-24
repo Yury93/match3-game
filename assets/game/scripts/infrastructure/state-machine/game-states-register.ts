@@ -4,7 +4,7 @@ import { CreateLevelContentState } from "../states/create-level-content-state";
 import { GameFactory } from "../services/factories/game-factory";
 import { TileFactory } from "../services/factories/tile-factory";
 import { VfxFactory } from "../services/factories/vfx-factory";
-import { ProgressService } from "../services/levels/progress-service";
+import { ProgressGameService } from "../services/levels/progress-service";
 import { LevelService } from "../services/levels/level-service";
 import { GameLoopState } from "../states/game-loop-state";
 import { MovePlayerValidator } from "../services/move-validator";
@@ -78,24 +78,24 @@ export class GameStateRegister implements IStateRegister {
         menuFactory: serviceLocator.single(MenuFactory),
       }),
       MenuState: new MenuState({ stateMachine }),
-      CreateContentState: new CreateLevelContentState({
+      CreateLevelContentState: new CreateLevelContentState({
         stateMachine,
         gameFactory: serviceLocator.single(GameFactory),
         tilesFactory: serviceLocator.single(TileFactory),
         vfxFactory: serviceLocator.single(VfxFactory),
-        progressService: serviceLocator.single(ProgressService),
+        progressService: serviceLocator.single(ProgressGameService),
         levelService: serviceLocator.single(LevelService),
         constantsConfig: this._constantsConfig,
       }),
       GameLoopState: new GameLoopState(
         stateMachine,
-        serviceLocator.single(ProgressService),
+        serviceLocator.single(ProgressGameService),
         serviceLocator.single(MovePlayerValidator),
       ),
       ResultState: new ResultState(
         stateMachine,
         serviceLocator.single(GameFactory),
-        serviceLocator.single(ProgressService),
+        serviceLocator.single(ProgressGameService),
       ),
     };
 

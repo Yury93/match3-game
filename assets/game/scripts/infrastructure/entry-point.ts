@@ -1,11 +1,4 @@
-import {
-  CONSTANTS,
-  GAME_CONFIG,
-  PREFABS,
-  PREFABS_MENU,
-  TABLE,
-  TILE_MODELS,
-} from "../configs/configs";
+import { CONFIGS } from "../configs/configs";
 
 import { Game } from "./game";
 import { ServiceLocator } from "./services/serviceLocator";
@@ -18,18 +11,19 @@ export class EntryPoint extends cc.Component {
 
   protected onLoad(): void {
     this.dontDestroyOnLoad();
+
     this._game = new Game({
       serviceLocator: ServiceLocator.container(),
-      prefabsConfig: PREFABS,
-      gameConfig: GAME_CONFIG,
-      tableConfig: TABLE,
-      tilesModelConfig: TILE_MODELS,
-      constantsConfig: CONSTANTS,
-      prefabsMenuConfig: PREFABS_MENU,
+      prefabsConfig: CONFIGS.PREFABS,
+      gameConfig: CONFIGS.GAME_CONFIG,
+      tableConfig: CONFIGS.TABLE,
+      tilesModelConfig: CONFIGS.TILE_MODELS,
+      constantsConfig: CONFIGS.CONSTANTS,
+      prefabsMenuConfig: CONFIGS.PREFABS_MENU,
     });
   }
   private dontDestroyOnLoad() {
-    if (cc.game.isPersistRootNode(this.node)) {
+    if (!cc.game.isPersistRootNode(this.node)) {
       this.node.parent = null;
       cc.game.addPersistRootNode(this.node);
     }
