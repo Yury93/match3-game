@@ -9,6 +9,7 @@ import type { ITableView } from "../../game-logic/table/table-view";
 import type { ITile } from "../../game-logic/tile";
 import type { IUIPanelView } from "../../game-logic/ui/ui-panel";
 import { UIPanelController } from "../../game-logic/ui/ui-panel-controller";
+import { ISheduler } from "../isheduler";
 import type { IGameFactory } from "../services/factories/game-factory";
 import type { ITileFactory } from "../services/factories/tile-factory";
 import type { IVfxFactory } from "../services/factories/vfx-factory";
@@ -69,6 +70,7 @@ export class CreateLevelContentState implements IState {
     const tableModel = this.createTableModel(tableCells, tiles);
     const tableController = this.createTableController(tableModel);
     const mechanicController = this.createMechanicController(
+      this._tableView as unknown as ISheduler,
       tableController,
       tableModel,
     );
@@ -122,10 +124,12 @@ export class CreateLevelContentState implements IState {
   }
 
   private createMechanicController(
+    sheulder: ISheduler,
     tableController: ITableController,
     tableModel: ITableModel,
   ): MechanicController {
     return new MechanicController(
+      sheulder,
       this._tilesFactory,
       tableController,
       tableModel,

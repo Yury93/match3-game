@@ -33,7 +33,7 @@ export class TableController implements ITableController {
   onEndTurnAction: () => void;
   onFalseBurnedAction: (tile: ITile) => void;
   private _mechanicController: IMechanicController;
-
+  private readonly _addTileOffsetPositionY = 500;
   constructor(
     private _tableView: ITableView,
     private _model: ITableModel,
@@ -62,12 +62,15 @@ export class TableController implements ITableController {
         const tile: ITile = tiles[col][row];
         if (tile) {
           tile.addListener(() => this.onTileClick(tile));
-          this._tableView.addTile(tile, cells[col][row]);
+          const startPosition = cells[col][row].getPosition();
+          this._tableView.addTile(tile, cells[col][row], startPosition);
         }
       }
     }
-    this._model.onMoveTileAction = (tile, newPosiotn) =>
+    this._model.onDropTileAction = (tile, newPosiotn) =>
       this.moveTileOnView(tile, newPosiotn);
+    this._model.onSwapTileAction = (tile2, pos) =>
+      this.swapTileOnView(tile2, pos);
 
     this._model.onAddTileAction = (tile, cell) =>
       this.addTileOnView(tile, cell);
@@ -78,6 +81,9 @@ export class TableController implements ITableController {
       this._tableView.showFalseBurnMessage(tile);
     };
   }
+  swapTileOnView(tile: ITile, pos: cc.Vec2): void {
+    this._tableView.swapTile(tile, pos);
+  }
   setMechanicController(controller: IMechanicController) {
     this._mechanicController = controller;
   }
@@ -85,8 +91,15 @@ export class TableController implements ITableController {
     this._tableView.moveTile(tile, pos);
   }
   addTileOnView(tile: ITile, cell: TableCell) {
-    this._tableView.addTile(tile, cell);
+    const pos = cell.getPosition();
+    const startPosition = new cc.Vec2(
+      pos.x,
+      this._addTileOffsetPositionY + pos.y,
+    );
+    this._tableView.addTile(tile, cell, startPosition);
     tile.addListener(() => this.onTileClick(tile));
+
+    this.moveTileOnView(tile, pos);
   }
 
   onClearTile(tile: ITile) {

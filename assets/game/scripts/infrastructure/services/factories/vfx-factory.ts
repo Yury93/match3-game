@@ -32,36 +32,31 @@ export class VfxFactory implements IVfxFactory {
     }
   }
   createVfxBomb(tile: ITile) {
-    const explosion = this.createBombEffect(tile.sprite.node).getComponent(
-      cc.Sprite,
-    );
-    explosion.node.active = true;
-    explosion.node.opacity = 0;
-    cc.tween(explosion.node)
-      .to(0.3, { opacity: 255 }, { easing: cc.easing.sineOut })
-      .delay(1)
-      .to(0.3, { opacity: 0 }, { easing: cc.easing.sineIn })
-      .delay(0.3)
-      .call(() => {
-        explosion.node.destroy();
-      })
-      .start();
+    this.createBombEffect(tile.sprite.node);
   }
+
   private createBombEffect(node: cc.Node) {
     try {
       const director = cc.director.getScene().getChildByName("Canvas");
-      const bombEffect = this._assetProvider
-        .instantiateAsset(this._prefabsConfig.bombEffectPrefab)
-        .getComponent(cc.Component);
+
+      const bombEffectNode = this._assetProvider.instantiateAsset(
+        this._prefabsConfig.bombEffectPrefab,
+      );
+      if (!bombEffectNode) {
+        cc.error("Failed to instantiate prefab");
+        return null;
+      }
 
       const worldPos = node.convertToWorldSpaceAR(cc.v2(0, 0));
       const localPos = director.convertToNodeSpaceAR(worldPos);
 
-      bombEffect.node.setParent(director);
-      bombEffect.node.setPosition(localPos);
-      return bombEffect;
+      bombEffectNode.parent = director;
+      bombEffectNode.setPosition(localPos);
+
+      return bombEffectNode.getComponent(cc.Component) || bombEffectNode;
     } catch (error) {
-      cc.error("Failed to create bomb:", error);
+      cc.error("Failed to create bomb effect:", error);
+      return null;
     }
   }
 }

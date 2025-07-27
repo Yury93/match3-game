@@ -16,6 +16,15 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
   continueButton: cc.Button = null;
   @property(cc.Sprite)
   fadeSprite: cc.Sprite = null;
+  @property(cc.Node)
+  gameOverEffect: cc.Node = null;
+  @property(cc.Node)
+  popupResult: cc.Node = null;
+
+  @property(cc.Node)
+  emptyStars: cc.Node[] = [];
+  @property(cc.Node)
+  stars: cc.Node[] = [];
 
   private _restartPromise: Promise<void>;
   private _continuePromise: Promise<void>;
@@ -31,7 +40,7 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     });
   }
   async win(message: string): Promise<void> {
-    return await this.showResult(this.continueButton, message);
+    return await this.showResult(this.continueButton, message, true);
   }
 
   async lose(message: string): Promise<void> {
@@ -44,14 +53,145 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
   async waitForClickContinue(): Promise<void> {
     return this._continuePromise;
   }
-  private async showResult(button: cc.Button, message: string): Promise<void> {
+  private async showResult(
+    button: cc.Button,
+    message: string,
+    isWin: boolean = false,
+  ): Promise<void> {
     this.subscribeButtonEvents();
     this.resultLabel.string = "";
+    await this.showGameOver();
+    await this.showPopup();
+    await this.showEmptyStars();
+    if (isWin) await this.showStars();
     this.showFade(true);
     await this.scheduleOnce(() => {
       button.node.active = true;
       this.resultLabel.string = message;
     }, 0.5);
+  }
+
+  private async showEmptyStars() {
+    if (!this.emptyStars || this.emptyStars.length === 0) return;
+
+    this.emptyStars.forEach((star) => {
+      if (star) {
+        star.scale = 0;
+        star.active = true;
+        star.opacity = 0;
+      }
+    });
+
+    const promises: Promise<void>[] = [];
+
+    for (let i = 0; i < this.emptyStars.length; i++) {
+      const star = this.emptyStars[i];
+      if (star) {
+        const promise = new Promise<void>((resolve) => {
+          cc.tween(star)
+            .delay(i * 0.15)
+            .parallel(
+              cc.tween().to(0.3, { scale: 1 }, { easing: "elasticOut" }),
+              cc.tween().to(0.2, { opacity: 255 }, { easing: "fade" }),
+            )
+            .to(0.1, { scale: 1.1 }, { easing: "quadOut" })
+            .to(0.1, { scale: 1 }, { easing: "quadIn" })
+            .call(() => resolve())
+            .start();
+        });
+
+        promises.push(promise);
+      }
+    }
+
+    await Promise.all(promises);
+  }
+  private async showStars() {
+    if (!this.stars || this.stars.length === 0) return;
+
+    this.stars.forEach((star) => {
+      if (star) {
+        star.scale = 0;
+        star.active = true;
+        star.opacity = 0;
+        star.angle = 0;
+      }
+    });
+
+    const promises: Promise<void>[] = [];
+
+    for (let i = 0; i < this.stars.length; i++) {
+      const star = this.stars[i];
+      if (star) {
+        const promise = new Promise<void>((resolve) => {
+          cc.tween(star)
+            .delay(i * 0.1)
+            .parallel(
+              cc.tween().to(
+                0.6,
+                {
+                  scale: 1,
+                  x: 0,
+                  y: 0,
+                },
+                { easing: "elasticOut" },
+              ),
+              cc.tween().to(0.3, { opacity: 255 }, { easing: "fade" }),
+              cc.tween().to(0.4, { angle: 360 }, { easing: "quadOut" }),
+            )
+            .to(0.2, { scale: 1.3 }, { easing: "backOut" })
+            .to(0.2, { scale: 1 }, { easing: "backIn" })
+            .to(0.3, { angle: 360 }, { easing: "quadInOut" })
+            .call(() => resolve())
+            .start();
+        });
+
+        promises.push(promise);
+      }
+    }
+
+    await Promise.all(promises);
+  }
+
+  private async showPopup() {
+    if (!this.popupResult) return;
+
+    this.popupResult.scale = 0;
+    this.popupResult.active = true;
+    this.popupResult.opacity = 255;
+
+    await new Promise<void>((resolve) => {
+      cc.tween(this.popupResult)
+        .to(0.2, { scale: 1.2 }, { easing: "backOut" })
+        .to(0.1, { scale: 1 }, { easing: "backIn" })
+        .delay(0.3)
+        .to(0.2, { scale: 1.1 }, { easing: "quadOut" })
+        .to(0.1, { scale: 1 }, { easing: "quadIn" })
+        .call(() => {
+          resolve();
+        })
+        .start();
+    });
+  }
+  private async showGameOver(): Promise<void> {
+    if (!this.gameOverEffect) return;
+
+    this.gameOverEffect.scale = 0;
+    this.gameOverEffect.active = true;
+    this.gameOverEffect.opacity = 255;
+
+    await new Promise<void>((resolve) => {
+      cc.tween(this.gameOverEffect)
+        .to(0.3, { scale: 1.2 }, { easing: "backOut" })
+        .to(0.2, { scale: 1 }, { easing: "backIn" })
+        .delay(1)
+        .to(0.5, { opacity: 0 }, { easing: "quadOut" })
+        .call(() => {
+          this.gameOverEffect.active = false;
+          resolve();
+        })
+        .start();
+    });
   }
   private async clickRestart(): Promise<void> {
     await this.handleGameAction(this.restartButton.node);

@@ -46,10 +46,10 @@ export class GameLoopState implements IState {
     this._tableController.onFalseBurned = this.handleFalseBurned.bind(this);
 
     this._progressController.onWinEvent = () =>
-      this.handleGameEnd("win", "Успех!");
+      this.handleGameEnd("win", "успех!");
 
     this._progressController.onLoseEvent = () =>
-      this.handleGameEnd("lose", "Закончились\n шаги...");
+      this.handleGameEnd("lose", "закончились\n шаги...");
   }
 
   private handleBurnAction(groupSize: number): void {
@@ -84,7 +84,7 @@ export class GameLoopState implements IState {
 
   private resolveImpossibleMoves(): void {
     if (!this._movePlayerValidator.hasPossibleMoves(this._tableModel)) {
-      this.handleGameEnd("lose", "Нет\n вариантов...");
+      this.handleGameEnd("lose", "нет\n вариантов...");
     }
   }
 

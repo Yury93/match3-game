@@ -1,4 +1,5 @@
 import type { IConstantsConfig } from "../../configs/config-types";
+import { ISheduler } from "../../infrastructure/isheduler";
 import type { ITileFactory } from "../../infrastructure/services/factories/tile-factory";
 import type {
   ITableController,
@@ -15,6 +16,7 @@ import { TeleportBoosterMechanic } from "./teleport-booster-mechanic";
 export interface IMechanicController {
   onClickTile: (tile: ITile) => void;
   initMechanics(
+    sheulder: ISheduler,
     tableController: TableController,
     tableModel: TableModel,
     mechanic: IGameMechanic[],
@@ -29,21 +31,24 @@ export interface IMechanicController {
 export class MechanicController implements IMechanicController {
   private _mechanics: IGameMechanic[] = [];
   private _activeMechanic: IGameMechanic | null = null;
+
   onClickTile: (tile: ITile) => void;
   constructor(
+    sheulder: ISheduler,
     tileFactory: ITileFactory,
     tableController: ITableController,
     tableModel: ITableModel,
     constantsConfig: IConstantsConfig,
   ) {
-    this.initMechanics(tableController, tableModel, [
-      new BasicMechanic(tileFactory),
-      new BombBoosterMechanic(tileFactory, constantsConfig),
-      new TeleportBoosterMechanic(tileFactory),
+    this.initMechanics(sheulder, tableController, tableModel, [
+      new BasicMechanic(tileFactory, sheulder),
+      new BombBoosterMechanic(tileFactory, constantsConfig, sheulder),
+      new TeleportBoosterMechanic(tileFactory, sheulder),
     ]);
   }
 
   initMechanics(
+    sheulder: ISheduler,
     tableController: ITableController,
     tableModel: ITableModel,
     mechanics: IGameMechanic[],
@@ -66,10 +71,10 @@ export class MechanicController implements IMechanicController {
   getMechanicByType(type: Function): IGameMechanic | undefined {
     return this._mechanics.find((m) => m instanceof type);
   }
-  onTileClick(tile: ITile) {
+  async onTileClick(tile: ITile) {
     if (!this._activeMechanic) return;
     if (this.onClickTile) this.onClickTile(tile);
-    const shouldReset = this._activeMechanic.onTileClick(tile);
+    const shouldReset = await this._activeMechanic.onTileClick(tile);
     if (shouldReset && !(this._activeMechanic instanceof BasicMechanic)) {
       this.setActiveMechanic(this.getMechanicByType(BasicMechanic));
     }

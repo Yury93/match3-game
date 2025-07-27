@@ -1,20 +1,21 @@
+import { ISheduler } from "../../infrastructure/isheduler";
 import type { TableCell } from "../table-cell";
 import type { ITile } from "../tile";
 
 export interface ITableView {
+  swapTile(tile: ITile, pos: cc.Vec2);
   nodeView: cc.Node;
   getContent(): cc.Node;
   showFalseBurnMessage(tile: ITile);
-  addTile(tile: ITile, tableCell: TableCell);
-  explosion(tile: ITile);
+  addTile(tile: ITile, tableCell: TableCell, startPosition: cc.Vec2);
   removeTile(tile: ITile);
-  moveTile(tile: ITile, newPos: cc.Vec2);
+  moveTile(tile: ITile, newPos: cc.Vec2, speed?: number, _easing?: string);
 }
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export class TableView extends cc.Component implements ITableView {
+export class TableView extends cc.Component implements ITableView, ISheduler {
   @property(cc.Node)
   content: cc.Node = null;
   nodeView: cc.Node = null;
@@ -37,47 +38,46 @@ export class TableView extends cc.Component implements ITableView {
 
     node.runAction(pulseAction);
   }
-  addTile(tile: ITile, tableCell: TableCell) {
+  addTile(tile: ITile, tableCell: TableCell, startPosition: cc.Vec2) {
     tile.nodeTile.setParent(this.content);
-    tile.nodeTile.setPosition(tableCell.getPosition());
-    tile.nodeTile.scale = 0;
-    tile.nodeTile.angle = 0;
-    cc.tween(tile.nodeTile)
-      .delay(0.2)
-      .to(0.3, { scale: 1 }, { easing: "backOut" })
-      .call(() => {
-        cc.tween(tile.nodeTile)
-          .to(0.2, { angle: -12 }, { easing: "sineInOut" })
-          .start();
-      })
-      .start();
-  }
-  explosion(tile: ITile) {
-    cc.tween(tile.nodeTile)
-      .to(0.1, { scale: 0 }, { easing: "backIn" })
-      .call(() => {
-        tile.destroyTile();
-      })
-      .start();
+    tile.nodeTile.setPosition(startPosition);
   }
   removeTile(tile: ITile) {
     cc.tween(tile.sprite.node)
-      .to(0.1, { scale: 0 }, { easing: "backIn" })
+      .parallel(
+        cc.tween().to(0.2, { scale: 0 }, { easing: "backIn" }),
+        cc.tween().to(0.2, { angle: 360 }, { easing: "quadIn" }),
+        cc.tween().to(0.2, { opacity: 0 }, { easing: "quadIn" }),
+      )
       .call(() => {
         tile.destroyTile();
       })
       .start();
   }
   moveTile(tile: ITile, newPos: cc.Vec2) {
+    const pos3 = new cc.Vec3(newPos.x, newPos.y, 0);
     cc.tween(tile.nodeTile)
-      .to(
-        0.3,
-        {
-          x: newPos.x,
-          y: newPos.y,
-        },
-        { easing: "quadOut" },
-      )
+      .to(0.8, { position: pos3 }, { easing: "bounceOut" })
+      .start();
+  }
+  swapTile(tile: ITile, pos: cc.Vec2) {
+    const targetPos = new cc.Vec3(pos.x, pos.y, 0);
+    const startPos = tile.nodeTile.position;
+    const midPoint = cc.v3(
+      (startPos.x + targetPos.x) / 2,
+      (startPos.y + targetPos.y) / 2 + 30,
+      0,
+    );
+
+    const originalZIndex = tile.nodeTile.zIndex;
+    tile.nodeTile.zIndex = 9999;
+
+    cc.tween(tile.nodeTile)
+      .to(0.3, { position: midPoint, scale: 1.5 }, { easing: "quadOut" })
+      .to(0.4, { position: targetPos, scale: 1 }, { easing: "quadIn" })
+      .call(() => {
+        tile.nodeTile.zIndex = originalZIndex;
+      })
       .start();
   }
 }

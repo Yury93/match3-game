@@ -22,8 +22,8 @@ export class Curtain extends cc.Component implements ICurtainView {
     this.showFade(true);
     const promiceShow = new Promise<void>((resolve) => {
       cc.tween(this.curtainSprite.node)
-        .to(0.5, { x: 0 }, { easing: "quadOut" })
-        .delay(0.6)
+        .to(0.3, { x: 0 }, { easing: "quadOut" })
+        .delay(0.3)
         .call(() => {
           resolve();
         })
