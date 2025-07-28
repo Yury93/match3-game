@@ -3273,7 +3273,7 @@
     "node": {
       "__id__": 3
     },
-    "_enabled": false,
+    "_enabled": true,
     "_materials": [
       {
         "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
@@ -3462,7 +3462,7 @@
     "_color": {
       "__type__": "cc.Color",
       "r": 35,
-      "g": 112,
+      "g": 118,
       "b": 195,
       "a": 255
     },
@@ -3807,6 +3807,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "clouds": {
+      "__id__": 91
+    },
     "label": {
       "__id__": 103
     },
