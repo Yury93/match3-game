@@ -1,6 +1,7 @@
 import type { IService } from "../serviceLocator";
 import { Curtain } from "../../../curtain/curtain";
 import type {
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   ITableConfig,
   ITileModelsConfig,
@@ -14,6 +15,8 @@ import type { ITableModel } from "../../../game-logic/table/table-model";
 import { TableModel } from "../../../game-logic/table/table-model";
 import { UiPanelView } from "../../../game-logic/ui/ui-panel";
 import { TableController } from "../../../game-logic/table/table-controller";
+import type { IResultLevelView } from "../../../game-logic/ui/result-level-view";
+import { ResultLevelView } from "../../../game-logic/ui/result-level-view";
 
 import type { IVfxFactory } from "./vfx-factory";
 import { AbstractFactory } from "./abstract-factory";
@@ -29,6 +32,7 @@ export interface IGameFactory extends IService {
   );
   createUiPanelView(): UiPanelView;
   createCurtain(): Curtain;
+  createUIResultView(): IResultLevelView;
   loadAssets();
   cleanUp();
 }
@@ -37,20 +41,39 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
   private _prefabsConfig: IPrefabsConfig;
   private _tableConfig: ITableConfig[];
   private _tilesModelConfig: ITileModelsConfig[];
+  private _persistentPrefabsConfig: IPersistentPrefabsConfig;
   constructor(params: {
     assetProvider: IAssetProvider;
     prefabsConfig: IPrefabsConfig;
     tableConfig: ITableConfig[];
     tilesModelConfig: ITileModelsConfig[];
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     super(params.assetProvider);
-    const { assetProvider, prefabsConfig, tableConfig, tilesModelConfig } =
-      params;
+    const {
+      assetProvider,
+      prefabsConfig,
+      tableConfig,
+      tilesModelConfig,
+      persistentsPrefabsConfig,
+    } = params;
 
     this._assetProvider = assetProvider;
     this._prefabsConfig = prefabsConfig;
     this._tableConfig = tableConfig;
     this._tilesModelConfig = tilesModelConfig;
+    this._persistentPrefabsConfig = persistentsPrefabsConfig;
+  }
+  createUIResultView(): IResultLevelView {
+    try {
+      const prefab = this.instantiateOnCanvas<ResultLevelView>(
+        this._prefabsConfig.resultLevelView,
+        ResultLevelView,
+      );
+      return prefab;
+    } catch (error) {
+      cc.error("Failed to create ResultLevelView:", error);
+    }
   }
 
   async loadAssets() {
@@ -88,7 +111,7 @@ export class GameFactory extends AbstractFactory implements IGameFactory {
     try {
       const director = cc.director.getScene().getChildByName("EntryPoint");
       const curtain: Curtain = this._assetProvider
-        .instantiateAsset(this._prefabsConfig.curtainPrefab)
+        .instantiateAsset(this._persistentPrefabsConfig.curtainPrefab)
         .getComponent(Curtain);
 
       curtain.node.setParent(director);

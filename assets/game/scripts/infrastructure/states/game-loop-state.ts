@@ -1,5 +1,5 @@
 import type { BoosterHandler } from "../../game-logic/game-mechanic/booster-handler";
-import type { ProgressController } from "../../game-logic/progress-controller";
+import type { ProgressLevelController } from "../../game-logic/progress-level-controller";
 import type { ITableController } from "../../game-logic/table/table-controller";
 import type { ITableModel } from "../../game-logic/table/table-model";
 import type { IUIPanelView } from "../../game-logic/ui/ui-panel";
@@ -15,7 +15,7 @@ export class GameLoopState implements IState {
   private _tableController: ITableController;
   private _boosterHandler: BoosterHandler;
   private _uiPanelController: UIPanelController;
-  private _progressController: ProgressController;
+  private _progressController: ProgressLevelController;
 
   constructor(
     private _stateMachine: IStateMachine,
@@ -29,7 +29,7 @@ export class GameLoopState implements IState {
     uiPanelView: IUIPanelView;
     uiPanelController: UIPanelController;
     boosterHandler: BoosterHandler;
-    progressController: ProgressController;
+    progressController: ProgressLevelController;
   }): void {
     this._isResultShown = false;
 
@@ -46,10 +46,10 @@ export class GameLoopState implements IState {
     this._tableController.onFalseBurned = this.handleFalseBurned.bind(this);
 
     this._progressController.onWinEvent = () =>
-      this.handleGameEnd("win", "Успех!");
+      this.handleGameEnd("win", "успех!");
 
     this._progressController.onLoseEvent = () =>
-      this.handleGameEnd("lose", "Закончились\n шаги...");
+      this.handleGameEnd("lose", "закончились\n шаги...");
   }
 
   private handleBurnAction(groupSize: number): void {
@@ -84,7 +84,7 @@ export class GameLoopState implements IState {
 
   private resolveImpossibleMoves(): void {
     if (!this._movePlayerValidator.hasPossibleMoves(this._tableModel)) {
-      this.handleGameEnd("lose", "Нет\n вариантов...");
+      this.handleGameEnd("lose", "нет\n вариантов...");
     }
   }
 

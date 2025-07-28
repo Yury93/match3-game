@@ -1,3 +1,4 @@
+import type { ISheduler } from "../../infrastructure/isheduler";
 import type { ITileFactory } from "../../infrastructure/services/factories/tile-factory";
 import type { ITile } from "../tile";
 
@@ -5,23 +6,24 @@ import { AbstractMechanic } from "./abstract-mechanic";
 import { MechanicType } from "./mechanic-types";
 
 export class BasicMechanic extends AbstractMechanic {
-  constructor(tileFactory: ITileFactory) {
-    super(tileFactory);
+  constructor(tileFactory: ITileFactory, sheduler: ISheduler) {
+    super(tileFactory, sheduler);
     this.mechanicType = MechanicType.Basic;
   }
-  onTileClick(tile: ITile): boolean {
+  async onTileClick(tile: ITile): Promise<boolean> {
     const group = this.findConnectedTiles(tile);
     if (group.length < 2) {
-      this.tableController.onFalseBurned(tile);
+      this._tableController.onFalseBurned(tile);
       return false;
     }
-    this.tableController.beforeBurnGroupAction(tile, group.length);
-    this.burnTiles(group);
-    this.dropTiles();
-    this.fillEmpty();
 
-    if (this.tableController.onBurnAction) {
-      this.tableController.onBurnAction(group.length);
+    this._tableController.beforeBurnGroupAction(tile, group.length);
+    this.burnTiles(group);
+    await this.dropTiles();
+    await this.fillEmpty();
+
+    if (this._tableController.onBurnAction) {
+      this._tableController.onBurnAction(group.length);
     }
 
     this.dispatchUseMechanicEvent();
@@ -30,9 +32,9 @@ export class BasicMechanic extends AbstractMechanic {
   onTurnEnd() {}
 
   private findConnectedTiles(startTile: ITile): ITile[] {
-    if (!startTile || !this.tableController) return [];
+    if (!startTile || !this._tableController) return [];
 
-    const tileCount = this.tableModel.getTileCount();
+    const tileCount = this._tableModel.getTileCount();
     const visited = new Set<ITile>();
     const stack = [startTile];
     const targetType = startTile.tileType;
@@ -52,7 +54,7 @@ export class BasicMechanic extends AbstractMechanic {
 
       visited.add(currentTile);
 
-      const position = this.tableModel.getTilePosition(currentTile);
+      const position = this._tableModel.getTilePosition(currentTile);
       if (!position) continue;
 
       // Проверяем всех соседей
@@ -69,7 +71,7 @@ export class BasicMechanic extends AbstractMechanic {
 
         if (isOutsideGrid) continue;
 
-        const neighbor = this.tableModel.getTile(neighborCol, neighborRow);
+        const neighbor = this._tableModel.getTile(neighborCol, neighborRow);
 
         // Критерии добавления соседа в обработку
         const isValidNeighbor =
@@ -88,11 +90,11 @@ export class BasicMechanic extends AbstractMechanic {
 
   private burnTiles(group: ITile[]) {
     group.forEach((tile) => {
-      const { col, row } = this.tableModel.getTilePosition(tile);
+      const { col, row } = this._tableModel.getTilePosition(tile);
       if (col >= 0 && row >= 0) {
-        this.tableController.onClearTile(tile);
-        this.tableModel.setTile(col, row, null);
-        this.tableModel.getCell(col, row).setFree(true);
+        this._tableController.onClearTile(tile);
+        this._tableModel.setTile(col, row, null);
+        this._tableModel.getCell(col, row).setFree(true);
       }
     });
   }

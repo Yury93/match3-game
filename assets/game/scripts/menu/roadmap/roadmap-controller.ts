@@ -3,6 +3,8 @@ import type { IStateMachine } from "../../infrastructure/state-machine/state-int
 import { StateNames } from "../../infrastructure/state-machine/state-names";
 
 import type { IRoadmap } from "./roadmap";
+import type { RoadmapPoint } from "./roadmap-point";
+import { calculateScrollPosition } from "./scroll-calculater";
 
 export interface IRoadmapController {}
 
@@ -20,10 +22,54 @@ export class RoadmapController implements IRoadmapController {
     this._levelService = levelService;
     this._stateMachine = stateMachine;
     roadmap.onClickPlay = () => this.onClickPlayButton();
+    this.setRoadmapPointsInfo();
+    this.scrollToCurrentPoint();
   }
   onClickPlayButton() {
-    cc.director.loadScene("game", () => {
-      this._stateMachine.run(StateNames.CreateLevelContentState);
+    this._stateMachine.run(StateNames.LoadSceneState, {
+      sceneName: "game",
+      stateName: StateNames.CreateLevelContentState,
     });
+  }
+  setRoadmapPointsInfo() {
+    const roadmapPoints = this._roadmap.getRoadmapPoints();
+    if (roadmapPoints.length === 0) return;
+
+    for (let i = 0; i < roadmapPoints.length; i++) {
+      const point = roadmapPoints[i];
+      if (!point) continue;
+
+      point.showPointInfo(this._levelService.getCurrentLevel().id);
+    }
+  }
+
+  scrollToCurrentPoint(): void {
+    const currentLevelId = this._levelService.getCurrentLevel().id;
+    const roadmapPoints = this._roadmap.getRoadmapPoints();
+
+    if (roadmapPoints.length === 0) return;
+
+    let currentPoint: RoadmapPoint | null = null;
+    for (let i = 0; i < roadmapPoints.length; i++) {
+      const point = roadmapPoints[i];
+      if (point && point.getCurrentLevelPoint(currentLevelId)) {
+        currentPoint = point;
+        break;
+      }
+    }
+
+    if (!currentPoint) return;
+
+    const content = this._roadmap.getContent();
+    const scrollViewSize = this._roadmap.getScrollViewSize();
+
+    if (!content || scrollViewSize.equals(cc.Size.ZERO)) return;
+    const scrollPosition = calculateScrollPosition(
+      currentPoint.node,
+      content,
+      scrollViewSize,
+    );
+
+    this._roadmap.scrollToPosition(scrollPosition, 0.5);
   }
 }

@@ -39,12 +39,18 @@ export interface IConstantsConfig {
 }
 
 /**
+ * Конфигурация префабов
+ * @property persistentPrefabs - префабы, которые не удаляются при перезапуске сцены
+ */
+export interface IPersistentPrefabsConfig {
+  curtainPrefab: string;
+}
+/**
  * Пути к игровым префабам в игре
  * @property tablePrefab - префаб игрового поля
  * @property uIPanelPrefab - префаб UI панели
  * @property bombEffectPrefab - префаб эффекта взрыва(бустер бомба)
  * @property tilePrefab - базовый префаб плитки
- * @property curtainPrefab - префаб занавеса
  * @property labelPrefab - префаб флай текста
  */
 export interface IPrefabsConfig {
@@ -52,8 +58,9 @@ export interface IPrefabsConfig {
   uIPanelPrefab: string;
   bombEffectPrefab: string;
   tilePrefab: string;
-  curtainPrefab: string;
+
   labelPrefab: string;
+  resultLevelView: string;
   getAll(): string[];
 }
 

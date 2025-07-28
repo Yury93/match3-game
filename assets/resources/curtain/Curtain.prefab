@@ -37,10 +37,13 @@
     "_components": [
       {
         "__id__": 31
+      },
+      {
+        "__id__": 32
       }
     ],
     "_prefab": {
-      "__id__": 32
+      "__id__": 33
     },
     "_opacity": 255,
     "_color": {
@@ -52,20 +55,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1080,
-      "height": 1920
+      "width": 1299,
+      "height": 2012
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0.47378630697678087,
+      "y": 0.5089312953094633
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        540,
-        960,
+        426,
+        984,
         0,
         0,
         0,
@@ -116,20 +119,20 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1620,
-      "height": 2565
+      "width": 2001,
+      "height": 2854
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
-      "y": 0.5
+      "x": 0.5731269532651527,
+      "y": 0.46920970388835676
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        15,
-        -38,
+        115,
+        -100,
         0,
         0,
         0,
@@ -224,7 +227,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1035.02,
-      "height": 345.56
+      "height": 133.56
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -292,7 +295,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 3,
-    "_N$cacheMode": 0,
+    "_N$cacheMode": 1,
     "_id": ""
   },
   {
@@ -1157,19 +1160,19 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1261,
+      "width": 1290,
       "height": 1955
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0.5090871751501027,
       "y": 0.5
     },
     "_trs": {
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        -1200,
+        -1292.862,
         -16,
         0,
         0,
@@ -1245,21 +1248,32 @@
       "__id__": 1
     },
     "_enabled": true,
-    "resultLabel": {
-      "__id__": 6
-    },
-    "restartButton": {
-      "__id__": 26
-    },
-    "continueButton": {
-      "__id__": 16
-    },
     "fadeSprite": {
       "__id__": 3
     },
     "curtainSprite": {
       "__id__": 29
     },
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Mask",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_materials": [
+      {
+        "__uuid__": "eca5d2f2-8ef6-41c2-bbe6-f9c79d09c432"
+      }
+    ],
+    "_spriteFrame": null,
+    "_type": 0,
+    "_segments": 64,
+    "_N$alphaThreshold": 0.1,
+    "_N$inverted": false,
     "_id": ""
   },
   {

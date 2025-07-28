@@ -4,14 +4,14 @@ import type { BoosterHandler } from "../game-mechanic/booster-handler";
 import type { IGameMechanic } from "../game-mechanic/game-mechanic";
 import type { IMechanicController } from "../game-mechanic/mechanic-controller";
 import { TeleportBoosterMechanic } from "../game-mechanic/teleport-booster-mechanic";
-import type { ProgressController } from "../progress-controller";
+import type { ProgressLevelController } from "../progress-level-controller";
 import type { ITile } from "../tile";
 
 import type { IUIPanelView } from "./ui-panel";
 
 export class UIPanelController {
   constructor(
-    private _progressController: ProgressController,
+    private _progressController: ProgressLevelController,
     private _progressService: IProgressService,
     private _uiPanelView: IUIPanelView,
     private _mechanicService: IMechanicController,

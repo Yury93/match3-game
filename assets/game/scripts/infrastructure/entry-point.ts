@@ -20,6 +20,7 @@ export class EntryPoint extends cc.Component {
       tilesModelConfig: CONFIGS.TILE_MODELS,
       constantsConfig: CONFIGS.CONSTANTS,
       prefabsMenuConfig: CONFIGS.PREFABS_MENU,
+      persistentsPrefabsConfig: CONFIGS.PERSISTENTS_PREFABS,
     });
   }
   private dontDestroyOnLoad() {

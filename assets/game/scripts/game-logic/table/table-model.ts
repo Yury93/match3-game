@@ -2,7 +2,7 @@ import type { TableCell } from "../table-cell";
 import type { ITile } from "../tile";
 
 interface ITileGrid {
-  getTableCells();
+  getTableCells(): TableCell[][];
   getTiles();
   getTile(col: number, row: number): ITile;
   setTile(col: number, row: number, tile: ITile);
@@ -11,28 +11,43 @@ interface ITileGrid {
   getTileCount(): { columns: number; rows: number };
 }
 export interface ITableModel extends ITileGrid {
+  onSwapTileAction: (tile: ITile, pos: cc.Vec2) => void;
   onAddTileAction?: (tile: ITile, cell: TableCell) => void;
-  onMoveTileAction?: (tile: ITile, pos: cc.Vec2) => void;
+  onDropTileAction?: (tile: ITile, pos: cc.Vec2) => void;
   onClearModelAction?: (tile: ITile) => void;
 
   onAddTile(tile: ITile, cell: TableCell);
   onMoveTile(tile: ITile, pos: cc.Vec2);
+  onSwapTile(tile2: ITile, pos: cc.Vec2): void;
   clearTable();
 }
 
 export class TableModel implements ITableModel {
   onAddTileAction?: (tile: ITile, cell: TableCell) => void;
-  onMoveTileAction?: (tile: ITile, pos: cc.Vec2) => void;
+  onDropTileAction?: (tile: ITile, pos: cc.Vec2) => void;
   onClearModelAction?: (tile: ITile) => void;
   constructor(
     private _tableCells: TableCell[][],
     private _tiles: ITile[][],
   ) {}
+  onSwapTileAction: (
+    tile: ITile,
+    pos: cc.Vec2,
+    isFirstSelected?: boolean,
+  ) => void;
+  onSwapTile(
+    tile2: ITile,
+    pos: cc.Vec2,
+    isFirstSelected: boolean = false,
+  ): void {
+    if (this.onSwapTileAction)
+      this.onSwapTileAction(tile2, pos, isFirstSelected);
+  }
   onAddTile(tile: ITile, cell: TableCell) {
     if (this.onAddTileAction) this.onAddTileAction(tile, cell);
   }
   onMoveTile(tile: ITile, pos: cc.Vec2) {
-    if (this.onMoveTileAction) this.onMoveTileAction(tile, pos);
+    if (this.onDropTileAction) this.onDropTileAction(tile, pos);
   }
   getTableCells() {
     return this._tableCells;

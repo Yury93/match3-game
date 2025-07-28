@@ -1,6 +1,7 @@
 import type {
   IConstantsConfig,
   IGlobalGameConfig,
+  IPersistentPrefabsConfig,
   IPrefabsConfig,
   IPrefabsMenuConfig,
   ITableConfig,
@@ -23,12 +24,13 @@ export class Game {
     tilesModelConfig: ITileModelsConfig[];
     constantsConfig: IConstantsConfig;
     prefabsMenuConfig: IPrefabsMenuConfig;
+    persistentsPrefabsConfig: IPersistentPrefabsConfig;
   }) {
     const { serviceLocator, ...configs } = params;
     this._stateMachine = new StateMachine({
       serviceLocator,
       stateRegister: new GameStatesRegister(configs),
     });
-    this._stateMachine.run(StateNames.Initialize);
+    void this._stateMachine.run(StateNames.Initialize);
   }
 }

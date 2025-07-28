@@ -4,6 +4,7 @@ import type {
   IConstantsConfig,
   IGameLevelsConfig,
   IGlobalGameConfig,
+  IPersistentPrefabsConfig,
   IPrefabsConfig as IPrefabsGameConfig,
   IPrefabsMenuConfig,
   IScoreFormula,
@@ -179,6 +180,9 @@ class GlobalGameConfig implements IGlobalGameConfig {
  * @type {IGlobalGameConfig}
  */
 const GAME_CONFIG: IGlobalGameConfig = new GlobalGameConfig();
+const PERSISTENTS_PREFABS: IPersistentPrefabsConfig = {
+  curtainPrefab: "curtain/Curtain",
+};
 
 /**
  * Пути к префабам
@@ -189,8 +193,8 @@ const PREFABS: IPrefabsGameConfig = {
   uIPanelPrefab: "table/UI",
   bombEffectPrefab: "table/ExplosionEffect",
   tilePrefab: "tiles/TilePrefab",
-  curtainPrefab: "curtain/Curtain",
   labelPrefab: "table/label",
+  resultLevelView: "result-level-view/ResultLevelView",
   getAll(): string[] {
     return getAll(this);
   },
@@ -238,4 +242,5 @@ export const CONFIGS = {
   CONSTANTS,
   SCORE_FORMULAS,
   GAME_CONFIG,
+  PERSISTENTS_PREFABS,
 };
