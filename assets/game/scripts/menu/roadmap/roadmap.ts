@@ -39,15 +39,33 @@ export class Roadmap extends cc.Component implements IRoadmap {
     this.startTweenButton();
     this.startTweenClouds();
   }
-  private startTweenClouds() {
-    if (!this.clouds) return;
 
+  getRoadmapPoints(): RoadmapPoint[] {
+    return this.roadmapPoints;
+  }
+
+  scrollToPosition(position: cc.Vec2, duration: number = 0.5): void {
+    if (!this.scrollView) return;
+    this.scrollView.scrollToOffset(position, duration, true);
+  }
+
+  getScrollViewSize(): cc.Size {
+    return this.scrollView.node.getContentSize();
+  }
+
+  getContent(): cc.Node {
+    return this.scrollView.content;
+  }
+  private clickGameButton() {
+    if (this.onClickPlay) this.onClickPlay();
+  }
+  private startTweenClouds() {
     cc.tween(this.clouds.node)
       .repeatForever(
         cc
           .tween()
-          .to(3.0, { x: this.clouds.node.x + 20 }, { easing: "sineInOut" })
-          .to(3.0, { x: this.clouds.node.x - 20 }, { easing: "sineInOut" }),
+          .to(5.0, { scale: 1.03 }, { easing: "sineInOut" })
+          .to(5.0, { scale: 1.0 }, { easing: "sineInOut" }),
       )
       .start();
   }
@@ -73,26 +91,6 @@ export class Roadmap extends cc.Component implements IRoadmap {
       .repeatForever(cc.tween().to(0.8, { scale: 1.1 }).to(0.8, { scale: 1.0 }))
       .start();
   }
-  getRoadmapPoints(): RoadmapPoint[] {
-    return this.roadmapPoints;
-  }
-
-  scrollToPosition(position: cc.Vec2, duration: number = 0.5): void {
-    if (!this.scrollView) return;
-    this.scrollView.scrollToOffset(position, duration, true);
-  }
-
-  getScrollViewSize(): cc.Size {
-    return this.scrollView.node.getContentSize();
-  }
-
-  getContent(): cc.Node {
-    return this.scrollView.content;
-  }
-  private clickGameButton() {
-    if (this.onClickPlay) this.onClickPlay();
-  }
-
   protected onDestroy(): void {
     this?.gameButton?.node?.off(
       cc.Node.EventType.TOUCH_END,
