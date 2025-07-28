@@ -38,6 +38,8 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     this._restartPromise = new Promise<void>((resolve) => {
       this._onClickRestart = resolve;
     });
+    this.resultLabel.string = "";
+    this.popupResult.scale = 0;
   }
   async win(message: string): Promise<void> {
     return await this.showResult(this.continueButton, message, true);
@@ -59,15 +61,15 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     isWin: boolean = false,
   ): Promise<void> {
     this.subscribeButtonEvents();
-    this.resultLabel.string = "";
     await this.showGameOver();
+    this.showFade(true);
     await this.showPopup();
+    this.showMessage(message);
     await this.showEmptyStars();
     if (isWin) await this.showStars();
-    this.showFade(true);
+
     await this.scheduleOnce(() => {
       button.node.active = true;
-      this.resultLabel.string = message;
     }, 0.5);
   }
 
@@ -105,6 +107,30 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
     }
 
     await Promise.all(promises);
+  }
+  private showMessage(message: string) {
+    if (!this.resultLabel) return;
+
+    let currentText = "";
+
+    const actions: cc.ActionInstant[] = [];
+
+    for (let i = 0; i < message.length; i++) {
+      const char = message[i];
+      const action = cc.callFunc(() => {
+        currentText += char;
+        this.resultLabel.string = currentText;
+      });
+
+      const delay = cc.delayTime(Math.random() * 0.1 + 0.05);
+      actions.push(action);
+      actions.push(delay);
+    }
+
+    cc.tween(this.resultLabel)
+      .delay(0.3)
+      .then(cc.sequence([...actions]))
+      .start();
   }
   private async showStars() {
     if (!this.stars || this.stars.length === 0) return;
@@ -156,7 +182,6 @@ export class ResultLevelView extends cc.Component implements IResultLevelView {
   private async showPopup() {
     if (!this.popupResult) return;
 
-    this.popupResult.scale = 0;
     this.popupResult.active = true;
     this.popupResult.opacity = 255;
 

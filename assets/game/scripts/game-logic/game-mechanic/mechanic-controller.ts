@@ -1,5 +1,5 @@
 import type { IConstantsConfig } from "../../configs/config-types";
-import { ISheduler } from "../../infrastructure/isheduler";
+import type { ISheduler } from "../../infrastructure/isheduler";
 import type { ITileFactory } from "../../infrastructure/services/factories/tile-factory";
 import type {
   ITableController,

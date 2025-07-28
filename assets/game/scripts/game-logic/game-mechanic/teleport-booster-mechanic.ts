@@ -1,4 +1,4 @@
-import { ISheduler } from "../../infrastructure/isheduler";
+import type { ISheduler } from "../../infrastructure/isheduler";
 import type { ITileFactory } from "../../infrastructure/services/factories/tile-factory";
 import type { ITile } from "../tile";
 

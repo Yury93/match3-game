@@ -31,6 +31,6 @@ export class Game {
       serviceLocator,
       stateRegister: new GameStatesRegister(configs),
     });
-    this._stateMachine.run(StateNames.Initialize);
+    void this._stateMachine.run(StateNames.Initialize);
   }
 }

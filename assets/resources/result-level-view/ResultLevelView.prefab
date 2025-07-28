@@ -636,8 +636,8 @@
         0,
         0,
         1,
-        0,
-        0,
+        1,
+        1,
         1
       ]
     },
@@ -992,7 +992,7 @@
       "__uuid__": "226368ff-8708-4d33-ba27-bdd4ef106f99"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -1035,7 +1035,7 @@
       "__uuid__": "e524e548-e3a8-4361-b644-42c87486f5a3"
     },
     "_type": 0,
-    "_sizeMode": 1,
+    "_sizeMode": 0,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",

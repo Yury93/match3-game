@@ -1,4 +1,4 @@
-import { ISheduler } from "../../infrastructure/isheduler";
+import type { ISheduler } from "../../infrastructure/isheduler";
 import type { TableCell } from "../table-cell";
 import type { ITile } from "../tile";
 

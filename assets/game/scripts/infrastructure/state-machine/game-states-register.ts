@@ -21,13 +21,13 @@ import type {
 import { CreateMenuState } from "../states/create-menu-state";
 import { MenuState } from "../states/menu-state";
 import { MenuFactory } from "../services/factories/menu-factory";
+import { LoadSceneState } from "../states/load-scene-state";
 
 import type {
   IGameStates,
   IStateMachine,
   IStateRegister,
 } from "./state-interfaces";
-import { LoadSceneState } from "../states/load-scene-state";
 
 export class GameStateRegister implements IStateRegister {
   private _tileModelConfig: ITileModelsConfig[];

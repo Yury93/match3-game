@@ -1,6 +1,6 @@
-import { IGameFactory } from "../services/factories/game-factory";
-import { IState, IStateMachine } from "../state-machine/state-interfaces";
-import { StateNames } from "../state-machine/state-names";
+import type { IGameFactory } from "../services/factories/game-factory";
+import type { IState, IStateMachine } from "../state-machine/state-interfaces";
+import type { StateNames } from "../state-machine/state-names";
 
 export class LoadSceneState implements IState {
   private _gameFactory: IGameFactory;

@@ -9,7 +9,7 @@ import type { ITableView } from "../../game-logic/table/table-view";
 import type { ITile } from "../../game-logic/tile";
 import type { IUIPanelView } from "../../game-logic/ui/ui-panel";
 import { UIPanelController } from "../../game-logic/ui/ui-panel-controller";
-import { ISheduler } from "../isheduler";
+import type { ISheduler } from "../isheduler";
 import type { IGameFactory } from "../services/factories/game-factory";
 import type { ITileFactory } from "../services/factories/tile-factory";
 import type { IVfxFactory } from "../services/factories/vfx-factory";

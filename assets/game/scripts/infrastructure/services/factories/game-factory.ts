@@ -15,13 +15,11 @@ import type { ITableModel } from "../../../game-logic/table/table-model";
 import { TableModel } from "../../../game-logic/table/table-model";
 import { UiPanelView } from "../../../game-logic/ui/ui-panel";
 import { TableController } from "../../../game-logic/table/table-controller";
+import type { IResultLevelView } from "../../../game-logic/ui/result-level-view";
+import { ResultLevelView } from "../../../game-logic/ui/result-level-view";
 
 import type { IVfxFactory } from "./vfx-factory";
 import { AbstractFactory } from "./abstract-factory";
-import {
-  IResultLevelView,
-  ResultLevelView,
-} from "../../../game-logic/ui/result-level-view";
 
 export interface IGameFactory extends IService {
   createTableView(): TableView;

@@ -3,7 +3,7 @@ import type { IStateMachine } from "../../infrastructure/state-machine/state-int
 import { StateNames } from "../../infrastructure/state-machine/state-names";
 
 import type { IRoadmap } from "./roadmap";
-import { RoadmapPoint } from "./roadmap-point";
+import type { RoadmapPoint } from "./roadmap-point";
 import { calculateScrollPosition } from "./scroll-calculater";
 
 export interface IRoadmapController {}

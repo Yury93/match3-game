@@ -1,4 +1,5 @@
 import type { IStateMachine } from "../../infrastructure/state-machine/state-interfaces";
+
 import { RoadmapPoint } from "./roadmap-point";
 
 export interface IRoadmap {
